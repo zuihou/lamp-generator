@@ -1,7 +1,6 @@
 package ${package.Controller};
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.mybatis.conditions.Wraps;
