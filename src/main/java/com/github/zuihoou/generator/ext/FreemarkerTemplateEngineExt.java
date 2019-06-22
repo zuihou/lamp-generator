@@ -92,7 +92,6 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
             @Override
             public void initMap() {
                 Map<String, Object> map = CodeGenerator.initImportPackageInfo(config.getPackageBase(), config.getChildPackageName());
-                map.put("feignClientServer", config.getFeignClientServer());
                 //这里必须 在entity生成后，赋值
                 map.put("filedTypes", config.getFiledTypes());
                 this.setMap(map);

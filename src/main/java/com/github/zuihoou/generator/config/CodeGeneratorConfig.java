@@ -113,7 +113,7 @@ public class CodeGeneratorConfig {
     /**
      * 驱动名称
      */
-    private String driverName = "com.mysql.jdbc.Driver";
+    private String driverName = "com.mysql.cj.jdbc.Driver";
     /**
      * 数据库连接用户名
      */

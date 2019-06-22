@@ -168,7 +168,6 @@ public class CodeGenerator {
             @Override
             public void initMap() {
                 Map<String, Object> map = initImportPackageInfo(config.getPackageBase(), config.getChildPackageName());
-                map.put("feignClientServer", config.getFeignClientServer());
                 this.setMap(map);
             }
         };
