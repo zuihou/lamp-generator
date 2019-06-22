@@ -70,17 +70,16 @@ public class ${table.controllerName} {
     /**
      * 分页查询${tableComment}
      *
-     * @param pp 分页查询对象
+     * @param data 分页查询对象
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询${tableComment}", notes = "分页查询${tableComment}")
     @PostMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<${entity}>> page(@Valid ${entity}DTO pp) {
+    public Result<IPage<${entity}>> page(@Valid ${entity}DTO data) {
         IPage<${entity}> page = getPage();
-        ${entity}DTO data = pp.getData();
         // 构建查询条件
-        LbqWrapper<${entity}> query = Wraps.lbqQuery();
+        LbqWrapper<${entity}> query = Wraps.lbQ();
         ${table.serviceName?uncap_first}.page(page, query);
         return success(page);
     }
