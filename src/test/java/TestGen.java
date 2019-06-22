@@ -26,8 +26,8 @@ public class TestGen {
         build.setProjectRootPath("/Users/tangyh/githubspace/zuihou-admin-cloud/zuihou-backend/zuihou-authority");
 //        build.setProjectRootPath(System.getProperty("user.dir") + "/codeByCloud_V3.0/backend/cloud-authority-new");
 
-        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
-//        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.ADD);
+//        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
+        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEnum(GenerateType.IGNORE);
         fileCreateConfig.setGenerateDto(GenerateType.IGNORE);
