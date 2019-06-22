@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.github.zuihou.base.Result;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
+import com.github.zuihou.mybatis.conditions.Wraps;
 import ${package.Entity}.${entity};
 import ${cfg.DTO}.${entity}DTO;
 import ${package.Service}.${table.serviceName};
@@ -79,7 +80,7 @@ public class ${table.controllerName} {
         IPage<${entity}> page = getPage();
         ${entity}DTO data = pp.getData();
         // 构建查询条件
-        HyLambdaQueryWrapper<${entity}> query = HyLambdaQueryWrapper.lambdaQuery();
+        LbqWrapper<${entity}> query = Wraps.lbqQuery();
         ${table.serviceName?uncap_first}.page(page, query);
         return success(page);
     }
