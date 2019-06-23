@@ -73,12 +73,12 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         }
         List<TableInfo> tableList = cb.getTableInfoList();
         //构造实体中的枚举类型字段
-//        tableList.forEach(t -> {
-//            t.getFields().forEach(field -> {
-//                build(t, field);
-//                buildDict(t, field);
-//            });
-//        });
+        tableList.forEach(t -> {
+            t.getFields().forEach(field -> {
+                build(t, field);
+                //buildDict(t, field);
+            });
+        });
 
 
         //生成实体
