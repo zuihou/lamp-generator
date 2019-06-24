@@ -3,6 +3,8 @@
 基于 `mybatis-plus-generator` 自定义的代码生成器，专门为 [zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud "zuihou") 项目量身定做的代码生成器。
 自定义的代码虽然有点不美观但还凑合着用。因为主角是：[zuihou-admin-cloud](https://github.com/zuihou/zuihou-admin-cloud "zuihou")
 
+参考：[mybatis-plus](https://github.com/baomidou/mybatis-plus "zuihou")
+
 # 使用规则
 - 参考 TestGenerator 类
 - 每次执行前需配置参数，含代码生成目录(本地绝对目录)，数据库连接，项目名、模块名，表列表等。目前已提供模板。
