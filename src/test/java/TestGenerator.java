@@ -12,14 +12,14 @@ import com.github.zuihoou.generator.type.GenerateType;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/05/25
  */
 public class TestGenerator {
     public static void main(String[] args) {
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou", "c_auth_",
-//                build("msgs", "sms", "tangyh", "",
+//                build("msgs", "sms", "zuihou", "",
                         Arrays.asList("c_auth_user"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_admin_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");

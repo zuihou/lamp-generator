@@ -34,7 +34,7 @@ import lombok.experimental.Accessors;
  * ${projectPrefix}${serviceName}-${serviceSuffix}项目的src/main/resource下创建包：
  * mapper_${serviceName}.base.${childModuleName}
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019年05月25日20:59:57
  */
 @Data

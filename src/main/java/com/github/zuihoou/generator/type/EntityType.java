@@ -6,7 +6,7 @@ import lombok.Getter;
 /**
  * 父类实体类型
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/05/14
  */
 @Getter

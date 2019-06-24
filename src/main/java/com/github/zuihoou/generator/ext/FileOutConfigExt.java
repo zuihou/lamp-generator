@@ -15,7 +15,7 @@ import com.github.zuihoou.generator.type.GenerateType;
 /**
  * This is a Description
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/05/26
  */
 public class FileOutConfigExt extends FileOutConfig {

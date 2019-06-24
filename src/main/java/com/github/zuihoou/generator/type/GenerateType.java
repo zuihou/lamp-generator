@@ -3,7 +3,7 @@ package com.github.zuihoou.generator.type;
 /**
  * 生成策略
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/05/14
  */
 public enum GenerateType {
