@@ -73,7 +73,7 @@ public class ${table.controllerName} {
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询${tableComment}", notes = "分页查询${tableComment}")
-    @PostMapping("/page")
+    @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
     public Result<IPage<${entity}>> page(@Valid ${entity}DTO data) {
         IPage<${entity}> page = getPage();
