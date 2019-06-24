@@ -41,6 +41,11 @@ public class FileCreateConfig implements IFileCreate {
     private GenerateType generateQuery = GenerateType.IGNORE;
     private GenerateType generateApi = GenerateType.IGNORE;
 
+    /**
+     * 指定了generate后， 会覆盖 controller、service、dao等生成策略
+     *
+     * @param generate
+     */
     public FileCreateConfig(GenerateType generate) {
         this.generate = generate;
         if (generate != null) {

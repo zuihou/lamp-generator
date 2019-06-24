@@ -15,7 +15,7 @@ import com.github.zuihoou.generator.type.GenerateType;
  * @author tangyh
  * @date 2019/05/25
  */
-public class TestGen {
+public class TestGenerator {
     public static void main(String[] args) {
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou", "c_auth_",
