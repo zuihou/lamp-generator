@@ -40,9 +40,11 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
+    private final static Pattern DICT_PATTERN = Pattern.compile("[@]Dict[{]([a-zA-Z0-9._]+)[}]");
+
     public final static String REG_EX_VAL = "#(.*?\\{(.*?)?\\})";
     public final static String REG_EX_KEY = "([A-Za-z1-9_-]+):(.*?)?;";
-    private final static Pattern DICT_PATTERN = Pattern.compile("[@]Dict[{]([a-zA-Z0-9._]+)[}]");
+
     private CodeGeneratorConfig config;
 
     public FreemarkerTemplateEngineExt(CodeGeneratorConfig config) {
@@ -76,7 +78,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         tableList.forEach(t -> {
             t.getFields().forEach(field -> {
                 build(t, field);
-                //buildDict(t, field);
+//                buildDict(t, field);
             });
         });
 
@@ -132,9 +134,6 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 //        }
 //    }
 
-    private boolean isBlank(String value) {
-        return value == null || value.trim().isEmpty();
-    }
 
     /**
      * 生成枚举值
@@ -143,7 +142,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
      */
     private void generateEnum(TableInfo tableInfo, TableField field) throws Exception {
         String comment = field.getComment();
-        if (isBlank(comment) || !comment.contains("{") || !comment.contains("}") || !comment.contains(";")) {
+        if (StringUtils.isBlank(comment) || !comment.contains("{") || !comment.contains("}") || !comment.contains(";")) {
             return;
         }
         // 排除boolean类型值
@@ -296,7 +295,8 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
         Set<EntityFiledType> filedTypes = config.getFiledTypes();
 
-        if (!filedTypes.contains(propertyName)) {
+        EntityFiledType cur = EntityFiledType.builder().name(propertyName).table(tableInfo.getName()).build();
+        if (!filedTypes.contains(cur)) {
             ConfigBuilder configBuilder = getConfigBuilder();
             Map<String, String> packageInfo = configBuilder.getPackageInfo();
             String entityPackage = packageInfo.get("Entity");
@@ -305,6 +305,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
             filedTypes.add(EntityFiledType.builder()
                     .name(propertyName)
                     .packagePath(defEnumPackage + "." + enumName)
+                    .table(tableInfo.getName())
                     .gen(GenerateType.OVERRIDE)
                     .build());
         }

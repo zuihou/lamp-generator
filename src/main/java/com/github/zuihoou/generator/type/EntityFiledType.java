@@ -1,5 +1,6 @@
 package com.github.zuihoou.generator.type;
 
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 @Data
 @Builder
 @ToString
-@EqualsAndHashCode(of = "name")
+@EqualsAndHashCode(of = {"name", "table"})
 public class EntityFiledType {
     /**
      * 枚举类型的字段名（不是数据库字段哦！！！）
@@ -24,7 +25,11 @@ public class EntityFiledType {
     /**
      * 枚举类型的完整包路径 eg: com.xx.xx.Type
      */
-    private String packagePath;
+    private String packagePath = "";
+    /**
+     * 表名
+     */
+    private String table = "";
 
     /**
      * 是否生成
