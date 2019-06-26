@@ -23,8 +23,7 @@ public class TestGenerator {
                         Arrays.asList("c_auth_user"));
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_admin_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
 //        build.setPassword("root");
-        build.setProjectRootPath("/Users/tangyh/githubspace/zuihou-admin-cloud/zuihou-backend/zuihou-authority");
-//        build.setProjectRootPath(System.getProperty("user.dir") + "/codeByCloud_V3.0/backend/cloud-authority-new");
+        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
 
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
         FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
