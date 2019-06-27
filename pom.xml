@@ -22,7 +22,6 @@
         <lombok.version>1.18.4</lombok.version>
         <mysql.version>6.0.6</mysql.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
-        <zuihou.version>1.0-SNAPSHOT</zuihou.version>
     </properties>
     <dependencies>
         <dependency>
@@ -49,14 +48,15 @@
             <artifactId>logback-classic</artifactId>
         </dependency>
         <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-
-        <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>mysql</groupId>-->
+        <!--<artifactId>mysql-connector-java</artifactId>-->
+        <!--<scope>compile</scope>-->
+        <!--</dependency>-->
     </dependencies>
 
 </project>

@@ -306,7 +306,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
                     .name(propertyName)
                     .packagePath(defEnumPackage + "." + enumName)
                     .table(tableInfo.getName())
-                    .gen(GenerateType.OVERRIDE)
+                    .gen(config.getFileCreateConfig().getGenerateEnum())
                     .build());
         }
     }
