@@ -1,6 +1,8 @@
 package com.github.zuihoou.generator.type;
 
 
+import java.io.File;
+
 import lombok.Builder;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -51,7 +53,7 @@ public class EntityFiledType {
 
     public String getPath() {
         if (packagePath != null && !"".equals(packagePath)) {
-            this.path = packagePath.replace(".", "/");
+            this.path = packagePath.replace(".", File.separator);
         }
         return path;
     }
