@@ -6,6 +6,7 @@
 参考：[mybatis-plus](https://github.com/baomidou/mybatis-plus "zuihou")
 
 # 使用规则
+- 暂时只支持生成MySQL表，Oracle需要微调代码，有需要的可以留言提交上来
 - 参考 TestGenerator 类
 - 每次执行前需配置参数，含代码生成目录(本地绝对目录)，数据库连接，项目名、模块名，表列表等。目前已提供模板。
 - 如果表有前缀，务必配置 tablePrefix 属性。
