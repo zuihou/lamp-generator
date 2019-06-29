@@ -1,7 +1,7 @@
 package ${package.Controller};
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.github.zuihou.base.Result;
+import com.github.zuihou.base.R;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import ${package.Entity}.${entity};
@@ -75,7 +75,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "分页查询${tableComment}", notes = "分页查询${tableComment}")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public Result<IPage<${entity}>> page(@Valid ${entity}DTO data) {
+    public R<IPage<${entity}>> page(@Valid ${entity}DTO data) {
         IPage<${entity}> page = getPage();
         // 构建查询条件
         LbqWrapper<${entity}> query = Wraps.lbQ();
@@ -91,7 +91,7 @@ public class ${table.controllerName} {
      */
     @ApiOperation(value = "查询${tableComment}", notes = "查询${tableComment}")
     @GetMapping("/{id}")
-    public Result<${entity}> get(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
+    public R<${entity}> get(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
         return success(${table.serviceName?uncap_first}.getById(id));
     }
 
@@ -103,7 +103,7 @@ public class ${table.controllerName} {
      */
     @ApiOperation(value = "保存${tableComment}", notes = "保存${tableComment}不为空的字段")
     @PostMapping
-    public Result<${entity}> save(@RequestBody @Valid ${entity} ${entity?uncap_first}) {
+    public R<${entity}> save(@RequestBody @Valid ${entity} ${entity?uncap_first}) {
         ${table.serviceName?uncap_first}.save(${entity?uncap_first});
         return success(${entity?uncap_first});
     }
@@ -117,7 +117,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "修改${tableComment}", notes = "修改${tableComment}不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public Result<${entity}> update(@RequestBody @Valid ${entity} ${entity?uncap_first}) {
+    public R<${entity}> update(@RequestBody @Valid ${entity} ${entity?uncap_first}) {
         ${table.serviceName?uncap_first}.updateById(${entity?uncap_first});
         return success(${entity?uncap_first});
     }
@@ -130,7 +130,7 @@ public class ${table.controllerName} {
      */
     @ApiOperation(value = "删除${tableComment}", notes = "根据id物理删除${tableComment}")
     @DeleteMapping(value = "/{id}")
-    public Result<Boolean> delete(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
+    public R<Boolean> delete(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
         ${table.serviceName?uncap_first}.removeById(id);
         return success(true);
     }
