@@ -1,19 +1,23 @@
 package ${package.Controller};
 
+import javax.validation.Valid;
+
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.R;
+import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.mybatis.conditions.Wraps;
 import ${package.Entity}.${entity};
-import ${cfg.DTO}.${entity}DTO;
+import ${cfg.SaveDTO}.${entity}SaveDTO;
+import ${cfg.SaveDTO}.${entity}UpdateDTO;
 import ${package.Service}.${table.serviceName};
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
-import javax.validation.Valid;
-import org.springframework.validation.annotation.Validated;
 import com.github.zuihou.base.entity.SuperEntity;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -65,6 +69,8 @@ public class ${table.controllerName} {
 
     @Autowired
     private ${table.serviceName} ${table.serviceName?uncap_first};
+    @Autowired
+    private DozerUtils dozer;
 
     /**
      * 分页查询${tableComment}
@@ -75,10 +81,11 @@ public class ${table.controllerName} {
     @ApiOperation(value = "分页查询${tableComment}", notes = "分页查询${tableComment}")
     @GetMapping("/page")
     @Validated(SuperEntity.OnlyQuery.class)
-    public R<IPage<${entity}>> page(@Valid ${entity}DTO data) {
+    @SysLog("分页查询${tableComment}")
+    public R<IPage<${entity}>> page(@Valid ${entity} data) {
         IPage<${entity}> page = getPage();
-        // 构建查询条件
-        LbqWrapper<${entity}> query = Wraps.lbQ();
+        // 构建值不为null的查询条件
+        LbqWrapper<${entity}> query = Wraps.lbQ(data);
         ${table.serviceName?uncap_first}.page(page, query);
         return success(page);
     }
@@ -89,8 +96,9 @@ public class ${table.controllerName} {
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "查询${tableComment}", notes = "查询${tableComment}")
+    @ApiOperation(value = "单体查询${tableComment}", notes = "单体查询${tableComment}")
     @GetMapping("/{id}")
+    @SysLog("单体查询${tableComment}")
     public R<${entity}> get(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
         return success(${table.serviceName?uncap_first}.getById(id));
     }
@@ -98,12 +106,14 @@ public class ${table.controllerName} {
     /**
      * 保存${tableComment}
      *
-     * @param ${entity?uncap_first} 保存对象
+     * @param data 保存对象
      * @return 保存结果
      */
     @ApiOperation(value = "保存${tableComment}", notes = "保存${tableComment}不为空的字段")
     @PostMapping
-    public R<${entity}> save(@RequestBody @Valid ${entity} ${entity?uncap_first}) {
+    @SysLog("保存${tableComment}")
+    public R<${entity}> save(@RequestBody @Valid ${entity}SaveDTO data) {
+        ${entity} ${entity?uncap_first} = dozer.map(data, ${entity}.class);
         ${table.serviceName?uncap_first}.save(${entity?uncap_first});
         return success(${entity?uncap_first});
     }
@@ -111,13 +121,15 @@ public class ${table.controllerName} {
     /**
      * 修改${tableComment}
      *
-     * @param ${entity?uncap_first} 修改对象
+     * @param data 修改对象
      * @return 修改结果
      */
     @ApiOperation(value = "修改${tableComment}", notes = "修改${tableComment}不为空的字段")
     @PutMapping
     @Validated(SuperEntity.Update.class)
-    public R<${entity}> update(@RequestBody @Valid ${entity} ${entity?uncap_first}) {
+    @SysLog("修改${tableComment}")
+    public R<${entity}> update(@RequestBody @Valid ${entity}UpdateDTO data) {
+        ${entity} ${entity?uncap_first} = dozer.map(data, ${entity}.class);
         ${table.serviceName?uncap_first}.updateById(${entity?uncap_first});
         return success(${entity?uncap_first});
     }
@@ -130,6 +142,7 @@ public class ${table.controllerName} {
      */
     @ApiOperation(value = "删除${tableComment}", notes = "根据id物理删除${tableComment}")
     @DeleteMapping(value = "/{id}")
+    @SysLog("删除${tableComment}")
     public R<Boolean> delete(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
         ${table.serviceName?uncap_first}.removeById(id);
         return success(true);
