@@ -38,8 +38,18 @@ public class FileOutConfigExt extends FileOutConfig {
                 this.projectSuffix = config.getEntitySuffix();
                 this.generateType = fileCreateConfig.getGenerateEnum();
                 break;
-            case CodeGenerator.DTO_PATH:
-                this.setTemplatePath("/templates/dto.java.ftl");
+//            case CodeGenerator.DTO_PATH:
+//                this.setTemplatePath("/templates/dto.java.ftl");
+//                this.projectSuffix = config.getEntitySuffix();
+//                this.generateType = fileCreateConfig.getGenerateDto();
+//                break;
+            case CodeGenerator.SAVE_DTO_PATH:
+                this.setTemplatePath("/templates/saveDto.java.ftl");
+                this.projectSuffix = config.getEntitySuffix();
+                this.generateType = fileCreateConfig.getGenerateDto();
+                break;
+            case CodeGenerator.UPDATE_DTO_PATH:
+                this.setTemplatePath("/templates/updateDto.java.ftl");
                 this.projectSuffix = config.getEntitySuffix();
                 this.generateType = fileCreateConfig.getGenerateDto();
                 break;
@@ -135,7 +145,8 @@ public class FileOutConfigExt extends FileOutConfig {
         String projectName = "";
         if (config.isEnableMicroService()) {
             if (CodeGenerator.ENUM_PATH.equals(modularSuffix)
-                    || CodeGenerator.DTO_PATH.equals(modularSuffix)
+                    || CodeGenerator.SAVE_DTO_PATH.equals(modularSuffix)
+                    || CodeGenerator.UPDATE_DTO_PATH.equals(modularSuffix)
                     || CodeGenerator.CONSTANT_PATH.equals(modularSuffix)
                     || CodeGenerator.QUERY_PATH.equals(modularSuffix)
                     || ConstVal.ENTITY.equals(modularSuffix)) {
@@ -149,8 +160,10 @@ public class FileOutConfigExt extends FileOutConfig {
         String innerModularSuffix = modularSuffix;
         if (ConstVal.SERVICE_IMPL.equals(innerModularSuffix)) {
             innerModularSuffix = "service";
-        } else if (CodeGenerator.DTO_PATH.equals(innerModularSuffix)) {
-            innerModularSuffix = CodeGenerator.DTO_PATH.toLowerCase();
+        } else if (CodeGenerator.SAVE_DTO_PATH.equals(innerModularSuffix)) {
+            innerModularSuffix = "dto";
+        } else if (CodeGenerator.UPDATE_DTO_PATH.equals(innerModularSuffix)) {
+            innerModularSuffix = "dto";
         } else if (ConstVal.MAPPER.equals(innerModularSuffix)) {
             innerModularSuffix = "dao";
         } else {

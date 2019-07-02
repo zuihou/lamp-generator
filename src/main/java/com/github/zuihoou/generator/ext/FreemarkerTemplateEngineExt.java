@@ -112,13 +112,13 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
         cb.setInjectionConfig(cfg);
 
-//        this.setConfigBuilder(cb);
 
-        super.batchOutput(); //执行mybatis plus的代码生成器
+        //执行mybatis plus的代码生成器
+        super.batchOutput();
 
         return this;
     }
-
+/*
 //    private void buildDict(TableInfo table, TableField field) {
 //        String comment = field.getComment();//注释
 //        if (comment == null) {
@@ -133,6 +133,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 //            importPackages.add(DictionaryType.class.getName());
 //        }
 //    }
+*/
 
 
     /**

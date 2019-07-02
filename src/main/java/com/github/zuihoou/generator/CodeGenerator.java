@@ -38,7 +38,9 @@ public class CodeGenerator {
     public static final String API_PATH = "Api";
     public static final String ENUM_PATH = "Enum";
     public static final String CONSTANT_PATH = "Constant";
-    public static final String DTO_PATH = "DTO";
+    //    public static final String DTO_PATH = "DTO";
+    public static final String SAVE_DTO_PATH = "SaveDTO";
+    public static final String UPDATE_DTO_PATH = "UpdateDTO";
 
     public static final String SRC_MAIN_JAVA = "src" + File.separator + "main" + File.separator + "java";
     public static final String SRC_MAIN_RESOURCE = "src" + File.separator + "main" + File.separator + "resources";
@@ -200,7 +202,9 @@ public class CodeGenerator {
         packageMap.put(ENUM_PATH, parentPackage + ".entity" + childPackageName);
         packageMap.put(CONSTANT_PATH, parentPackage + ".constant" + childPackageName);
         packageMap.put("constantSuffix", "Constant");
-        packageMap.put(DTO_PATH, parentPackage + ".dto" + childPackageName);
+//        packageMap.put(DTO_PATH, parentPackage + ".dto" + childPackageName);
+        packageMap.put(SAVE_DTO_PATH, parentPackage + ".dto" + childPackageName);
+        packageMap.put(UPDATE_DTO_PATH, parentPackage + ".dto" + childPackageName);
 
         return packageMap;
     }
@@ -228,10 +232,10 @@ public class CodeGenerator {
         focList.add(new FileOutConfigExt(basePath, ConstVal.XML, config));
 
         focList.add(new FileOutConfigExt(basePath, QUERY_PATH, config));
-//        focList.add(new FileOutConfigExt(basePath, API_PATH, config));
         focList.add(new FileOutConfigExt(basePath, CONSTANT_PATH, config));
-        focList.add(new FileOutConfigExt(basePath, DTO_PATH, config));
-//        focList.add(new FileOutConfigExt(basePath, ConstVal.ENTITY, config));
+//        focList.add(new FileOutConfigExt(basePath, DTO_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, SAVE_DTO_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, UPDATE_DTO_PATH, config));
 
         return focList;
     }

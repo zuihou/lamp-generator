@@ -31,13 +31,13 @@ public class FileCreateConfig implements IFileCreate {
     private GenerateType generateEnum = GenerateType.OVERRIDE;
     private GenerateType generateEntity = GenerateType.OVERRIDE;
     private GenerateType generateConstant = GenerateType.IGNORE;
-    private GenerateType generateDto = GenerateType.IGNORE;
     private GenerateType generateDao = GenerateType.IGNORE;
     private GenerateType generateXml = GenerateType.IGNORE;
     private GenerateType generateService = GenerateType.IGNORE;
     private GenerateType generateServiceImpl = GenerateType.IGNORE;
     private GenerateType generateController = GenerateType.IGNORE;
 
+    private GenerateType generateDto = GenerateType.IGNORE;
     private GenerateType generateQuery = GenerateType.IGNORE;
     private GenerateType generateApi = GenerateType.IGNORE;
 
@@ -86,6 +86,9 @@ public class FileCreateConfig implements IFileCreate {
             if (filePath.contains(File.separator + "api" + File.separator)) {
                 return isCreate(generateApi, file);
             }
+//            if (filePath.contains(File.separator + "dto" + File.separator)) {
+//                return isCreate(generateDto, file);
+//            }
             return isCreate(generate, file);
         }
         //实体
