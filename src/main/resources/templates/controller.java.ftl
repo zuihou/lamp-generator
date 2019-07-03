@@ -80,9 +80,8 @@ public class ${table.controllerName} {
      */
     @ApiOperation(value = "分页查询${tableComment}", notes = "分页查询${tableComment}")
     @GetMapping("/page")
-    @Validated(SuperEntity.OnlyQuery.class)
     @SysLog("分页查询${tableComment}")
-    public R<IPage<${entity}>> page(@Valid ${entity} data) {
+    public R<IPage<${entity}>> page(${entity} data) {
         IPage<${entity}> page = getPage();
         // 构建值不为null的查询条件
         LbqWrapper<${entity}> query = Wraps.lbQ(data);
