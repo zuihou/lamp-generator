@@ -90,27 +90,27 @@ public class ${table.controllerName} {
     }
 
     /**
-     * 单体查询${tableComment}
+     * 查询${tableComment}
      *
      * @param id 主键id
      * @return 查询结果
      */
-    @ApiOperation(value = "单体查询${tableComment}", notes = "单体查询${tableComment}")
+    @ApiOperation(value = "查询${tableComment}", notes = "查询${tableComment}")
     @GetMapping("/{id}")
-    @SysLog("单体查询${tableComment}")
+    @SysLog("查询${tableComment}")
     public R<${entity}> get(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
         return success(${table.serviceName?uncap_first}.getById(id));
     }
 
     /**
-     * 保存${tableComment}
+     * 新增${tableComment}
      *
-     * @param data 保存对象
-     * @return 保存结果
+     * @param data 新增对象
+     * @return 新增结果
      */
-    @ApiOperation(value = "保存${tableComment}", notes = "保存${tableComment}不为空的字段")
+    @ApiOperation(value = "新增${tableComment}", notes = "新增${tableComment}不为空的字段")
     @PostMapping
-    @SysLog("保存${tableComment}")
+    @SysLog("新增${tableComment}")
     public R<${entity}> save(@RequestBody @Valid ${entity}SaveDTO data) {
         ${entity} ${entity?uncap_first} = dozer.map(data, ${entity}.class);
         ${table.serviceName?uncap_first}.save(${entity?uncap_first});
