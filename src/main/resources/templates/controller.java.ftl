@@ -52,7 +52,7 @@ import ${superControllerClassPackage};
 </#if>
 @RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if swagger2>
-@Api(value = "${entity}", description = "${table.comment!?replace("\r\n","")?replace("\r","")?replace("\n","")?trim}")
+@Api(value = "${entity}", tags = "${table.comment!?replace("\r\n","")?replace("\r","")?replace("\n","")?trim}")
 </#if>
 <#if kotlin>
     class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
