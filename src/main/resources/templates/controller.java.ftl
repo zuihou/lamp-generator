@@ -44,7 +44,6 @@ import ${superControllerClassPackage};
  * @date ${date}
  */
 @Slf4j
-@Validated
 <#if restControllerStyle>
 @RestController
 <#else>
@@ -111,7 +110,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "新增${tableComment}", notes = "新增${tableComment}不为空的字段")
     @PostMapping
     @SysLog("新增${tableComment}")
-    public R<${entity}> save(@RequestBody @Valid ${entity}SaveDTO data) {
+    public R<${entity}> save(@RequestBody @Validated ${entity}SaveDTO data) {
         ${entity} ${entity?uncap_first} = dozer.map(data, ${entity}.class);
         ${table.serviceName?uncap_first}.save(${entity?uncap_first});
         return success(${entity?uncap_first});
@@ -125,9 +124,8 @@ public class ${table.controllerName} {
      */
     @ApiOperation(value = "修改${tableComment}", notes = "修改${tableComment}不为空的字段")
     @PutMapping
-    @Validated(SuperEntity.Update.class)
     @SysLog("修改${tableComment}")
-    public R<${entity}> update(@RequestBody @Valid ${entity}UpdateDTO data) {
+    public R<${entity}> update(@RequestBody @Validated(SuperEntity.Update.class) ${entity}UpdateDTO data) {
         ${entity} ${entity?uncap_first} = dozer.map(data, ${entity}.class);
         ${table.serviceName?uncap_first}.updateById(${entity?uncap_first});
         return success(${entity?uncap_first});
