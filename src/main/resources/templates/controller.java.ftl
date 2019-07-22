@@ -1,6 +1,5 @@
 package ${package.Controller};
 
-import javax.validation.Valid;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.R;
@@ -44,6 +43,7 @@ import ${superControllerClassPackage};
  * @date ${date}
  */
 @Slf4j
+@Validated
 <#if restControllerStyle>
 @RestController
 <#else>
