@@ -19,7 +19,7 @@
 
     <properties>
         <mybatisplus.version>3.1.0</mybatisplus.version>
-        <lombok.version>1.18.4</lombok.version>
+        <lombok.version>1.18.8</lombok.version>
         <mysql.version>6.0.6</mysql.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
     </properties>
