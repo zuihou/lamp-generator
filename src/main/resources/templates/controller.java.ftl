@@ -3,7 +3,7 @@ package ${package.Controller};
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.R;
-import com.github.zuihou.common.utils.context.DozerUtils;
+import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
