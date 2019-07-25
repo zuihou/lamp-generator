@@ -13,7 +13,7 @@ import com.github.zuihoou.generator.config.FileCreateConfig;
 import com.github.zuihoou.generator.type.GenerateType;
 
 /**
- * This is a Description
+ * 文件输出扩展
  *
  * @author zuihou
  * @date 2019/05/26
@@ -38,11 +38,6 @@ public class FileOutConfigExt extends FileOutConfig {
                 this.projectSuffix = config.getEntitySuffix();
                 this.generateType = fileCreateConfig.getGenerateEnum();
                 break;
-//            case CodeGenerator.DTO_PATH:
-//                this.setTemplatePath("/templates/dto.java.ftl");
-//                this.projectSuffix = config.getEntitySuffix();
-//                this.generateType = fileCreateConfig.getGenerateDto();
-//                break;
             case CodeGenerator.SAVE_DTO_PATH:
                 this.setTemplatePath("/templates/saveDto.java.ftl");
                 this.projectSuffix = config.getEntitySuffix();

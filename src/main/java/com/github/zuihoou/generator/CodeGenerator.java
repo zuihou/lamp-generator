@@ -27,7 +27,7 @@ import com.github.zuihoou.generator.ext.MySqlQueryExt;
 import com.github.zuihoou.generator.type.GenerateType;
 
 /**
- * This is a Description
+ * 代码生成
  *
  * @author zuihou
  * @date 2019/05/25
@@ -38,7 +38,6 @@ public class CodeGenerator {
     public static final String API_PATH = "Api";
     public static final String ENUM_PATH = "Enum";
     public static final String CONSTANT_PATH = "Constant";
-    //    public static final String DTO_PATH = "DTO";
     public static final String SAVE_DTO_PATH = "SaveDTO";
     public static final String UPDATE_DTO_PATH = "UpdateDTO";
 

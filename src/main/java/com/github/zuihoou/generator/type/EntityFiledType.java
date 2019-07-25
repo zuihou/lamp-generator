@@ -10,7 +10,7 @@ import lombok.ToString;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * This is a Description
+ * 实体字段类型
  *
  * @author zuihou
  * @date 2019/05/14
