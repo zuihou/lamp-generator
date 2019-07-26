@@ -36,7 +36,7 @@ import org.apache.commons.lang3.StringUtils;
  * 扩展 {@link BeetlTemplateEngine}
  * 便于我们加入我们自己的模板
  *
- * @author 潘定遥
+ * @author zuihou
  */
 public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
