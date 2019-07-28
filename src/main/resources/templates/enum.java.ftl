@@ -1,6 +1,7 @@
 package ${enumCustom.package.importPackage};
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -26,7 +27,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @ApiModel(value = "${enumCustom.enumName}", description = "${enumCustom.comment}-枚举")
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
-public enum ${enumCustom.enumName} {
+public enum ${enumCustom.enumName} implements BaseEnum {
 
     <#list enumCustom.list?keys as key>
     /**
@@ -71,6 +72,7 @@ public enum ${enumCustom.enumName} {
         return eq(val.name());
     }
 
+    @Override
     @ApiModelProperty(value = "编码", allowableValues = "<#list enumCustom.list?keys as key>${key?upper_case}<#if key_has_next>,</#if></#list>", example = "${enumCustom.list?keys[0]?upper_case}")
     public String getCode() {
         return this.name();

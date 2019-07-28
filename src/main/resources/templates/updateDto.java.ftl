@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 </#if>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>
-        <#if field.propertyName == fieldType.name && table.name==fieldType.table>
+        <#if field.propertyName == fieldType.name && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))>
 import ${fieldType.packagePath};
             <#break>
         </#if>
@@ -73,8 +73,8 @@ public class ${entity}UpdateDTO implements Serializable {
     <#assign fieldComment="${field.comment!}"/>
     <#if field.comment!?length gt 0>
     /**
-    * ${field.comment!?replace("\n","\n     * ")}
-    */
+     * ${field.comment!?replace("\n","\n     * ")}
+     */
         <#if field.comment!?contains("\n") >
             <#assign fieldComment="${field.comment!?substring(0,field.comment?index_of('\n'))?replace('\r\n','')?replace('\r','')?replace('\n','')?trim}"/>
         </#if>
@@ -85,7 +85,7 @@ public class ${entity}UpdateDTO implements Serializable {
     <#assign myPropertyType="${field.propertyType}"/>
     <#assign isEnumType="1"/>
     <#list cfg.filedTypes as fieldType>
-        <#if fieldType.name == field.propertyName && table.name==fieldType.table>
+        <#if fieldType.name == field.propertyName && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))>
             <#assign myPropertyType="${fieldType.type}"/>
             <#assign isEnumType="2"/>
         </#if>
@@ -129,14 +129,6 @@ public class ${entity}UpdateDTO implements Serializable {
     <#if field.customMap.dict??>
     @DictionaryType("${field.customMap.dict}")
         <#assign myPropertyType="Dictionary"/>
-    </#if>
-    <#-- 乐观锁注解 -->
-    <#if (versionFieldName!"") == field.name>
-    @Version
-    </#if>
-    <#-- 逻辑删除注解 -->
-    <#if (logicDeleteFieldName!"") == field.name>
-    @TableLogic
     </#if>
     private ${myPropertyType} ${field.propertyName};
 </#if>
