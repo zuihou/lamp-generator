@@ -12,6 +12,8 @@ import ${cfg.SaveDTO}.${entity}SaveDTO;
 import ${cfg.SaveDTO}.${entity}UpdateDTO;
 import ${package.Service}.${table.serviceName};
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import com.github.zuihou.base.entity.SuperEntity;
@@ -78,6 +80,10 @@ public class ${table.controllerName} {
      * @return 查询结果
      */
     @ApiOperation(value = "分页查询${tableComment}", notes = "分页查询${tableComment}")
+    @ApiImplicitParams({
+        @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+        @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+    })
     @GetMapping("/page")
     @SysLog("分页查询${tableComment}")
     public R<IPage<${entity}>> page(${entity} data) {
