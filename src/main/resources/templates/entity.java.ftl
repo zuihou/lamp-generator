@@ -30,6 +30,10 @@ import ${fieldType.packagePath};
     </#list>
 </#list>
 
+<#assign tableComment = "${table.comment!''}"/>
+<#if table.comment?? && table.comment!?contains('\n')>
+    <#assign tableComment = "${table.comment!?substring(0,table.comment?index_of('\n'))?trim}"/>
+</#if>
 /**
  * <p>
  * 实体类
@@ -55,7 +59,7 @@ import ${fieldType.packagePath};
 @TableName("${table.name}")
 </#if>
 <#if swagger2>
-@ApiModel(value = "${entity}", description = "${table.comment!?replace("\r\n"," ")?replace("\r"," ")?replace("\n"," ")?trim}")
+@ApiModel(value = "${entity}", description = "${tableComment}")
 </#if>
 <#if superEntityClass??>
 public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if><#list table.commonFields as field><#if field.keyFlag><${field.propertyType}></#if></#list> {

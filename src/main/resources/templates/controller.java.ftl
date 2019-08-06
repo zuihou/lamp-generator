@@ -35,6 +35,10 @@ import org.springframework.stereotype.Controller;
 import ${superControllerClassPackage};
 </#if>
 
+<#assign tableComment = "${table.comment!''}"/>
+<#if table.comment?? && table.comment!?contains('\n')>
+    <#assign tableComment = "${table.comment!?substring(0,table.comment?index_of('\n'))?trim}"/>
+</#if>
 /**
  * <p>
  * 前端控制器
@@ -53,7 +57,7 @@ import ${superControllerClassPackage};
 </#if>
 @RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if swagger2>
-@Api(value = "${entity}", tags = "${table.comment!?replace("\r\n","")?replace("\r","")?replace("\n","")?trim}")
+@Api(value = "${entity}", tags = "${tableComment}")
 </#if>
 <#if kotlin>
     class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
@@ -63,10 +67,6 @@ public class ${table.controllerName} extends ${superControllerClass} {
     <#else>
 public class ${table.controllerName} {
     </#if>
-<#assign tableComment = "${table.comment!''}"/>
-<#if table.comment?? && table.comment!?contains('\n')>
-    <#assign tableComment = "${table.comment!?substring(0,table.comment?index_of('\n'))?trim}"/>
-</#if>
 
     @Autowired
     private ${table.serviceName} ${table.serviceName?uncap_first};
