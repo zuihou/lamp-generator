@@ -5,6 +5,24 @@
 
 参考：[mybatis-plus](https://github.com/baomidou/mybatis-plus "zuihou")
 
+# 项目地址
+[github] https://github.com/zuihou/zuihou-admin-cloud
+
+[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud  (同步的github的代码，需要最新代码的同学请关注github项目)
+
+[代码生成器] https://github.com/zuihou/zuihou-generator  (提示缺少 zuihou-generator 包，需要下载该项目，执行编译)
+
+[前端] https://github.com/zuihou/zuihou-admin-ui  「开发中」
+
+[原型] http://zuihou111.gitee.io/zuihou-admin-rp/
+
+[demo] http://wzroom.cn/zuihou-ui  (zuihou/zuihou) 「开发中」
+
+[注册中心] http://wzroom.cn/zuihou-eureka/  (zuihou/zuihou) 
+
+[在线文档] http://wzroom.cn/api/gate/doc.html  (zuihou/zuihou) 
+
+
 # 使用规则
 - 暂时只支持生成MySQL表，Oracle需要微调代码，有需要的可以留言提交上来
 - 参考 TestGenerator 类
