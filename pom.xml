@@ -18,7 +18,7 @@
     <description>为 zuihou-admin-cloud 项目量身打造的代码生成器</description>
 
     <properties>
-        <mybatisplus.version>3.1.0</mybatisplus.version>
+        <mybatisplus.version>3.2.0</mybatisplus.version>
         <lombok.version>1.18.8</lombok.version>
         <mysql.version>6.0.6</mysql.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>

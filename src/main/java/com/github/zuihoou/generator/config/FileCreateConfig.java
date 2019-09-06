@@ -2,7 +2,6 @@ package com.github.zuihoou.generator.config;
 
 import java.io.File;
 
-import com.baomidou.mybatisplus.extension.toolkit.PackageHelper;
 import com.baomidou.mybatisplus.generator.config.IFileCreate;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.rules.FileType;
@@ -153,7 +152,7 @@ public class FileCreateConfig implements IFileCreate {
             return false;
         }
         if (!file.exists()) {
-            PackageHelper.mkDir(file.getParentFile());
+            file.getParentFile().mkdirs();
         }
         return true;
     }
