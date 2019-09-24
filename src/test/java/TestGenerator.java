@@ -16,14 +16,17 @@ import com.github.zuihoou.generator.type.GenerateType;
  * @date 2019/05/25
  */
 public class TestGenerator {
+    /***
+     * 注意，想要在这里直接运行，需要手动增加 mysql 驱动
+     * @param args
+     */
     public static void main(String[] args) {
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("authority", "", "zuihou", "c_auth_",
-//                build("msgs", "sms", "zuihou", "",
-                        Arrays.asList("c_auth_user"));
-        build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_admin_dev?useUnicode=true&useSSL=false&characterEncoding=utf8");
+                build("demo", "", "zuihou", "m_",
+                        Arrays.asList("m_order"));
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_demo_dev?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
 //        build.setPassword("root");
-        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
+        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-demo");
 
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
         FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
@@ -38,7 +41,7 @@ public class TestGenerator {
 
         build.setFileCreateConfig(fileCreateConfig);
 
-        build.setChildPackageName("auth");
+        build.setChildPackageName("");
         build.setSuperEntity(EntityType.ENTITY);
 
         //手动指定枚举类 生成的路径

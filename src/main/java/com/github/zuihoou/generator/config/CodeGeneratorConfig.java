@@ -109,7 +109,7 @@ public class CodeGeneratorConfig {
     /**
      * 驱动连接的URL
      */
-    private String url = "jdbc:mysql://127.0.0.1:3306/zuihou_core_dev?useUnicode=true&useSSL=false&characterEncoding=utf8";
+    private String url = "jdbc:mysql://127.0.0.1:3306/zuihou_core_dev?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull";
     /**
      * 驱动名称
      */
