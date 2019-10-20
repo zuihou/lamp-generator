@@ -30,6 +30,8 @@ import ${fieldType.packagePath};
     </#list>
 </#list>
 
+import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
+
 <#assign tableComment = "${table.comment!''}"/>
 <#if table.comment?? && table.comment!?contains('\n')>
     <#assign tableComment = "${table.comment!?substring(0,table.comment?index_of('\n'))?trim}"/>
@@ -155,7 +157,11 @@ public class ${entity} implements Serializable {
     @TableField(fill = FieldFill.${field.fill})
         </#if>
     <#elseif field.convert>
+        <#if (field.type?starts_with("varchar") || field.type?starts_with("char")) && myPropertyType == "String">
+    @TableField(value = "${field.name}", condition = LIKE)
+        <#else>
     @TableField("${field.name}")
+        </#if>
     </#if>
     <#if field.customMap.dict??>
     @DictionaryType("${field.customMap.dict}")
