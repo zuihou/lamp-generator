@@ -81,8 +81,8 @@ public class ${table.controllerName} {
      */
     @ApiOperation(value = "分页查询${tableComment}", notes = "分页查询${tableComment}")
     @ApiImplicitParams({
-        @ApiImplicitParam(name = "pageNo", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
-        @ApiImplicitParam(name = "pageSize", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
+        @ApiImplicitParam(name = "current", value = "页码", dataType = "long", paramType = "query", defaultValue = "1"),
+        @ApiImplicitParam(name = "size", value = "分页条数", dataType = "long", paramType = "query", defaultValue = "10"),
     })
     @GetMapping("/page")
     @SysLog("分页查询${tableComment}")
