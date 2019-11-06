@@ -140,13 +140,13 @@ public class ${table.controllerName} {
     /**
      * 删除${tableComment}
      *
-     * @param id 主键id
+     * @param ids 主键id
      * @return 删除结果
      */
     @ApiOperation(value = "删除${tableComment}", notes = "根据id物理删除${tableComment}")
-    @DeleteMapping(value = "/{id}")
+    @DeleteMapping
     @SysLog("删除${tableComment}")
-    public R<Boolean> delete(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
+    public R<Boolean> delete(@RequestParam("ids[]") <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}[]</#if></#list> ids) {
         ${table.serviceName?uncap_first}.removeById(id);
         return success(true);
     }
