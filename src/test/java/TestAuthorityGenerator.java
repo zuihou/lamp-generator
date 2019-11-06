@@ -39,7 +39,7 @@ public class TestAuthorityGenerator {
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateDto(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateDao(GenerateType.IGNORE);
         fileCreateConfig.setGenerateServiceImpl(GenerateType.IGNORE);
@@ -121,8 +121,8 @@ public class TestAuthorityGenerator {
 
     public static CodeGeneratorConfig buildCommonSuperEntity() {
         List<String> tables = Arrays.asList(
-                "c_common_opt_log"
-                , "c_common_login_log"
+//                "c_common_opt_log"
+                "c_common_login_log"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou", "c_common_", tables);
