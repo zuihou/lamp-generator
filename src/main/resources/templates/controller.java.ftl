@@ -147,7 +147,7 @@ public class ${table.controllerName} {
     @DeleteMapping
     @SysLog("删除${tableComment}")
     public R<Boolean> delete(@RequestParam("ids[]") <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}[]</#if></#list> ids) {
-        ${table.serviceName?uncap_first}.removeById(id);
+        ${table.serviceName?uncap_first}.removeByIds(ids);
         return success(true);
     }
 
