@@ -146,7 +146,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "删除${tableComment}", notes = "根据id物理删除${tableComment}")
     @DeleteMapping
     @SysLog("删除${tableComment}")
-    public R<Boolean> delete(@RequestParam("ids[]") <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}[]</#if></#list> ids) {
+    public R<Boolean> delete(@RequestParam("ids[]") <#list table.commonFields as field><#if field.keyFlag>List<${field.propertyType}></#if></#list> ids) {
         ${table.serviceName?uncap_first}.removeByIds(ids);
         return success(true);
     }
