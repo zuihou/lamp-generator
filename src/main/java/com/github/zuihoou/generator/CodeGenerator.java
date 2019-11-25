@@ -44,7 +44,7 @@ public class CodeGenerator {
     public static final String SRC_MAIN_JAVA = "src" + File.separator + "main" + File.separator + "java";
     public static final String SRC_MAIN_RESOURCE = "src" + File.separator + "main" + File.separator + "resources";
 
-    public static void main(final CodeGeneratorConfig config) {
+    public static void run(final CodeGeneratorConfig config) {
         // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
         //项目的根路径

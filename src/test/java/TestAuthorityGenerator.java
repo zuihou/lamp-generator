@@ -58,7 +58,7 @@ public class TestAuthorityGenerator {
                         .packagePath("com.github.zuihou.database.mybatis.auth.DataScopeType").gen(GenerateType.IGNORE).build()
         ));
         build.setFiledTypes(filedTypes);
-        CodeGenerator.main(build);
+        CodeGenerator.run(build);
     }
 
     public static CodeGeneratorConfig buildDefaultsEntity() {
