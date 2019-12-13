@@ -6,21 +6,13 @@
 参考：[mybatis-plus](https://github.com/baomidou/mybatis-plus "zuihou")
 
 # 项目地址
-[github] https://github.com/zuihou/zuihou-admin-cloud
-
-[gitee] https://gitee.com/zuihou111/zuihou-admin-cloud  (同步的github的代码，需要最新代码的同学请关注github项目)
-
-[代码生成器] https://github.com/zuihou/zuihou-generator  (提示缺少 zuihou-generator 包，需要下载该项目，执行编译)
-
-[前端] https://github.com/zuihou/zuihou-admin-ui  「开发中」
-
-[原型] http://zuihou111.gitee.io/zuihou-admin-rp/
-
-[demo] http://wzroom.cn/zuihou-ui  (zuihou/zuihou) 「开发中」
-
-[注册中心] http://wzroom.cn/zuihou-eureka/  (zuihou/zuihou) 
-
-[在线文档] http://wzroom.cn/api/gate/doc.html  (zuihou/zuihou) 
+| 项目 | gitee | github |
+|---|---|---|
+| 微服务项目 | https://gitee.com/zuihou111/zuihou-admin-cloud | https://github.com/zuihou/zuihou-admin-cloud |
+| 单体项目 | https://gitee.com/zuihou111/zuihou-admin-boot | https://github.com/zuihou/zuihou-admin-boot |
+| 租户后台 | https://gitee.com/zuihou111/zuihou-ui | https://github.com/zuihou/zuihou-ui |
+| 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui | https://github.com/zuihou/zuihou-admin-ui |
+| 代码生成器 | 无 | https://github.com/zuihou/zuihou-generator |
 
 
 # 使用规则
@@ -31,12 +23,13 @@
     例如：表名为f_file，则需要进行下列配置，生成的类会自动排除掉f_前缀。
     new CodeGeneratorConfig().setTablePrefix("f_");
 - serviceName、childModuleName、childPackageName的区别
-    serviceName： 表示`服务名` ，如 zuihou-file 服务，就填 file   
-    childModuleName： 表示`模块名` ，如 zuihou-msgs 服务下面分为  zuihou-msgs、zuihou-sms、zuihou-email等， 在生成sms、email等模块时，就需要指定为 sms、email   
+    serviceName： 表示`服务名` ，如 zuihou-file 服务，就填 file  
+    childModuleName： 表示`模块名` ，如 zuihou-msgs 服务下面分为  zuihou-msgs、zuihou-sms、zuihou-email等， 在生成sms、email等模块时，就需要指定为 sms、email  
     childPackageName的区别： 表示`子包名` ，用于在服务下，进行分包。如 zuihou-authority 项目下有 auth、common、core等子包
 - 支持枚举类型改变存储路径。 参考CodeGeneratorConfig.setFiledTypes
 - 支持controller、service、dao、xml等各个模块 自定义生成策略： 覆盖、新增、忽略。参考：FileCreateConfig config = new FileCreateConfig(GenerateType.OVERRIDE);
-    
+
+
 # 数据库设计原则
 - 必须显式指定`主键`
 - 任何表至少包含3个字段： bigint id、 datetime createTime、bigint createUpdate (可以自行修改 EntityType)
@@ -58,7 +51,7 @@
         文件类型 #FileType{PAN:云盘数据;API:接口数据}
         数据类型 #DataType{DIR:1,目录;IMAGE:2,图片;VIDEO:3,视频;AUDIO:4,音频;DOC:5,文档;OTHER:6,其他}
         数据类型 #{DIR:目录;IMAGE:图片;VIDEO:视频;AUDIO:音频;DOC:文档;OTHER:其他}
-``` 
+```
 
 完整例子：
 ```
