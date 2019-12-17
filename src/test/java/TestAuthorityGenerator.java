@@ -76,11 +76,12 @@ public class TestAuthorityGenerator {
 
     public static CodeGeneratorConfig buildAuthEntity() {
         List<String> tables = Arrays.asList(
-//                "c_auth_application"
+                "c_auth_application"
+                , "c_auth_application_system_api"
+                , "c_auth_system_api"
 //                "c_auth_menu"
-//                , "c_auth_micro_service"
 //                , "c_auth_resource"
-                "c_auth_role"
+//                "c_auth_role"
 //                "c_auth_user"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
