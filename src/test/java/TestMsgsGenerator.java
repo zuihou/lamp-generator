@@ -1,14 +1,14 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.github.zuihoou.generator.CodeGenerator;
 import com.github.zuihoou.generator.config.CodeGeneratorConfig;
 import com.github.zuihoou.generator.config.FileCreateConfig;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.EntityType;
 import com.github.zuihoou.generator.type.GenerateType;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 测试代码生成权限系统的代码
@@ -22,7 +22,8 @@ public class TestMsgsGenerator {
      * @param args
      */
     public static void main(String[] args) {
-        CodeGeneratorConfig build = buildAuthEntity();
+//        CodeGeneratorConfig build = buildSmsEntity();
+        CodeGeneratorConfig build = buildMsgsEntity();
 
         build.setUsername("root");
         build.setPassword("root");
@@ -53,13 +54,26 @@ public class TestMsgsGenerator {
     }
 
 
-    public static CodeGeneratorConfig buildAuthEntity() {
+    public static CodeGeneratorConfig buildSmsEntity() {
         List<String> tables = Arrays.asList(
 //                "sms_template"
                 "sms_task"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("msgs", "sms", "zuihou", "", tables);
+        build.setSuperEntity(EntityType.ENTITY);
+        build.setChildPackageName("");
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+        return build;
+    }
+
+    private static CodeGeneratorConfig buildMsgsEntity() {
+        List<String> tables = Arrays.asList(
+                "msgs_center_info",
+                "msgs_center_info_receive"
+        );
+        CodeGeneratorConfig build = CodeGeneratorConfig.
+                build("msgs", "", "zuihou", "", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
