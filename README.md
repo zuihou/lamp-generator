@@ -6,13 +6,13 @@
 参考：[mybatis-plus](https://github.com/baomidou/mybatis-plus "zuihou")
 
 # 项目地址
-| 项目 | gitee | github |
-|---|---|---|
-| 微服务项目 | https://gitee.com/zuihou111/zuihou-admin-cloud | https://github.com/zuihou/zuihou-admin-cloud |
-| 单体项目 | https://gitee.com/zuihou111/zuihou-admin-boot | https://github.com/zuihou/zuihou-admin-boot |
-| 租户后台 | https://gitee.com/zuihou111/zuihou-ui | https://github.com/zuihou/zuihou-ui |
-| 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui | https://github.com/zuihou/zuihou-admin-ui |
-| 代码生成器 | 无 | https://github.com/zuihou/zuihou-generator |
+| 项目 | gitee | github | 备注 |
+|---|---|---|---|
+| 微服务项目 | https://gitee.com/zuihou111/zuihou-admin-cloud | https://github.com/zuihou/zuihou-admin-cloud | SpringCloud 版本 |
+| 单体项目 | https://gitee.com/zuihou111/zuihou-admin-boot | https://github.com/zuihou/zuihou-admin-boot | SpringBoot 版本 |
+| 租户后台 | https://gitee.com/zuihou111/zuihou-ui | https://github.com/zuihou/zuihou-ui | 给客户使用 |
+| 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui | https://github.com/zuihou/zuihou-admin-ui | 给公司内部开发&运营&运维等人员使用 |
+| 代码生成器 | 无 | https://github.com/zuihou/zuihou-generator | 给开发人员使用 |
 
 
 # 使用规则
