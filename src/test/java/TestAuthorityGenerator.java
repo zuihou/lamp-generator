@@ -1,14 +1,14 @@
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
 import com.github.zuihoou.generator.CodeGenerator;
 import com.github.zuihoou.generator.config.CodeGeneratorConfig;
 import com.github.zuihoou.generator.config.FileCreateConfig;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.EntityType;
 import com.github.zuihoou.generator.type.GenerateType;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 测试代码生成权限系统的代码
@@ -74,10 +74,10 @@ public class TestAuthorityGenerator {
         return build;
     }
 
-    public static CodeGeneratorConfig buildAuthEntity() {
+    private static CodeGeneratorConfig buildAuthEntity() {
         List<String> tables = Arrays.asList(
                 "c_auth_application"
-                , "c_auth_application_system_api"
+//                , "c_auth_application_system_api"
                 , "c_auth_system_api"
 //                "c_auth_menu"
 //                , "c_auth_resource"
