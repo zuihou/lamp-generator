@@ -17,7 +17,7 @@ public class TestInitProject {
         config
                 .setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend")
                 .setServiceName("haha")
-                .setChildModuleName("hehe")
+//                .setChildModuleName("hehe")
                 .setAuthor("zuihou")
                 .setDescription("测试服务")
                 .setVersion("1.0-SNAPSHOT")

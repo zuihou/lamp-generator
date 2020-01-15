@@ -118,34 +118,42 @@ public class ProjectGenerator {
             System.err.println(String.format("生成完毕，请将以下配置手工加入：%s/pom.xml", serviceName));
             System.err.println(String.format(
                     "            <dependency>\n" +
-                    "                <groupId>%s</groupId>\n" +
-                    "                <artifactId>%s-biz</artifactId>\n" +
-                    "                <version>${project.version}</version>\n" +
-                    "            </dependency>", config.getGroupId(), modulerName) );
+                            "                <groupId>%s</groupId>\n" +
+                            "                <artifactId>%s-biz</artifactId>\n" +
+                            "                <version>${project.version}</version>\n" +
+                            "            </dependency>", config.getGroupId(), modulerName));
             System.err.println(String.format(
                     "            <dependency>\n" +
-                    "                <groupId>%s</groupId>\n" +
-                    "                <artifactId>%s-controller</artifactId>\n" +
-                    "                <version>${project.version}</version>\n" +
-                    "            </dependency>", config.getGroupId(), modulerName) );
+                            "                <groupId>%s</groupId>\n" +
+                            "                <artifactId>%s-controller</artifactId>\n" +
+                            "                <version>${project.version}</version>\n" +
+                            "            </dependency>", config.getGroupId(), modulerName));
             System.err.println("");
             System.err.println(String.format(
                     "        <module>%s-biz</module>\n" +
-                    "        <module>%s-controller</module>", modulerName,modulerName));
+                            "        <module>%s-controller</module>", modulerName, modulerName));
 
             System.err.println("------------------------------------------");
-            System.err.println(String.format("生成完毕，请将以下配置手工加入：%s/%s/pom.xml", serviceName, serviceName+ "-server"));
+            System.err.println(String.format("生成完毕，请将以下配置手工加入：%s/%s/pom.xml", serviceName, serviceName + "-server"));
 
             System.err.println(String.format(
                     "            <dependency>\n" +
                             "                <groupId>%s</groupId>\n" +
                             "                <artifactId>%s-controller</artifactId>\n" +
-                            "            </dependency>", config.getGroupId(), modulerName) );
+                            "            </dependency>", config.getGroupId(), modulerName));
         }
 
         System.err.println("------------------------------------------");
         System.err.println(String.format("生成完毕，请将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "backend"));
-        System.err.println(String.format("        <module>%s</module>",serviceName));
+        System.err.println(String.format("        <module>%s</module>", serviceName));
+
+        System.err.println("------------------------------------------");
+        String projectName = serviceName + "-server";
+        String nacosProject = serviceName + "-server.yml";
+        String nacosProjectDev = serviceName + "-server-dev.yml";
+        System.err.println(String.format("请在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProject, projectName, nacosProject));
+        System.err.println(String.format("请在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProjectDev, projectName, nacosProjectDev));
+
     }
 
     private void generatorApiModular(String serviceName, Map<String, Object> objectMap) {
@@ -163,9 +171,13 @@ public class ProjectGenerator {
     private void generatorServerResources(Map<String, Object> objectMap, String serverResourcePath) {
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "banner"), Paths.get(serverResourcePath, "banner.txt").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "bootstrap"), Paths.get(serverResourcePath, "bootstrap.yml").toString());
-        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "bootstrap-dev"), Paths.get(serverResourcePath, "bootstrap-dev.yml").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "logback-spring"), Paths.get(serverResourcePath, "logback-spring.xml").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "spy"), Paths.get(serverResourcePath, "spy.properties").toString());
+
+        String serviceNameDev = this.config.getProjectPrefix() + this.config.getServiceName() + "-server-dev.yml";
+        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "application-dev"), Paths.get(serverResourcePath, serviceNameDev).toString());
+        String serviceName = this.config.getProjectPrefix() + this.config.getServiceName() + "-server.yml";
+        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "application"), Paths.get(serverResourcePath, serviceName).toString());
     }
 
     /**
@@ -254,7 +266,7 @@ public class ProjectGenerator {
 
     private String mkModular(String servicePath, String serviceName, String modular, boolean isChildModule) {
         String modularName = serviceName + "-" + modular;
-        if(isChildModule){
+        if (isChildModule) {
             String childModuleName = this.config.getProjectPrefix() + this.config.getChildModuleName();
             modularName = childModuleName + "-" + modular;
         }

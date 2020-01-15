@@ -45,7 +45,7 @@ import java.util.List;
 @Configuration
 @Slf4j
 @MapperScan(
-        basePackages = { "${packageBase}", }, annotationClass = Repository.class,
+        basePackages = { "${packageBaseParent}", }, annotationClass = Repository.class,
         sqlSessionFactoryRef = ${service}DatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class, DatabaseProperties.class})
 public class ${service}DatabaseAutoConfiguration extends BaseDatabaseConfiguration {
