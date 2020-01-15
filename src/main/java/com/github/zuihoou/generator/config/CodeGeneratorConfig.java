@@ -1,18 +1,18 @@
 package com.github.zuihoou.generator.config;
 
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.EntityType;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 代码生成配置
@@ -81,6 +81,22 @@ public class CodeGeneratorConfig {
     private String entitySuffix = "-entity";
     private String serviceSuffix = "-biz";
     private String controllerSuffix = "-controller";
+    /**
+     * 版本
+     */
+    String version = "1.0-SNAPSHOT";
+    /**
+     * 端口号
+     */
+    String serverPort = "8080";
+    String groupId = "com.github.zuihou";
+    String description = "服务";
+//    private String serverSuffix = "-server";
+
+    public String getPackageBaseParent() {
+        return StrUtil.subPre(this.packageBase, this.packageBase.lastIndexOf("."));
+    }
+
     /**
      * entity的父类
      */
@@ -157,7 +173,7 @@ public class CodeGeneratorConfig {
     }
 
     public String getChildModuleName() {
-        if (StringUtils.isEmpty(childModuleName)) {
+        if (StringUtils.isEmpty(this.childModuleName)) {
             this.childModuleName = this.serviceName;
         }
         return this.childModuleName;
