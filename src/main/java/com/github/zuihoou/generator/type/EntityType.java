@@ -20,6 +20,11 @@ public enum EntityType {
      * 有创建人创建时间等
      */
     ENTITY("com.github.zuihou.base.entity.Entity", new String[]{"id", "create_time", "create_user", "update_time", "update_user"}),
+
+    /**
+     * 不继承任何实体
+     */
+    NONE("", new String[]{""}),
     ;
 
     private String val;

@@ -105,7 +105,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "查询${tableComment}", notes = "查询${tableComment}")
     @GetMapping("/{id}")
     @SysLog("查询${tableComment}")
-    public R<${entity}> get(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
+    public R<${entity}> get(@PathVariable <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list><#list table.fields as field><#if field.keyFlag>${field.propertyType}</#if></#list> id) {
         return success(${table.serviceName?uncap_first}.getById(id));
     }
 
@@ -148,7 +148,7 @@ public class ${table.controllerName} {
     @ApiOperation(value = "删除${tableComment}", notes = "根据id物理删除${tableComment}")
     @DeleteMapping
     @SysLog("删除${tableComment}")
-    public R<Boolean> delete(@RequestParam("ids[]") <#list table.commonFields as field><#if field.keyFlag>List<${field.propertyType}></#if></#list> ids) {
+    public R<Boolean> delete(@RequestParam("ids[]") <#list table.commonFields as field><#if field.keyFlag>List<${field.propertyType}></#if></#list><#list table.fields as field><#if field.keyFlag>List<${field.propertyType}></#if></#list> ids) {
         ${table.serviceName?uncap_first}.removeByIds(ids);
         return success(true);
     }

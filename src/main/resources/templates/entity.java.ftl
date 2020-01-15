@@ -48,7 +48,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 <#if entityLombokModel>
 @Data
 @NoArgsConstructor
-@AllArgsConstructor
 @ToString(callSuper = true)
 <#if superEntityClass??>
 @EqualsAndHashCode(callSuper = true)
@@ -64,11 +63,12 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 @ApiModel(value = "${entity}", description = "${tableComment}")
 </#if>
 <#if superEntityClass??>
+@AllArgsConstructor
 public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if><#list table.commonFields as field><#if field.keyFlag><${field.propertyType}></#if></#list> {
 <#elseif activeRecord>
+@AllArgsConstructor
 public class ${entity} extends Model<${entity}> {
 <#else>
-@Builder
 public class ${entity} implements Serializable {
 </#if>
 

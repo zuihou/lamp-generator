@@ -22,8 +22,8 @@ public class TestHahaGenerator {
      * @param args
      */
     public static void main(String[] args) {
-        CodeGeneratorConfig build = buildHeheEntity();
-//        CodeGeneratorConfig build = buildHahaEntity();
+//        CodeGeneratorConfig build = buildHeheEntity();
+        CodeGeneratorConfig build = buildHahaEntity();
 
         build.setUsername("root");
         build.setPassword("root");
@@ -66,6 +66,7 @@ public class TestHahaGenerator {
 
     private static CodeGeneratorConfig buildHahaEntity() {
         List<String> tables = Arrays.asList(
+//                "m_whaha",
                 "m_order"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
