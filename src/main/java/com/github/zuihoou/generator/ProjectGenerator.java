@@ -21,7 +21,7 @@ import java.util.Map;
 /**
  * 项目生成工具
  *
- * @author tangyh
+ * @author zuihou
  * @date 2019/05/25
  */
 @Slf4j
@@ -143,22 +143,48 @@ public class ProjectGenerator {
                             "            </dependency>", config.getGroupId(), modulerName));
         }
 
+        System.err.println("生成完毕，但请手动完成以下操作：");
         System.err.println("------------------------------------------");
-        System.err.println(String.format("生成完毕，请将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "backend"));
+        System.err.println(String.format("将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "backend"));
         System.err.println(String.format("        <module>%s</module>", serviceName));
+
+        System.err.println("------------------------------------------");
+        System.err.println(String.format("将以下配置手工加入：%s/%s/pom.xml", this.config.getProjectPrefix() + "backend", this.config.getProjectPrefix() + "api"));
+        System.err.println(String.format("        <module>%s</module>", serviceName + "-api"));
 
         System.err.println("------------------------------------------");
         String projectName = serviceName + "-server";
         String nacosProject = serviceName + "-server.yml";
         String nacosProjectDev = serviceName + "-server-dev.yml";
-        System.err.println(String.format("请在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProject, projectName, nacosProject));
-        System.err.println(String.format("请在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProjectDev, projectName, nacosProjectDev));
+        System.err.println(String.format("在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProject, projectName, nacosProject));
+        System.err.println("------------------------------------------");
+        System.err.println(String.format("在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProjectDev, projectName, nacosProjectDev));
+
+        System.err.println("------------------------------------------");
+        System.err.println("将下面的配置手动加入nacos中 zuihou-zuul-server.yml");
+        System.err.println(String.format("    %s:\n" +
+                "      path: /%s/**\n" +
+                "      serviceId: %s-server", config.getServiceName(), config.getServiceName(), serviceName));
+
+        System.err.println("------------------------------------------");
+        System.err.println("将下面的配置手动加入nacos中 zuihou-gateway-server.yml");
+        System.err.println(String.format("        - id: %s\n" +
+                "          uri: lb://%s-server\n" +
+                "          predicates:\n" +
+                "            - Path=/%s/**\n" +
+                "          filters:\n" +
+                "            - StripPrefix=1\n" +
+                "            - name: Hystrix\n" +
+                "              args:\n" +
+                "                name: default\n" +
+                "                fallbackUri: 'forward:/fallback'", config.getServiceName(), serviceName, config.getServiceName()));
 
     }
 
     private void generatorApiModular(String serviceName, Map<String, Object> objectMap) {
         String apiName = this.config.getProjectPrefix() + "api";
         String apiModularName = serviceName + "-api";
+        log.info("已经生成模块：{}", apiModularName);
         String apiPath = Paths.get(this.config.getProjectRootPath(), apiName, apiModularName).toString();
         File apiPathFile = new File(apiPath);
         if (!apiPathFile.exists()) {
