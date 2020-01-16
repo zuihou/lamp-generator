@@ -35,12 +35,17 @@ public class TestAuthorityGenerator {
         System.out.println(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
 
+        // null 表示 使用下面的 生成策略
         FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
+        // 不为null 表示忽略下面的 生成策略
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
+
+        //实体类的生成策略 为覆盖
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
+        //dao 的生成策略为 忽略
         fileCreateConfig.setGenerateDao(GenerateType.IGNORE);
         fileCreateConfig.setGenerateServiceImpl(GenerateType.IGNORE);
         fileCreateConfig.setGenerateService(GenerateType.IGNORE);
