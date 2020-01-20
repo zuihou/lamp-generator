@@ -1,30 +1,27 @@
 package com.github.zuihoou.generator;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.ConstVal;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.FileOutConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.PackageConfig;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
-import com.baomidou.mybatisplus.generator.config.TemplateConfig;
+import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.querys.*;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.github.zuihoou.generator.config.CodeGeneratorConfig;
 import com.github.zuihoou.generator.ext.FileOutConfigExt;
 import com.github.zuihoou.generator.ext.FreemarkerTemplateEngineExt;
 import com.github.zuihoou.generator.ext.MySqlQueryExt;
+import com.github.zuihoou.generator.ext.OracleQueryExt;
 import com.github.zuihoou.generator.type.GenerateType;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 代码生成
@@ -120,7 +117,29 @@ public class CodeGenerator {
         dsc.setDriverName(config.getDriverName());
         dsc.setUsername(config.getUsername());
         dsc.setPassword(config.getPassword());
-        dsc.setDbQuery(new MySqlQueryExt());
+        if (dsc.getDbType() == DbType.MYSQL) {
+            dsc.setDbQuery(new MySqlQueryExt());
+        }
+        // oracle 没完全测试
+        else if (dsc.getDbType() == DbType.ORACLE) {
+            dsc.setDbQuery(new OracleQueryExt());
+        }
+        // 以下的都没测试过
+        else if (dsc.getDbType() == DbType.DB2) {
+            dsc.setDbQuery(new DB2Query());
+        } else if (dsc.getDbType() == DbType.DM) {
+            dsc.setDbQuery(new DMQuery());
+        } else if (dsc.getDbType() == DbType.H2) {
+            dsc.setDbQuery(new H2Query());
+        } else if (dsc.getDbType() == DbType.MARIADB) {
+            dsc.setDbQuery(new MariadbQuery());
+        } else if (dsc.getDbType() == DbType.POSTGRE_SQL) {
+            dsc.setDbQuery(new PostgreSqlQuery());
+        } else if (dsc.getDbType() == DbType.SQLITE) {
+            dsc.setDbQuery(new SqliteQuery());
+        } else if (dsc.getDbType() == DbType.SQL_SERVER) {
+            dsc.setDbQuery(new SqlServerQuery());
+        }
         return dsc;
     }
 
