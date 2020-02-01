@@ -40,9 +40,23 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
-    private final static Pattern DICT_PATTERN = Pattern.compile("[@]Dict[{]([a-zA-Z0-9._]+)[}]");
+    /**
+     * 注入字段 正则
+     * 匹配： @InjectionField(api="", method="") RemoteData<Long, Org>
+     * 匹配： @InjectionField(api="", method="")
+     */
+    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(]api *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)[)]){1}( *RemoteData(<Long,( *[a-zA-Z0-9.]+)>)?)*");
 
+
+    /**
+     * 枚举类 正则
+     * 匹配： #{xxxx} 形式的注释
+     */
     public final static String REG_EX_VAL = "#(.*?\\{(.*?)?\\})";
+    /**
+     * 枚举类型 正则
+     * 匹配 xx:xx; 形式的注释
+     */
     public final static String REG_EX_KEY = "([A-Za-z1-9_-]+):(.*?)?;";
 
     private CodeGeneratorConfig config;
@@ -50,6 +64,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
     public FreemarkerTemplateEngineExt(CodeGeneratorConfig config) {
         this.config = config;
     }
+
 
     /**
      * 扩展父类    增加生成enum的代码。
@@ -78,7 +93,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         tableList.forEach(t -> {
             t.getFields().forEach(field -> {
                 build(t, field);
-//                buildDict(t, field);
+                buildInjectionField(t, field);
             });
         });
 
@@ -97,6 +112,11 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
                 //这里必须 在entity生成后，赋值
                 map.put("filedTypes", config.getFiledTypes());
                 this.setMap(map);
+            }
+
+            @Override
+            public void initTableMap(TableInfo tableInfo) {
+                this.initMap();
             }
         };
 
@@ -118,26 +138,83 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
         return this;
     }
-/*
-//    private void buildDict(TableInfo table, TableField field) {
-//        String comment = field.getComment();//注释
-//        if (comment == null) {
-//            return;
-//        }
-//        Set<String> importPackages = table.getImportPackages();
-//        Matcher matcher = DICT_PATTERN.matcher(comment);
-//        if (matcher.find()) {
-//            String dictCode = matcher.group(1);
-//            field.getCustomMap().put("dict", dictCode);
-//            importPackages.add(Dictionary.class.getName());
-//            importPackages.add(DictionaryType.class.getName());
-//        }
-//    }
-*/
-
 
     /**
-     * 生成枚举值
+     * 生成 需要注入 类型的字段
+     *
+     * @param table
+     * @param field
+     */
+    private void buildInjectionField(TableInfo table, TableField field) {
+        String comment = field.getComment();//注释
+        if (comment == null) {
+            return;
+        }
+        Set<String> importPackages = table.getImportPackages();
+        Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment);
+        if (matcher.find()) {
+            String annotation = trim(matcher.group(1));
+            String api = trim(matcher.group(2));
+            String method = trim(matcher.group(3));
+            String type = trim(matcher.group(4));
+            String typePackage = trim(matcher.group(6));
+
+            field.getCustomMap().put("annotation", annotation);
+//            field.getCustomMap().put("api", api);
+//            field.getCustomMap().put("method", method);
+            field.getCustomMap().put("type", type);
+//            field.getCustomMap().put("type", type);
+
+            if (!api.contains("\"")) {
+                if (api.contains(".")) {
+                    importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                } else {
+                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s_CLASS", StringUtils.upperCase(field.getName())));
+                }
+            }
+            if (!method.contains("\"")) {
+                if (method.contains(".")) {
+                    importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                } else {
+                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s_METHOD", StringUtils.upperCase(field.getName())));
+                }
+            }
+            if (typePackage.contains(".")) {
+                importPackages.add(typePackage);
+            }
+            importPackages.add("com.github.zuihou.injection.annonation.InjectionField");
+            importPackages.add("com.github.zuihou.model.RemoteData");
+        }
+    }
+
+    private String trim(String val) {
+        return val == null ? StringPool.EMPTY : val.trim();
+    }
+
+    public static void main(String[] args) {
+//        String comment = "@InjectionField(api=\"xxx\", method=\"findById\")";
+        String comment = "@InjectionField(api   = USER_SERVICE, method=   \"findById\") RemoteData<Long, com.xx.ngd.Org>";
+//        String comment = "@InjectionField(api=USER_SERVICE, method=\"findById\") RemoteData";
+//        String comment = "@InjectionField(api=USER_SERVICE, method=InjectionFieldConstants.findUser) RemoteData<Long, com.xx.ngd.Org>";
+//        String comment = "@InjectionField(api=InjectionFieldConstants.USER_SERVICE, method=InjectionFieldConstants.findUser)";
+//        String comment = "@InjectionField(api=USER_SERVICE, method=USER_METHOD) ";
+//        String comment = "@InjectionField(api=USER_SERVICE, method=USER_METHOD)     RemoteData<Long, com.xx.ngd.Org>";
+//        String comment = "@InjectionField(api=xxx, method=findById)     RemoteData<Long, Org>";
+
+        Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment.trim());
+
+        if (matcher.find()) {
+            for (int i = 0; i <= matcher.groupCount(); i++) {
+                System.out.println("i=" + i + ", val=" + matcher.group(i));
+            }
+
+//            System.out.println(matcher.group(1));
+        }
+
+    }
+
+    /**
+     * 生成枚举类型类
      *
      * @throws Exception
      */
@@ -236,16 +313,16 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
                 .append(".java");
 
 
-//        String packageBase = config.getPackageBase().replace(".", File.separator);
-//        basePathSb .append(File.separator).append(packageBase);
-//        basePathSb.append(File.separator)
-//                .append("enumeration");
-//        if (StringUtils.isNotEmpty(config.getChildPackageName())) {
-//            basePathSb.append(File.separator).append(config.getChildPackageName());
-//        }
-//        basePathSb.append(File.separator)
-//                .append(enumName)
-//                .append(StringPool.DOT_JAVA);
+        /*String packageBase = config.getPackageBase().replace(".", File.separator);
+        basePathSb .append(File.separator).append(packageBase);
+        basePathSb.append(File.separator)
+                .append("enumeration");
+        if (StringUtils.isNotEmpty(config.getChildPackageName())) {
+            basePathSb.append(File.separator).append(config.getChildPackageName());
+        }
+        basePathSb.append(File.separator)
+                .append(enumName)
+                .append(StringPool.DOT_JAVA);*/
 
         FileCreateConfig fileCreateConfig = config.getFileCreateConfig();
         if (GenerateType.ADD.eq(fileCreateConfig.getGenerateEnum())
@@ -276,6 +353,12 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
     }
 
 
+    /**
+     * 生成实体类中字段的 枚举类型
+     *
+     * @param tableInfo
+     * @param field
+     */
     private void build(TableInfo tableInfo, TableField field) {
         String comment = field.getComment();
         String entityName = tableInfo.getEntityName();

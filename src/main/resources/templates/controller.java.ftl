@@ -2,15 +2,16 @@ package ${package.Controller};
 
 
 import java.util.List;
+import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.R;
-import com.github.zuihou.dozer.DozerUtils;
 import com.github.zuihou.log.annotation.SysLog;
 import com.github.zuihou.database.mybatis.conditions.query.LbqWrapper;
 import com.github.zuihou.database.mybatis.conditions.Wraps;
 import ${package.Entity}.${entity};
 import ${cfg.SaveDTO}.${entity}SaveDTO;
 import ${cfg.SaveDTO}.${entity}UpdateDTO;
+import ${cfg.SaveDTO}.${entity}PageDTO;
 import ${package.Service}.${table.serviceName};
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -18,6 +19,7 @@ import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import com.github.zuihou.base.entity.SuperEntity;
+import com.github.zuihou.model.RemoteData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -72,8 +74,6 @@ public class ${table.controllerName} {
 
     @Autowired
     private ${table.serviceName} ${table.serviceName?uncap_first};
-    @Autowired
-    private DozerUtils dozer;
 
     /**
      * 分页查询${tableComment}
@@ -88,10 +88,26 @@ public class ${table.controllerName} {
     })
     @GetMapping("/page")
     @SysLog("分页查询${tableComment}")
-    public R<IPage<${entity}>> page(${entity} data) {
+    public R<IPage<${entity}>> page(${entity}PageDTO data) {
+        ${entity} ${entity?uncap_first} = BeanUtil.toBean(data, ${entity}.class);
+
+        <#list table.fields as field>
+        <#-- 自动注入注解 -->
+        <#if field.customMap.annotation??>
+        <#assign myPropertyName="${field.propertyName}"/>
+        <#assign capPropertyName="${field.propertyName?cap_first}"/>
+        if (data != null && data.get${capPropertyName}() != null) {
+            ${entity?uncap_first}.set${capPropertyName}Obj(new RemoteData<>(data.get${capPropertyName}()));
+        }
+        </#if>
+        </#list>
+
         IPage<${entity}> page = getPage();
         // 构建值不为null的查询条件
-        LbqWrapper<${entity}> query = Wraps.lbQ(data);
+        LbqWrapper<${entity}> query = Wraps.<${entity}>lbQ(${entity?uncap_first})
+            .geHeader(${entity}::getCreateTime, data.getStartCreateTime())
+            .leFooter(${entity}::getCreateTime, data.getEndCreateTime())
+            .orderByDesc(${entity}::getCreateTime);
         ${table.serviceName?uncap_first}.page(page, query);
         return success(page);
     }
@@ -119,7 +135,7 @@ public class ${table.controllerName} {
     @PostMapping
     @SysLog("新增${tableComment}")
     public R<${entity}> save(@RequestBody @Validated ${entity}SaveDTO data) {
-        ${entity} ${entity?uncap_first} = dozer.map(data, ${entity}.class);
+        ${entity} ${entity?uncap_first} = BeanUtil.toBean(data, ${entity}.class);
         ${table.serviceName?uncap_first}.save(${entity?uncap_first});
         return success(${entity?uncap_first});
     }
@@ -134,7 +150,7 @@ public class ${table.controllerName} {
     @PutMapping
     @SysLog("修改${tableComment}")
     public R<${entity}> update(@RequestBody @Validated(SuperEntity.Update.class) ${entity}UpdateDTO data) {
-        ${entity} ${entity?uncap_first} = dozer.map(data, ${entity}.class);
+        ${entity} ${entity?uncap_first} = BeanUtil.toBean(data, ${entity}.class);
         ${table.serviceName?uncap_first}.updateById(${entity?uncap_first});
         return success(${entity?uncap_first});
     }

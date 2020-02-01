@@ -63,18 +63,24 @@
 </#list>
 <#list table.fields as field>
 <#if !field.keyFlag><#--生成普通字段 -->
+
+    <#assign myPropertyName="${field.propertyName}"/>
+    <#-- 自动注入注解 -->
+    <#if field.customMap.annotation??>
+        <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+    </#if>
     <#if field.type?starts_with("int")>
-        <result column="${field.name}" jdbcType="INTEGER" property="${field.propertyName}"/>
+        <result column="${field.name}" jdbcType="INTEGER" property="${myPropertyName}"/>
     <#elseif field.type?starts_with("datetime")>
-        <result column="${field.name}" jdbcType="TIMESTAMP" property="${field.propertyName}"/>
+        <result column="${field.name}" jdbcType="TIMESTAMP" property="${myPropertyName}"/>
     <#elseif field.type?starts_with("text") || field.type?starts_with("longtext") || field.type?starts_with("mediumtext")>
-        <result column="${field.name}" jdbcType="LONGVARCHAR" property="${field.propertyName}"/>
+        <result column="${field.name}" jdbcType="LONGVARCHAR" property="${myPropertyName}"/>
     <#else>
     <#if field.type?contains("(")>
         <#assign fType = field.type?substring(0, field.type?index_of("("))?upper_case/>
-        <result column="${field.name}" jdbcType="${fType}" property="${field.propertyName}"/>
+        <result column="${field.name}" jdbcType="${fType}" property="${myPropertyName}"/>
     <#else>
-        <result column="${field.name}" jdbcType="${field.type?upper_case}" property="${field.propertyName}"/>
+        <result column="${field.name}" jdbcType="${field.type?upper_case}" property="${myPropertyName}"/>
     </#if>
     </#if>
 </#if>

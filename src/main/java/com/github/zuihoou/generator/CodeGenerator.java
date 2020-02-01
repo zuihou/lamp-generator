@@ -37,6 +37,7 @@ public class CodeGenerator {
     public static final String CONSTANT_PATH = "Constant";
     public static final String SAVE_DTO_PATH = "SaveDTO";
     public static final String UPDATE_DTO_PATH = "UpdateDTO";
+    public static final String PAGE_DTO_PATH = "PageDTO";
 
     public static final String SRC_MAIN_JAVA = "src" + File.separator + "main" + File.separator + "java";
     public static final String SRC_MAIN_RESOURCE = "src" + File.separator + "main" + File.separator + "resources";
@@ -223,6 +224,7 @@ public class CodeGenerator {
 //        packageMap.put(DTO_PATH, parentPackage + ".dto" + childPackageName);
         packageMap.put(SAVE_DTO_PATH, parentPackage + ".dto" + childPackageName);
         packageMap.put(UPDATE_DTO_PATH, parentPackage + ".dto" + childPackageName);
+        packageMap.put(PAGE_DTO_PATH, parentPackage + ".dto" + childPackageName);
 
         return packageMap;
     }
@@ -254,6 +256,7 @@ public class CodeGenerator {
 //        focList.add(new FileOutConfigExt(basePath, DTO_PATH, config));
         focList.add(new FileOutConfigExt(basePath, SAVE_DTO_PATH, config));
         focList.add(new FileOutConfigExt(basePath, UPDATE_DTO_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, PAGE_DTO_PATH, config));
 
         return focList;
     }

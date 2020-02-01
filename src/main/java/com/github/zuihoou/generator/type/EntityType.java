@@ -22,6 +22,11 @@ public enum EntityType {
     ENTITY("com.github.zuihou.base.entity.Entity", new String[]{"id", "create_time", "create_user", "update_time", "update_user"}),
 
     /**
+     * 树形实体
+     */
+    TREE_ENTITY("com.github.zuihou.base.entity.TreeEntity", new String[]{"id", "create_time", "create_user", "update_time", "update_user", "label", "parent_id", "sort_value"}),
+
+    /**
      * 不继承任何实体
      */
     NONE("", new String[]{""}),

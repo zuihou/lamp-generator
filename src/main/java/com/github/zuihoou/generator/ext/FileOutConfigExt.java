@@ -43,6 +43,11 @@ public class FileOutConfigExt extends FileOutConfig {
                 this.projectSuffix = config.getEntitySuffix();
                 this.generateType = fileCreateConfig.getGenerateDto();
                 break;
+            case CodeGenerator.PAGE_DTO_PATH:
+                this.setTemplatePath("/templates/pageDto.java.ftl");
+                this.projectSuffix = config.getEntitySuffix();
+                this.generateType = fileCreateConfig.getGenerateDto();
+                break;
             case CodeGenerator.UPDATE_DTO_PATH:
                 this.setTemplatePath("/templates/updateDto.java.ftl");
                 this.projectSuffix = config.getEntitySuffix();
@@ -142,6 +147,7 @@ public class FileOutConfigExt extends FileOutConfig {
             if (CodeGenerator.ENUM_PATH.equals(modularSuffix)
                     || CodeGenerator.SAVE_DTO_PATH.equals(modularSuffix)
                     || CodeGenerator.UPDATE_DTO_PATH.equals(modularSuffix)
+                    || CodeGenerator.PAGE_DTO_PATH.equals(modularSuffix)
                     || CodeGenerator.CONSTANT_PATH.equals(modularSuffix)
                     || CodeGenerator.QUERY_PATH.equals(modularSuffix)
                     || ConstVal.ENTITY.equals(modularSuffix)) {
@@ -158,6 +164,8 @@ public class FileOutConfigExt extends FileOutConfig {
         } else if (CodeGenerator.SAVE_DTO_PATH.equals(innerModularSuffix)) {
             innerModularSuffix = "dto";
         } else if (CodeGenerator.UPDATE_DTO_PATH.equals(innerModularSuffix)) {
+            innerModularSuffix = "dto";
+        } else if (CodeGenerator.PAGE_DTO_PATH.equals(innerModularSuffix)) {
             innerModularSuffix = "dto";
         } else if (ConstVal.MAPPER.equals(innerModularSuffix)) {
             innerModularSuffix = "dao";

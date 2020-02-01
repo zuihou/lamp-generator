@@ -21,6 +21,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
 </#if>
+<#if cfg.filedTypes??>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>
         <#if field.propertyName == fieldType.name && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))>
@@ -29,6 +30,7 @@ import ${fieldType.packagePath};
         </#if>
     </#list>
 </#list>
+</#if>
 
 import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 
@@ -175,7 +177,16 @@ public class ${entity} implements Serializable {
     <#if (logicDeleteFieldName!"") == field.name>
     @TableLogic
     </#if>
-    private ${myPropertyType} ${field.propertyName};
+    <#assign myPropertyName="${field.propertyName}"/>
+    <#-- 自动注入注解 -->
+    <#if field.customMap.annotation??>
+    ${field.customMap.annotation}
+        <#assign myPropertyType="${field.customMap.type}"/>
+        <#if field.propertyName?ends_with("Id")>
+            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        </#if>
+    </#if>
+    private ${myPropertyType} ${myPropertyName};
     </#if>
 
 </#list>
@@ -208,12 +219,17 @@ public class ${entity} implements Serializable {
 <#-- 如果有父类，自定义无全参构造方法 -->
     @Builder
     public ${entity}(<#list table.commonFields as cf>${cf.propertyType} ${cf.propertyName}, </#list>
-                    <#list table.fields as field><#assign myPropertyType="${field.propertyType}"/><#if field.customMap.dict??><#assign myPropertyType="Dictionary"/></#if><#list cfg.filedTypes as fieldType><#if fieldType.name == field.propertyName && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))><#assign myPropertyType="${fieldType.type}"/></#if></#list><#if field_has_next>${((field_index + 1) % 6 ==0)?string('\r\n                    ', '')}${myPropertyType} ${field.propertyName}, <#else>${myPropertyType} ${field.propertyName}</#if></#list>) {
+                    <#list table.fields as field><#assign myPropertyType="${field.propertyType}"/><#if field.customMap.annotation??><#assign myPropertyType="${field.customMap.type}"/></#if><#if field.customMap.dict??><#assign myPropertyType="Dictionary"/></#if><#list cfg.filedTypes as fieldType><#if fieldType.name == field.propertyName && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))><#assign myPropertyType="${fieldType.type}"/></#if></#list><#if field_has_next>${((field_index + 1) % 6 ==0)?string('\r\n                    ', '')}${myPropertyType} ${field.propertyName}, <#else>${myPropertyType} ${field.propertyName}</#if></#list>) {
     <#list table.commonFields as cf>
         this.${cf.propertyName} = ${cf.propertyName};
     </#list>
     <#list table.fields as field>
-        this.${field.propertyName} = ${field.propertyName};
+        <#assign myPropertyName="${field.propertyName}"/>
+        <#-- 自动注入注解 -->
+        <#if field.customMap.annotation??>
+            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        </#if>
+        this.${myPropertyName} = ${field.propertyName};
     </#list>
     }
 <#if activeRecord>

@@ -130,7 +130,14 @@ public class ${entity}UpdateDTO implements Serializable {
     @DictionaryType("${field.customMap.dict}")
         <#assign myPropertyType="Dictionary"/>
     </#if>
-    private ${myPropertyType} ${field.propertyName};
+    <#assign myPropertyName="${field.propertyName}"/>
+<#-- 自动注入注解 -->
+    <#if field.customMap.annotation??>
+    ${field.customMap.annotation}
+        <#assign myPropertyType="${field.customMap.type}"/>
+        <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+    </#if>
+    private ${myPropertyType} ${myPropertyName};
 </#if>
 </#list>
 

@@ -42,7 +42,7 @@ public class TestAuthorityGenerator {
 
         //实体类的生成策略 为覆盖
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
+        fileCreateConfig.setGenerateEnum(GenerateType.IGNORE);
         fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
         //dao 的生成策略为 忽略
@@ -81,16 +81,17 @@ public class TestAuthorityGenerator {
 
     private static CodeGeneratorConfig buildAuthEntity() {
         List<String> tables = Arrays.asList(
-                "c_auth_application"
+//                "c_auth_application"
 //                , "c_auth_application_system_api"
-                , "c_auth_system_api"
+//                , "c_auth_system_api"
 //                "c_auth_menu"
 //                , "c_auth_resource"
 //                "c_auth_role"
-//                "c_auth_user"
+                "c_auth_user"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("authority", "", "zuihou", "c_auth_", tables);
+                build("authority", "", "zuihou", "", tables);
+//                build("authority", "", "zuihou", "c_auth_", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("auth");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
