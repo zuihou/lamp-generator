@@ -135,7 +135,9 @@ public class ${entity}UpdateDTO implements Serializable {
     <#if field.customMap.annotation??>
     ${field.customMap.annotation}
         <#assign myPropertyType="${field.customMap.type}"/>
-        <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        <#if field.propertyName?ends_with("Id")>
+            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        </#if>
     </#if>
     private ${myPropertyType} ${myPropertyName};
 </#if>

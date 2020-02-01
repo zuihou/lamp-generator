@@ -24,8 +24,8 @@ public class TestAuthorityGenerator {
     public static void main(String[] args) {
 //        CodeGeneratorConfig build = buildDefaultsEntity();
 //        CodeGeneratorConfig build = buildAuthSuperEntity();
-        CodeGeneratorConfig build = buildAuthEntity();
-//        CodeGeneratorConfig build = buildCommonEntity();
+//        CodeGeneratorConfig build = buildAuthEntity();
+        CodeGeneratorConfig build = buildCommonEntity();
 //        CodeGeneratorConfig build = buildCommonSuperEntity();
 //        CodeGeneratorConfig build = buildCoreEntity();
 
@@ -115,12 +115,13 @@ public class TestAuthorityGenerator {
     public static CodeGeneratorConfig buildCommonEntity() {
         List<String> tables = Arrays.asList(
                 "c_common_area"
-                , "c_common_dictionary"
-                , "c_common_dictionary_item"
+//                , "c_common_dictionary"
+//                , "c_common_dictionary_item"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou", "c_common_", tables);
-        build.setSuperEntity(EntityType.ENTITY);
+        build.setSuperEntity(EntityType.TREE_ENTITY);
+//        build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("common");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;

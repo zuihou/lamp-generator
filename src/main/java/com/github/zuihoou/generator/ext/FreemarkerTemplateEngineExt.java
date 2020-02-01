@@ -45,7 +45,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
      * 匹配： @InjectionField(api="", method="") RemoteData<Long, Org>
      * 匹配： @InjectionField(api="", method="")
      */
-    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(]api *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)[)]){1}( *RemoteData(<Long,( *[a-zA-Z0-9.]+)>)?)*");
+    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(]api *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
 
 
     /**
@@ -169,14 +169,14 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
                 if (api.contains(".")) {
                     importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
                 } else {
-                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s_CLASS", StringUtils.upperCase(field.getName())));
+                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s", api));
                 }
             }
             if (!method.contains("\"")) {
                 if (method.contains(".")) {
                     importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
                 } else {
-                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s_METHOD", StringUtils.upperCase(field.getName())));
+                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s", method));
                 }
             }
             if (typePackage.contains(".")) {

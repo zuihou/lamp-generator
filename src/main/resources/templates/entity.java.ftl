@@ -66,7 +66,13 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 </#if>
 <#if superEntityClass??>
 @AllArgsConstructor
-public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if><#list table.commonFields as field><#if field.keyFlag><${field.propertyType}></#if></#list> {
+<#assign hasCustomAnno="0"/>
+<#list table.fields as field>
+<#if field.customMap?? && field.customMap.annotation??>
+    <#assign hasCustomAnno="1"/>
+</#if>
+</#list>
+public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if><#list table.commonFields as field><#if field.keyFlag><<#if hasCustomAnno == "1">${entity}, </#if>${field.propertyType}></#if></#list> {
 <#elseif activeRecord>
 @AllArgsConstructor
 public class ${entity} extends Model<${entity}> {
@@ -226,7 +232,7 @@ public class ${entity} implements Serializable {
     <#list table.fields as field>
         <#assign myPropertyName="${field.propertyName}"/>
         <#-- 自动注入注解 -->
-        <#if field.customMap.annotation??>
+        <#if field.customMap.annotation?? && field.propertyName?ends_with("Id")>
             <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
         </#if>
         this.${myPropertyName} = ${field.propertyName};
