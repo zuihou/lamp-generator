@@ -133,4 +133,16 @@ public class ${entity}PageDTO implements Serializable {
     @ApiModelProperty(value = "截止时间")
     private LocalDateTime endCreateTime;
 
+<#if superEntityClass??>
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 255, message = "名称长度不能超过255")
+    protected String label;
+
+    @ApiModelProperty(value = "父ID")
+    protected <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> parentId;
+
+    @ApiModelProperty(value = "排序号")
+    protected Integer sortValue;
+</#if>
 }
