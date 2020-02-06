@@ -134,7 +134,7 @@ public class ${entity}SaveDTO implements Serializable {
 </#if>
 </#list>
 
-<#if superEntityClass??>
+<#if superEntityClass?? && superEntityClass=="TreeEntity">
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
     @Length(max = 255, message = "名称长度不能超过255")

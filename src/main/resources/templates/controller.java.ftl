@@ -90,12 +90,12 @@ public class ${table.controllerName} {
     @SysLog("分页查询${tableComment}")
     public R<IPage<${entity}>> page(${entity}PageDTO data) {
         ${entity} ${entity?uncap_first} = BeanUtil.toBean(data, ${entity}.class);
-
         <#list table.fields as field>
         <#-- 自动注入注解 -->
         <#if field.customMap.annotation??>
         <#assign myPropertyName="${field.propertyName}"/>
         <#assign capPropertyName="${field.propertyName?cap_first}"/>
+
         if (data != null && data.get${capPropertyName}() != null) {
             ${entity?uncap_first}.set${capPropertyName}Obj(new RemoteData<>(data.get${capPropertyName}()));
         }
