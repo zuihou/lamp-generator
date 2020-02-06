@@ -240,7 +240,7 @@ public class FileOutConfigExt extends FileOutConfig {
         } else if (VueGenerator.EDIT_PATH.equalsIgnoreCase(modularSuffix)) {
             fileName = "Edit" + DOT_VUE;
         } else if (VueGenerator.TREE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
-            fileName = "Index" + DOT_VUE;
+            fileName = "Tree" + DOT_VUE;
         } else if (VueGenerator.LANG_PATH.equalsIgnoreCase(modularSuffix)) {
             innerModularSuffix = StringUtils.firstCharToLower(modularSuffix);
             fileName = "lang" + DOT_JS;

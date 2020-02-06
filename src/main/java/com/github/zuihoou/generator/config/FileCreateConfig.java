@@ -3,6 +3,7 @@ package com.github.zuihoou.generator.config;
 import com.baomidou.mybatisplus.generator.config.IFileCreate;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.rules.FileType;
+import com.github.zuihoou.generator.ext.FileOutConfigExt;
 import com.github.zuihoou.generator.type.GenerateType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -135,9 +136,19 @@ public class FileCreateConfig implements IFileCreate {
             if (filePath.contains(File.separator + "api" + File.separator)) {
                 return isCreate(generateApi, file);
             }
-            //pageIndex.vue
             //edit.vue
-            //treeIndex.vue
+            if (filePath.endsWith("Edit" + FileOutConfigExt.DOT_VUE)) {
+                return isCreate(generateEdit, file);
+            }
+            //Index.vue
+            if (filePath.endsWith("Index" + FileOutConfigExt.DOT_VUE)) {
+                return isCreate(generatePageIndex, file);
+            }
+            //Tree.vue
+            if (filePath.endsWith("Tree" + FileOutConfigExt.DOT_VUE)) {
+                return isCreate(generateTreeIndex, file);
+            }
+
             return isCreate(generate, file);
         }
         //实体
@@ -166,9 +177,6 @@ public class FileCreateConfig implements IFileCreate {
             if (filePath.contains(File.separator + "query" + File.separator)) {
                 return isCreate(generateQuery, file);
             }
-            if (filePath.contains(File.separator + "api" + File.separator)) {
-                return isCreate(generateApi, file);
-            }
             if (filePath.contains(File.separator + "entity" + File.separator)) {
                 return isCreate(generateEntity, file);
             }
@@ -191,6 +199,23 @@ public class FileCreateConfig implements IFileCreate {
             }
             if (filePath.contains(File.separator + "impl" + File.separator)) {
                 return isCreate(generateServiceImpl, file);
+            }
+
+            // api.js
+            if (filePath.contains(File.separator + "api" + File.separator)) {
+                return isCreate(generateApi, file);
+            }
+            //edit.vue
+            if (filePath.endsWith("Edit" + FileOutConfigExt.DOT_VUE)) {
+                return isCreate(generateEdit, file);
+            }
+            //Index.vue
+            if (filePath.endsWith("Index" + FileOutConfigExt.DOT_VUE)) {
+                return isCreate(generatePageIndex, file);
+            }
+            //Tree.vue
+            if (filePath.endsWith("Tree" + FileOutConfigExt.DOT_VUE)) {
+                return isCreate(generateTreeIndex, file);
             }
 
         }

@@ -34,8 +34,12 @@ public class TestVueGenerator {
 
         build.setProjectRootPath(vuePath);
 
-//        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
-        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE, true);
+        FileCreateConfig fileCreateConfig = new FileCreateConfig(null, true);
+//        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE, true);
+        fileCreateConfig.setGenerateApi(GenerateType.OVERRIDE);
+        fileCreateConfig.setGeneratePageIndex(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateEdit(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateTreeIndex(GenerateType.OVERRIDE);
 
         build.setFileCreateConfig(fileCreateConfig);
 
@@ -45,7 +49,7 @@ public class TestVueGenerator {
         ));
         build.setFiledTypes(filedTypes);
 
-        buildVue(build);
+//        buildVue(build);
 
         VueGenerator.run(build);
     }
@@ -76,11 +80,13 @@ public class TestVueGenerator {
 
     public static CodeGeneratorConfig buildHeheEntity() {
         List<String> tables = Arrays.asList(
-                "c_common_parameter"
+                "m_product"
+//                "c_common_parameter"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("authority", "", "zuihou", "c_common_", tables);
-        build.setSuperEntity(EntityType.ENTITY);
+                build("authority", "", "zuihou", "m_", tables);
+//        build.setSuperEntity(EntityType.ENTITY);
+        build.setSuperEntity(EntityType.TREE_ENTITY);
         build.setChildPackageName("base");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;

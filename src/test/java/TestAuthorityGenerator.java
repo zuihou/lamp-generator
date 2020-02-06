@@ -122,8 +122,8 @@ public class TestAuthorityGenerator {
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou", "m_", tables);
-//        build.setSuperEntity(EntityType.TREE_ENTITY);
-        build.setSuperEntity(EntityType.ENTITY);
+        build.setSuperEntity(EntityType.TREE_ENTITY);
+//        build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("common");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;
