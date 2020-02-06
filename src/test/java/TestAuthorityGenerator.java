@@ -36,9 +36,9 @@ public class TestAuthorityGenerator {
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
 
         // null 表示 使用下面的 生成策略
-        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
+//        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
         // 不为null 表示忽略下面的 生成策略
-//        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
+        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
 
         //实体类的生成策略 为覆盖
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
@@ -114,14 +114,16 @@ public class TestAuthorityGenerator {
 
     public static CodeGeneratorConfig buildCommonEntity() {
         List<String> tables = Arrays.asList(
-                "c_common_area"
+//                "c_common_area"
+                "m_product"
+//                "c_common_parameter"
 //                , "c_common_dictionary"
 //                , "c_common_dictionary_item"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("authority", "", "zuihou", "c_common_", tables);
-        build.setSuperEntity(EntityType.TREE_ENTITY);
-//        build.setSuperEntity(EntityType.ENTITY);
+                build("authority", "", "zuihou", "m_", tables);
+//        build.setSuperEntity(EntityType.TREE_ENTITY);
+        build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("common");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;

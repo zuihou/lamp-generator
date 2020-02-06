@@ -1,17 +1,6 @@
 package com.github.zuihoou.generator.ext;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
@@ -24,12 +13,19 @@ import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.BeetlTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.github.zuihoou.generator.CodeGenerator;
+import com.github.zuihoou.generator.VueGenerator;
 import com.github.zuihoou.generator.config.CodeGeneratorConfig;
 import com.github.zuihoou.generator.config.FileCreateConfig;
+import com.github.zuihoou.generator.model.GenTableColumn;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.GenerateType;
-
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 /**
@@ -89,9 +85,24 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
             logger.error("无法创建文件，请检查配置信息！", e);
         }
         List<TableInfo> tableList = cb.getTableInfoList();
+
+
+        CodeGeneratorConfig.Vue vue = config.getVue();
+        Map<String, Map<String, GenTableColumn>> tableFieldMap = vue.getTableFieldMap();
         //构造实体中的枚举类型字段
         tableList.forEach(t -> {
             t.getFields().forEach(field -> {
+                Map<String, Object> customMap = field.getCustomMap();
+                if (customMap == null) {
+                    customMap = new HashMap<>();
+                }
+                Map<String, GenTableColumn> fieldMap = tableFieldMap.get(t.getName());
+                if (CollUtil.isNotEmpty(fieldMap)) {
+                    GenTableColumn genFiled = fieldMap.get(field.getName());
+                    customMap.put("info", genFiled);
+                }
+                field.setCustomMap(customMap);
+
                 build(t, field);
                 buildInjectionField(t, field);
             });
@@ -100,17 +111,22 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
         //生成实体
         List<FileOutConfig> focList = new ArrayList<>();
-        StringBuilder basePathSb = getBasePath();
-        String packageBase = config.getPackageBase().replace(".", File.separator);
-        basePathSb.append(File.separator).append(packageBase);
-        focList.add(new FileOutConfigExt(basePathSb.toString(), ConstVal.ENTITY, config));
+        if (!config.getFileCreateConfig().getIsVue()) {
+            StringBuilder basePathSb = getBasePath();
+            String packageBase = config.getPackageBase().replace(".", File.separator);
+            basePathSb.append(File.separator).append(packageBase);
+            focList.add(new FileOutConfigExt(basePathSb.toString(), ConstVal.ENTITY, config));
+        }
 
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
                 Map<String, Object> map = CodeGenerator.initImportPackageInfo(config.getPackageBase(), config.getChildPackageName());
+
+                Map<String, Object> vueMap = VueGenerator.initImportPackageInfo(config);
                 //这里必须 在entity生成后，赋值
                 map.put("filedTypes", config.getFiledTypes());
+                map.putAll(vueMap);
                 this.setMap(map);
             }
 
@@ -189,28 +205,6 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
     private String trim(String val) {
         return val == null ? StringPool.EMPTY : val.trim();
-    }
-
-    public static void main(String[] args) {
-//        String comment = "@InjectionField(api=\"xxx\", method=\"findById\")";
-        String comment = "@InjectionField(api   = USER_SERVICE, method=   \"findById\") RemoteData<Long, com.xx.ngd.Org>";
-//        String comment = "@InjectionField(api=USER_SERVICE, method=\"findById\") RemoteData";
-//        String comment = "@InjectionField(api=USER_SERVICE, method=InjectionFieldConstants.findUser) RemoteData<Long, com.xx.ngd.Org>";
-//        String comment = "@InjectionField(api=InjectionFieldConstants.USER_SERVICE, method=InjectionFieldConstants.findUser)";
-//        String comment = "@InjectionField(api=USER_SERVICE, method=USER_METHOD) ";
-//        String comment = "@InjectionField(api=USER_SERVICE, method=USER_METHOD)     RemoteData<Long, com.xx.ngd.Org>";
-//        String comment = "@InjectionField(api=xxx, method=findById)     RemoteData<Long, Org>";
-
-        Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment.trim());
-
-        if (matcher.find()) {
-            for (int i = 0; i <= matcher.groupCount(); i++) {
-                System.out.println("i=" + i + ", val=" + matcher.group(i));
-            }
-
-//            System.out.println(matcher.group(1));
-        }
-
     }
 
     /**
@@ -312,6 +306,13 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         basePathSb.append(File.separator).append(entityFiledType.getPath())
                 .append(".java");
 
+
+        Map<String, Object> customMap = field.getCustomMap();
+        if (customMap == null) {
+            customMap = new HashMap<>();
+        }
+        customMap.put("isEnum", "1");
+        field.setCustomMap(customMap);
 
         /*String packageBase = config.getPackageBase().replace(".", File.separator);
         basePathSb .append(File.separator).append(packageBase);
