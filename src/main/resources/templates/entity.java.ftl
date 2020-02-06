@@ -67,11 +67,14 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 <#if superEntityClass??>
 @AllArgsConstructor
 <#assign hasCustomAnno="0"/>
-<#list table.fields as field>
-<#if field.customMap?? && field.customMap.annotation??>
+<#if superEntityClass?? && superEntityClass=="TreeEntity">
     <#assign hasCustomAnno="1"/>
 </#if>
-</#list>
+<#--<#list table.fields as field>-->
+<#--<#if field.customMap?? && field.customMap.annotation??>-->
+<#--    <#assign hasCustomAnno="1"/>-->
+<#--</#if>-->
+<#--</#list>-->
 public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if><#list table.commonFields as field><#if field.keyFlag><<#if hasCustomAnno == "1">${entity}, </#if>${field.propertyType}></#if></#list> {
 <#elseif activeRecord>
 @AllArgsConstructor

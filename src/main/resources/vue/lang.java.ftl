@@ -32,6 +32,7 @@ export default {
     <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
     </#if>
     </#if>
+    <#if fieldComment?default("")?trim?length == 0><#assign fieldComment="${myPropertyName}"/></#if>
       ${myPropertyName}: '${fieldComment}',
 </#list>
 <#if superEntityClass?? && superEntityClass=="TreeEntity">

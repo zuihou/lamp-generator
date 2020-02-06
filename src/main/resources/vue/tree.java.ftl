@@ -19,7 +19,7 @@
                 <el-dropdown-item @click.native="add" v-has-permission="['${entity?uncap_first}:add']">
                   {{ $t("table.add") }}
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="delete" v-has-permission="['${entity?uncap_first}:delete']">
+                <el-dropdown-item @click.native="batchDelete" v-has-permission="['${entity?uncap_first}:delete']">
                   {{ $t("table.delete") }}
                 </el-dropdown-item>
                 <el-dropdown-item @click.native="exportExcel" v-has-permission="['${entity?uncap_first}:export']">
@@ -80,6 +80,9 @@
                     <#if fType?index_of("TEXT") != -1>
                         <#assign inputType="textarea"/>
                     </#if>
+                <#elseif field.propertyType =="LocalDate">
+                  <#assign htmlType="date-picker"/>
+                  <#assign inputType="date"/>
                 <#elseif field.propertyType =="LocalDateTime">
                     <#assign htmlType="date-picker"/>
                     <#assign inputType="datetime"/>
@@ -107,6 +110,9 @@
                                 <#assign inputType="textarea"/>
                             <#elseif field.customMap.info.htmlType?index_of('select') != -1>
                                 <#assign inputType=""/>
+                            <#elseif field.customMap.info.htmlType == "date-picker">
+                                <#assign htmlType="date-picker"/>
+                                <#assign inputType="date"/>
                             <#elseif field.customMap.info.htmlType == "datetime-picker">
                                 <#assign htmlType="date-picker"/>
                                 <#assign inputType="datetime"/>
@@ -267,7 +273,7 @@ export default {
         this.${entity?uncap_first}.parentLabel = "";
       }
     },
-    delete() {
+    batchDelete() {
       const checked = this.$refs.${entity?uncap_first}Tree.getCheckedKeys();
       if (checked.length === 0) {
         this.$message({

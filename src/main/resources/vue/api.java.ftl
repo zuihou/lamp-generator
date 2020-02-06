@@ -5,6 +5,12 @@ const apiList = {
     method: 'GET',
     url: `/${cfg.serviceName}/${entity?uncap_first}/page`,
   },
+<#if superEntityClass?? && superEntityClass=="TreeEntity">
+  find: {
+    method: 'GET',
+    url: `/${cfg.serviceName}/${entity?uncap_first}`,
+  },
+</#if>
   update: {
     method: 'PUT',
     url: `/${cfg.serviceName}/${entity?uncap_first}`
@@ -26,6 +32,14 @@ export default {
       data
     })
   },
+<#if superEntityClass?? && superEntityClass=="TreeEntity">
+  find (data) {
+    return axiosApi({
+      ...apiList.find,
+      data
+    })
+  },
+</#if>
   save (data) {
     return axiosApi({
       ...apiList.save,

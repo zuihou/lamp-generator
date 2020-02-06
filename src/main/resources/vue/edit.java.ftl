@@ -35,6 +35,9 @@
           <#if fType?index_of("TEXT") != -1>
             <#assign inputType="textarea"/>
           </#if>
+      <#elseif field.propertyType =="LocalDate">
+        <#assign htmlType="date-picker"/>
+        <#assign inputType="date"/>
       <#elseif field.propertyType =="LocalDateTime">
           <#assign htmlType="date-picker"/>
           <#assign inputType="datetime"/>
@@ -62,6 +65,9 @@
                     <#assign inputType="textarea"/>
                   <#elseif field.customMap.info.htmlType?index_of('select') != -1>
                     <#assign inputType=""/>
+                  <#elseif field.customMap.info.htmlType == "date-picker">
+                    <#assign htmlType="date-picker"/>
+                    <#assign inputType="date"/>
                   <#elseif field.customMap.info.htmlType == "datetime-picker">
                     <#assign htmlType="date-picker"/>
                     <#assign inputType="datetime"/>

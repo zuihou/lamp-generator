@@ -169,5 +169,26 @@ public class ${table.controllerName} {
         return success(true);
     }
 
+    <#if superEntityClass?? && superEntityClass=="TreeEntity">
+    /**
+     * 级联查询${tableComment}
+     *
+     * @param data 参数
+     * @return 查询结果
+     */
+    @ApiOperation(value = "级联查询${tableComment}", notes = "级联查询${tableComment}")
+    @GetMapping
+    @SysLog("级联查询${tableComment}")
+    public R<List<${entity}>> list(${entity} data) {
+        if (data == null) {
+            data = new ${entity}();
+        }
+        if (data.getParentId() == null) {
+            data.setParentId(0L);
+        }
+        LbqWrapper<${entity}> wrapper = Wraps.lbQ(data).orderByAsc(${entity}::getSortValue);
+        return success(${entity?uncap_first}Service.list(wrapper));
+    }
+    </#if>
 }
 </#if>
