@@ -1,6 +1,6 @@
 package com.github.zuihoou.generator.type;
 
-public class FieldType {
+public class HtmlType {
     public static final String INPUT = "input";
     public static final String TEXTAREA = "textarea";
     public static final String SELECT = "select";

@@ -56,7 +56,7 @@ public class GenTableColumn {
     private String width;
 
     /**
-     * 是否必填（1是） 为空时自动计算
+     * 是否必填（1是） 为空时自动计算 暂时不支持
      */
     private String isRequired;
 
@@ -98,6 +98,14 @@ public class GenTableColumn {
     public GenTableColumn() {
     }
 
+    /**
+     * @param name     字段名
+     * @param isInsert 是否显示在新增页面 1/0 空字符串就自动计算
+     * @param isEdit   是否显示在修改页面 1/0 空字符串就自动计算
+     * @param isList   是否显示在分页列表 1/0 空字符串就自动计算
+     * @param isQuery  是否显示在分页查询条件 1/0 空字符串就自动计算
+     * @param htmlType 输入框的类型   见: HtmlType
+     */
     public GenTableColumn(String name, String isInsert, String isEdit, String isList, String isQuery, String htmlType) {
         this.name = name;
         this.isInsert = isInsert;

@@ -183,6 +183,16 @@ public class CodeGeneratorConfig {
         return config;
     }
 
+
+    public static CodeGeneratorConfig buildVue(String serviceName, String tablePrefix, List<String> tableInclude) {
+        CodeGeneratorConfig config = new CodeGeneratorConfig();
+        config.setServiceName(serviceName).setTablePrefix(tablePrefix)
+                .setTableInclude(tableInclude.stream().toArray(String[]::new))
+                .setChildModuleName("");
+        config.setPackageBase("com.github.zuihou." + config.getChildModuleName());
+        return config;
+    }
+
     public String getChildModuleName() {
         if (StringUtils.isEmpty(this.childModuleName)) {
             this.childModuleName = this.serviceName;

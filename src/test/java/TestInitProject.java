@@ -20,6 +20,7 @@ public class TestInitProject {
                 .setServiceName("haha")
                 // 子模块的设置请参考 消息服务 （msgs 服务下的 sms 模块即 视为子模块）
 //                .setChildModuleName("hehe")
+
                 // 生成代码的注释 @author zuihou
                 .setAuthor("zuihou")
                 // 项目描述
