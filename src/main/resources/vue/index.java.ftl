@@ -7,6 +7,7 @@
       <#if field.type?contains("(")>
         <#assign fType = field.type?substring(0, field.type?index_of("("))?upper_case/>
       </#if>
+      <#assign myPropertyName="${field.propertyName}"/>
       <#assign htmlType="input"/>
       <#assign isQuery="0"/>
       <#if field.propertyType =="String">
@@ -18,9 +19,14 @@
           </#if>
         </#if>
       </#if>
+      <#if field.customMap?? && field.customMap.annotation??>
+        <#if field.propertyName?ends_with("Id")>
+          <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        </#if>
+      </#if>
       <#if isQuery == "1">
       <el-${htmlType}
-        :placeholder="$t('table.${entity?uncap_first}.${field.propertyName}')"
+        :placeholder="$t('table.${entity?uncap_first}.${myPropertyName}')"
         class="filter-item search-item"
         v-model="queryParams.${field.propertyName}"
       />
@@ -82,6 +88,7 @@
       <#assign isList="1"/>
       <#assign width=""/>
       <#assign myPropertyName="${field.propertyName}"/>
+      <#assign labelPropertyName="${field.propertyName}"/>
       <#-- 自动计算 -->
       <#if field.propertyType =="String">
       </#if>
@@ -93,8 +100,13 @@
               <#if field.customMap.info.width??><#assign width="${field.customMap.info.width}"/></#if>
           </#if>
       </#if>
+      <#if field.customMap?? && field.customMap.annotation??>
+        <#if field.propertyName?ends_with("Id")>
+          <#assign labelPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        </#if>
+      </#if>
       <#if isList =="1">
-      <el-table-column :label="$t('table.${entity?uncap_first}.${myPropertyName}')" :show-overflow-tooltip="true" align="center"
+      <el-table-column :label="$t('table.${entity?uncap_first}.${labelPropertyName}')" :show-overflow-tooltip="true" align="center"
                        <#if fType == "BIT">
                        :filter-multiple="false" column-key="${myPropertyName}"
                        <#if myPropertyName == "status">
@@ -103,7 +115,7 @@
                        :filters="[{ text: $t('common.yes'), value: 'true' }, { text: $t('common.no'), value: 'false' }]"
                        </#if>
                        </#if>
-                       prop="${myPropertyName}" width="${width}">
+                       prop="${labelPropertyName}" width="${width}">
         <template slot-scope="scope">
           <#if fType == "BIT">
             <#if myPropertyName == "status">
@@ -116,14 +128,18 @@
           </el-tag>
             </#if>
           <#elseif field.customMap.isEnum?? && field.customMap.isEnum == "1">
-            <span>{{ scope.row.${myPropertyName}['desc'] }}</span>
+            <span>{{ scope.row.${myPropertyName} ? scope.row.${myPropertyName}['desc'] : ''}}</span>
           <#elseif field.customMap.annotation??>
             <#if field.propertyName?ends_with("Id")>
               <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
-            </#if>
             <span>
-              {{ scope.row.${myPropertyName}['data'] ? scope.row.${myPropertyName}.data.name : scope.row.${myPropertyName}.key }}
+              {{ scope.row.${myPropertyName}['data'] && scope.row.${myPropertyName}['data']['name'] ? scope.row.${myPropertyName}['data']['name'] : scope.row.${myPropertyName}.key }}
             </span>
+            <#else >
+            <span>
+              {{ scope.row.${myPropertyName}['data'] ? scope.row.${myPropertyName}.data : scope.row.${myPropertyName}.key }}
+            </span>
+            </#if>
           <#else>
           <span>{{ scope.row.${myPropertyName} }}</span>
           </#if>

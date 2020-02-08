@@ -120,6 +120,9 @@
                         </#if>
                     </#if>
                 </#if>
+                <#if field.customMap.isEnum?? && field.customMap.isEnum == "1">
+                  <#assign myPropertyName="${field.propertyName}.code"/>
+                </#if>
                 <#if isInsert =="1" || isUpdate =="1">
               <el-form-item :label="$t('table.${entity?uncap_first}.${field.propertyName}')" prop="${field.propertyName}">
                         <#if htmlType=="date-picker">
@@ -202,19 +205,23 @@ export default {
         parentId: 0,
         parentLabel: "",
         <#list table.fields as field>
-        <#assign myPropertyName="${field.propertyName}"/>
-        <#assign defVal="null"/>
-        <#if field.propertyType == "String">
-        <#assign defVal="''"/>
-        <#elseif field.propertyType == "Boolean">
-        <#assign defVal="true"/>
-        </#if>
+          <#assign myPropertyName="${field.propertyName}"/>
+          <#assign defVal="null"/>
+          <#if field.propertyType == "String">
+          <#assign defVal="''"/>
+          <#elseif field.propertyType == "Boolean">
+          <#assign defVal="true"/>
+          </#if>
         <#if field.customMap?? && field.customMap.annotation??>
-        <#if field.propertyName?ends_with("Id")>
-        <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
-        </#if>
+          <#if field.propertyName?ends_with("Id")>
+          <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+          </#if>
         ${myPropertyName}: {
             key: null
+        },
+        <#elseif field.customMap.isEnum?? && field.customMap.isEnum == "1">
+        ${field.propertyName}: {
+          code: ''
         },
         <#else >
         ${myPropertyName}: ${defVal},
@@ -247,10 +254,30 @@ export default {
       if (!value) return true;
       return data.label.indexOf(value) !== -1;
     },
-    nodeClick(data) {
-      this.${entity?uncap_first} = {...data};
+    nodeClick(val) {
+      const vm = this;
+      if(val){
+        this.${entity?uncap_first} = {...val};
 
-      const parent = this.$refs.${entity?uncap_first}Tree.getNode(data.parentId);
+        <#list table.fields as field>
+        <#assign myPropertyName="${field.propertyName}"/>
+        <#if field.customMap?? && field.customMap.annotation??>
+        <#if field.propertyName?ends_with("Id")>
+        <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        </#if>
+        if(!vm.${entity?uncap_first}['${myPropertyName}']){
+          vm.${entity?uncap_first}['${myPropertyName}'] = {'key': ''};
+        }
+        <#elseif field.customMap.isEnum?? && field.customMap.isEnum == "1">
+        if(!vm.${entity?uncap_first}['${myPropertyName}']){
+          vm.${entity?uncap_first}['${myPropertyName}'] = {'code': ''};
+        }
+        <#else >
+        </#if>
+        </#list>
+      }
+
+      const parent = this.$refs.${entity?uncap_first}Tree.getNode(val.parentId);
       if (parent) {
         this.${entity?uncap_first}.parentLabel = parent.label;
       }

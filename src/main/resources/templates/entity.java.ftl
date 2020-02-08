@@ -24,7 +24,7 @@ import lombok.experimental.Accessors;
 <#if cfg.filedTypes??>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>
-        <#if field.propertyName == fieldType.name && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))>
+        <#if field.propertyName == fieldType.name && table.name==fieldType.table && field.propertyType=="String">
 import ${fieldType.packagePath};
             <#break>
         </#if>
@@ -108,7 +108,7 @@ public class ${entity} implements Serializable {
     <#assign myPropertyType="${field.propertyType}"/>
     <#assign isEnumType="1"/>
     <#list cfg.filedTypes as fieldType>
-        <#if fieldType.name == field.propertyName && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))>
+        <#if fieldType.name == field.propertyName && table.name==fieldType.table && field.propertyType=="String">
             <#assign myPropertyType="${fieldType.type}"/>
             <#assign isEnumType="2"/>
         </#if>
@@ -174,10 +174,6 @@ public class ${entity} implements Serializable {
     @TableField("${field.name}")
         </#if>
     </#if>
-    <#if field.customMap.dict??>
-    @DictionaryType("${field.customMap.dict}")
-    <#assign myPropertyType="Dictionary"/>
-    </#if>
     <#-- 乐观锁注解 -->
     <#if (versionFieldName!"") == field.name>
     @Version
@@ -228,7 +224,7 @@ public class ${entity} implements Serializable {
 <#-- 如果有父类，自定义无全参构造方法 -->
     @Builder
     public ${entity}(<#list table.commonFields as cf>${cf.propertyType} ${cf.propertyName}, </#list>
-                    <#list table.fields as field><#assign myPropertyType="${field.propertyType}"/><#if field.customMap.annotation??><#assign myPropertyType="${field.customMap.type}"/></#if><#if field.customMap.dict??><#assign myPropertyType="Dictionary"/></#if><#list cfg.filedTypes as fieldType><#if fieldType.name == field.propertyName && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))><#assign myPropertyType="${fieldType.type}"/></#if></#list><#if field_has_next>${((field_index + 1) % 6 ==0)?string('\r\n                    ', '')}${myPropertyType} ${field.propertyName}, <#else>${myPropertyType} ${field.propertyName}</#if></#list>) {
+                    <#list table.fields as field><#assign myPropertyType="${field.propertyType}"/><#if field.customMap.annotation??><#assign myPropertyType="${field.customMap.type}"/></#if><#if field.customMap.dict??><#assign myPropertyType="Dictionary"/></#if><#list cfg.filedTypes as fieldType><#if fieldType.name == field.propertyName && table.name==fieldType.table && field.propertyType=="String"><#assign myPropertyType="${fieldType.type}"/></#if></#list><#if field_has_next>${((field_index + 1) % 6 ==0)?string('\r\n                    ', '')}${myPropertyType} ${field.propertyName}, <#else>${myPropertyType} ${field.propertyName}</#if></#list>) {
     <#list table.commonFields as cf>
         this.${cf.propertyName} = ${cf.propertyName};
     </#list>

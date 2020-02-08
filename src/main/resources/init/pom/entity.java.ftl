@@ -19,7 +19,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-common</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-injection-starter</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>

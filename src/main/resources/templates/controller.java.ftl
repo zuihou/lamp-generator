@@ -95,9 +95,13 @@ public class ${table.controllerName} {
         <#if field.customMap.annotation??>
         <#assign myPropertyName="${field.propertyName}"/>
         <#assign capPropertyName="${field.propertyName?cap_first}"/>
+        <#assign entityCapPropertyName="${field.propertyName?cap_first}"/>
+        <#if entityCapPropertyName?ends_with("Id")>
+            <#assign entityCapPropertyName="${entityCapPropertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        </#if>
 
         if (data != null && data.get${capPropertyName}() != null) {
-            ${entity?uncap_first}.set${capPropertyName}Obj(new RemoteData<>(data.get${capPropertyName}()));
+            ${entity?uncap_first}.set${entityCapPropertyName}(new RemoteData<>(data.get${capPropertyName}()));
         }
         </#if>
         </#list>

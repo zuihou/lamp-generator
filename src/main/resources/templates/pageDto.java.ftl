@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 </#if>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>
-        <#if field.propertyName == fieldType.name && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))>
+        <#if field.propertyName == fieldType.name && table.name==fieldType.table && field.propertyType=="String">
 import ${fieldType.packagePath};
             <#break>
         </#if>
@@ -77,7 +77,7 @@ public class ${entity}PageDTO implements Serializable {
     <#assign myPropertyType="${field.propertyType}"/>
     <#assign isEnumType="1"/>
     <#list cfg.filedTypes as fieldType>
-        <#if fieldType.name == field.propertyName && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))>
+        <#if fieldType.name == field.propertyName && table.name==fieldType.table && field.propertyType=="String">
             <#assign myPropertyType="${fieldType.type}"/>
             <#assign isEnumType="2"/>
         </#if>

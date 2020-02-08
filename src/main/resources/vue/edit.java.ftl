@@ -1,12 +1,6 @@
 <template>
-  <el-dialog
-    :close-on-click-modal="false"
-    :close-on-press-escape="true"
-    :title="title"
-    :type="type"
-    :visible.sync="isVisible"
-    :width="width"
-    top="50px">
+  <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type"
+             :visible.sync="isVisible" :width="width" top="50px" v-el-drag-dialog>
     <div class="dialog-footer" slot="footer">
       <el-button @click="isVisible = false" plain type="warning">
         {{ $t("common.cancel") }}
@@ -26,6 +20,7 @@
       <#assign htmlType="input"/><#-- 输入框 -->
       <#assign inputType=""/><#-- 输入框类型 -->
       <#assign myPropertyName="${field.propertyName}"/>
+      <#assign labelPropertyName="${field.propertyName}"/>
       <#assign fieldComment="${field.comment!}"/>
       <#if field.comment!?contains("\n") >
         <#assign fieldComment="${field.comment!?substring(0,field.comment?index_of('\n'))?replace('\r\n','')?replace('\r','')?replace('\n','')?trim}"/>
@@ -51,6 +46,7 @@
           <#if field.customMap.annotation??>
               <#if field.propertyName?ends_with("Id")>
                   <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}.key"/>
+                  <#assign labelPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
               <#else >
                   <#assign myPropertyName="${field.propertyName}.key"/>
               </#if>
@@ -74,14 +70,17 @@
                   </#if>
               </#if>
           </#if>
+          <#if field.customMap.isEnum?? && field.customMap.isEnum == "1">
+            <#assign myPropertyName="${field.propertyName}.code"/>
+          </#if>
       </#if>
       <#if isInsert =="1" || isUpdate =="1">
-      <el-form-item :label="$t('table.${entity?uncap_first}.${field.propertyName}')" prop="${field.propertyName}">
+      <el-form-item :label="$t('table.${entity?uncap_first}.${labelPropertyName}')" prop="${labelPropertyName}">
         <#if htmlType=="date-picker">
         <el-date-picker
           v-model="${entity?uncap_first}.${myPropertyName}"
           placeholder="${fieldComment}"
-          :start-placeholder="$t('table.${entity?uncap_first}.${field.propertyName}')"
+          :start-placeholder="$t('table.${entity?uncap_first}.${myPropertyName}')"
           value-format="yyyy-MM-dd<#if inputType=="datetime"> HH:mm:ss</#if>"
           format="yyyy-MM-dd<#if inputType=="datetime"> HH:mm:ss</#if>"
           class="filter-item date-range-item"
@@ -116,10 +115,12 @@
   </el-dialog>
 </template>
 <script>
+import elDragDialog from '@/directive/el-drag-dialog'
 import ${entity?uncap_first}Api from "@/api/${entity}.js";
 
 export default {
   name: "${entity}Edit",
+  directives: { elDragDialog },
   components: {  },
   props: {
     dialogVisible: {
@@ -182,6 +183,10 @@ export default {
         ${myPropertyName}: {
             key: null
         },
+          <#elseif field.customMap.isEnum?? && field.customMap.isEnum == "1">
+        ${field.propertyName}: {
+          code: ''
+        },
           <#else >
         ${myPropertyName}: ${defVal},
           </#if>
@@ -202,6 +207,23 @@ export default {
       const vm = this;
       if (val) {
         vm.${entity?uncap_first} = { ...val };
+
+        <#list table.fields as field>
+        <#assign myPropertyName="${field.propertyName}"/>
+        <#if field.customMap?? && field.customMap.annotation??>
+          <#if field.propertyName?ends_with("Id")>
+          <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+          </#if>
+          if(!vm.${entity?uncap_first}['${myPropertyName}']){
+            vm.${entity?uncap_first}['${myPropertyName}'] = {'key': ''};
+          }
+        <#elseif field.customMap.isEnum?? && field.customMap.isEnum == "1">
+          if(!vm.${entity?uncap_first}['${myPropertyName}']){
+            vm.${entity?uncap_first}['${myPropertyName}'] = {'code': ''};
+          }
+        <#else >
+        </#if>
+        </#list>
       }
     },
     close() {
