@@ -18,13 +18,14 @@ public class TestInitProject {
                 .setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend")
                 // 需要新建的 服务名      该例会生成 zuihou-haha 服务
                 .setServiceName("haha")
+
                 // 子模块的设置请参考 消息服务 （msgs 服务下的 sms 模块即 视为子模块）
 //                .setChildModuleName("hehe")
 
                 // 生成代码的注释 @author zuihou
                 .setAuthor("zuihou")
                 // 项目描述
-                .setDescription("测试服务")
+                .setDescription("商品服务")
                 // 项目的版本， 一定要跟 zuihou-backend 下的其他服务版本一致， 否则会出错哦
                 .setVersion("1.0-SNAPSHOT")
                 // 服务的端口号

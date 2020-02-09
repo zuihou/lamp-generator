@@ -119,6 +119,7 @@ public class TestVueGenerator {
         fileCreateConfig.setGenerateApi(GenerateType.OVERRIDE);
         fileCreateConfig.setGeneratePageIndex(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEdit(GenerateType.OVERRIDE);
+
         fileCreateConfig.setGenerateTreeIndex(GenerateType.IGNORE);
         return build;
     }

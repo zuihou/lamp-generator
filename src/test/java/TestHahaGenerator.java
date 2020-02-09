@@ -34,12 +34,12 @@ public class TestHahaGenerator {
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-haha");
 
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
-        // 生成全部后端类
+//         生成全部后端类
         FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
+        fileCreateConfig.setGenerateDto(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateXml(GenerateType.IGNORE);
         fileCreateConfig.setGenerateDao(GenerateType.IGNORE);
         fileCreateConfig.setGenerateServiceImpl(GenerateType.IGNORE);
         fileCreateConfig.setGenerateService(GenerateType.IGNORE);
@@ -86,8 +86,8 @@ public class TestHahaGenerator {
                         tables);
 
         // 实体父类
-        build.setSuperEntity(EntityType.TREE_ENTITY);
-//        build.setSuperEntity(EntityType.ENTITY);
+//        build.setSuperEntity(EntityType.TREE_ENTITY);
+        build.setSuperEntity(EntityType.ENTITY);
 
         // 子包名
         build.setChildPackageName("");
