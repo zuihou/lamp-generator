@@ -40,6 +40,7 @@ export default {
       parentId: '父ID',
       sortValue: '序号',
 </#if>
-    }
+    },
+    // 复制之后，删除 lang.js
   },
 }

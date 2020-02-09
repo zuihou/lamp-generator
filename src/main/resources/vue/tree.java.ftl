@@ -71,6 +71,7 @@
                 <#assign htmlType="input"/><#-- 输入框 -->
                 <#assign inputType=""/><#-- 输入框类型 -->
                 <#assign myPropertyName="${field.propertyName}"/>
+                <#assign labelPropertyName="${field.propertyName}"/>
                 <#assign fieldComment="${field.comment!}"/>
                 <#if field.comment!?contains("\n") >
                     <#assign fieldComment="${field.comment!?substring(0,field.comment?index_of('\n'))?replace('\r\n','')?replace('\r','')?replace('\n','')?trim}"/>
@@ -96,6 +97,7 @@
                     <#if field.customMap.annotation??>
                         <#if field.propertyName?ends_with("Id")>
                             <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}.key"/>
+                            <#assign labelPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
                         <#else >
                             <#assign myPropertyName="${field.propertyName}.key"/>
                         </#if>
@@ -124,7 +126,7 @@
                   <#assign myPropertyName="${field.propertyName}.code"/>
                 </#if>
                 <#if isInsert =="1" || isUpdate =="1">
-              <el-form-item :label="$t('table.${entity?uncap_first}.${field.propertyName}')" prop="${field.propertyName}">
+              <el-form-item :label="$t('table.${entity?uncap_first}.${labelPropertyName}')" prop="${labelPropertyName}">
                         <#if htmlType=="date-picker">
               <el-date-picker
                     v-model="${entity?uncap_first}.${myPropertyName}"
