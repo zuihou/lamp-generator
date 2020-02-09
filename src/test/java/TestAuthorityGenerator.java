@@ -112,7 +112,7 @@ public class TestAuthorityGenerator {
         return build;
     }
 
-    public static CodeGeneratorConfig buildCommonEntity() {
+    private static CodeGeneratorConfig buildCommonEntity() {
         List<String> tables = Arrays.asList(
 //                "c_common_area"
                 "m_product"
