@@ -24,8 +24,8 @@ public class TestAuthorityGenerator {
     public static void main(String[] args) {
 //        CodeGeneratorConfig build = buildDefaultsEntity();
 //        CodeGeneratorConfig build = buildAuthSuperEntity();
-        CodeGeneratorConfig build = buildAuthEntity();
-//        CodeGeneratorConfig build = buildCommonEntity();
+//        CodeGeneratorConfig build = buildAuthEntity();
+        CodeGeneratorConfig build = buildCommonEntity();
 //        CodeGeneratorConfig build = buildCommonSuperEntity();
 //        CodeGeneratorConfig build = buildCoreEntity();
 
@@ -36,13 +36,13 @@ public class TestAuthorityGenerator {
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
 
         // null 表示 使用下面的 生成策略
-        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
+//        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
         // 不为null 表示忽略下面的 生成策略
-//        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
+        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
 
         //实体类的生成策略 为覆盖
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
+        fileCreateConfig.setGenerateEnum(GenerateType.IGNORE);
         fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
         //dao 的生成策略为 忽略
@@ -81,16 +81,17 @@ public class TestAuthorityGenerator {
 
     private static CodeGeneratorConfig buildAuthEntity() {
         List<String> tables = Arrays.asList(
-                "c_auth_application"
+//                "c_auth_application"
 //                , "c_auth_application_system_api"
-                , "c_auth_system_api"
+//                , "c_auth_system_api"
 //                "c_auth_menu"
 //                , "c_auth_resource"
 //                "c_auth_role"
-//                "c_auth_user"
+                "c_auth_user"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("authority", "", "zuihou", "c_auth_", tables);
+                build("authority", "", "zuihou", "", tables);
+//                build("authority", "", "zuihou", "c_auth_", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("auth");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
@@ -111,14 +112,18 @@ public class TestAuthorityGenerator {
         return build;
     }
 
-    public static CodeGeneratorConfig buildCommonEntity() {
+    private static CodeGeneratorConfig buildCommonEntity() {
         List<String> tables = Arrays.asList(
-                "c_common_area"
-                , "c_common_dictionary"
-                , "c_common_dictionary_item"
+//                "c_common_area"
+                "m_product"
+//                "c_common_parameter"
+//                , "c_common_dictionary"
+//                , "c_common_dictionary_item"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("authority", "", "zuihou", "c_common_", tables);
+                build("authority", "", "zuihou", "m_", tables);
+
+//        build.setSuperEntity(EntityType.TREE_ENTITY);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("common");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");

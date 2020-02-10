@@ -1,5 +1,6 @@
-package ${cfg.SaveDTO};
+package ${cfg.PageDTO};
 
+import java.time.LocalDateTime;
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
@@ -49,9 +50,9 @@ import java.io.Serializable;
 @Builder
 </#if>
 <#if swagger2>
-@ApiModel(value = "${entity}SaveDTO", description = "${table.comment!?replace("\r\n"," ")?replace("\r"," ")?replace("\n"," ")}")
+@ApiModel(value = "${entity}PageDTO", description = "${table.comment!?replace("\r\n"," ")?replace("\r"," ")?replace("\n"," ")}")
 </#if>
-public class ${entity}SaveDTO implements Serializable {
+public class ${entity}PageDTO implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -122,17 +123,15 @@ public class ${entity}SaveDTO implements Serializable {
         <#assign myPropertyType="Dictionary"/>
     </#if>
     <#assign myPropertyName="${field.propertyName}"/>
-    <#-- 自动注入注解 -->
-    <#if field.customMap.annotation??>
-    ${field.customMap.annotation}
-        <#assign myPropertyType="${field.customMap.type}"/>
-        <#if field.propertyName?ends_with("Id")>
-            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
-        </#if>
-    </#if>
     private ${myPropertyType} ${myPropertyName};
 </#if>
 </#list>
+
+    @ApiModelProperty(value = "开始时间")
+    private LocalDateTime startCreateTime;
+
+    @ApiModelProperty(value = "截止时间")
+    private LocalDateTime endCreateTime;
 
 <#if superEntityClass?? && superEntityClass=="TreeEntity">
     @ApiModelProperty(value = "名称")

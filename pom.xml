@@ -28,7 +28,7 @@
         <lombok.version>1.18.10</lombok.version>
         <mysql.version>6.0.6</mysql.version>
         <commons.lang3.version>3.8.1</commons.lang3.version>
-        <hutool.version>5.1.0</hutool.version>
+        <hutool.version>5.1.2</hutool.version>
     </properties>
     <dependencies>
         <dependency>

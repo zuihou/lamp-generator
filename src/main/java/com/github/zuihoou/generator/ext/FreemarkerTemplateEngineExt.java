@@ -1,17 +1,6 @@
 package com.github.zuihoou.generator.ext;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.stream.Collectors;
-
+import cn.hutool.core.collection.CollUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
@@ -24,12 +13,19 @@ import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.BeetlTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.github.zuihoou.generator.CodeGenerator;
+import com.github.zuihoou.generator.VueGenerator;
 import com.github.zuihoou.generator.config.CodeGeneratorConfig;
 import com.github.zuihoou.generator.config.FileCreateConfig;
+import com.github.zuihoou.generator.model.GenTableColumn;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.GenerateType;
-
 import org.apache.commons.lang3.StringUtils;
+
+import java.io.File;
+import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 
 /**
@@ -40,9 +36,23 @@ import org.apache.commons.lang3.StringUtils;
  */
 public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
-    private final static Pattern DICT_PATTERN = Pattern.compile("[@]Dict[{]([a-zA-Z0-9._]+)[}]");
+    /**
+     * 注入字段 正则
+     * 匹配： @InjectionField(api="", method="") RemoteData<Long, Org>
+     * 匹配： @InjectionField(api="", method="")
+     */
+    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(]api *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
 
+
+    /**
+     * 枚举类 正则
+     * 匹配： #{xxxx} 形式的注释
+     */
     public final static String REG_EX_VAL = "#(.*?\\{(.*?)?\\})";
+    /**
+     * 枚举类型 正则
+     * 匹配 xx:xx; 形式的注释
+     */
     public final static String REG_EX_KEY = "([A-Za-z1-9_-]+):(.*?)?;";
 
     private CodeGeneratorConfig config;
@@ -50,6 +60,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
     public FreemarkerTemplateEngineExt(CodeGeneratorConfig config) {
         this.config = config;
     }
+
 
     /**
      * 扩展父类    增加生成enum的代码。
@@ -74,29 +85,54 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
             logger.error("无法创建文件，请检查配置信息！", e);
         }
         List<TableInfo> tableList = cb.getTableInfoList();
+
+
+        CodeGeneratorConfig.Vue vue = config.getVue();
+        Map<String, Map<String, GenTableColumn>> tableFieldMap = vue.getTableFieldMap();
         //构造实体中的枚举类型字段
         tableList.forEach(t -> {
             t.getFields().forEach(field -> {
+                Map<String, Object> customMap = field.getCustomMap();
+                if (customMap == null) {
+                    customMap = new HashMap<>();
+                }
+                Map<String, GenTableColumn> fieldMap = tableFieldMap.get(t.getName());
+                if (CollUtil.isNotEmpty(fieldMap)) {
+                    GenTableColumn genFiled = fieldMap.get(field.getName());
+                    customMap.put("info", genFiled);
+                }
+                field.setCustomMap(customMap);
+
                 build(t, field);
-//                buildDict(t, field);
+                buildInjectionField(t, field);
             });
         });
 
 
         //生成实体
         List<FileOutConfig> focList = new ArrayList<>();
-        StringBuilder basePathSb = getBasePath();
-        String packageBase = config.getPackageBase().replace(".", File.separator);
-        basePathSb.append(File.separator).append(packageBase);
-        focList.add(new FileOutConfigExt(basePathSb.toString(), ConstVal.ENTITY, config));
+        if (!config.getFileCreateConfig().getIsVue()) {
+            StringBuilder basePathSb = getBasePath();
+            String packageBase = config.getPackageBase().replace(".", File.separator);
+            basePathSb.append(File.separator).append(packageBase);
+            focList.add(new FileOutConfigExt(basePathSb.toString(), ConstVal.ENTITY, config));
+        }
 
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
                 Map<String, Object> map = CodeGenerator.initImportPackageInfo(config.getPackageBase(), config.getChildPackageName());
+
+                Map<String, Object> vueMap = VueGenerator.initImportPackageInfo(config);
                 //这里必须 在entity生成后，赋值
                 map.put("filedTypes", config.getFiledTypes());
+                map.putAll(vueMap);
                 this.setMap(map);
+            }
+
+            @Override
+            public void initTableMap(TableInfo tableInfo) {
+                this.initMap();
             }
         };
 
@@ -118,26 +154,61 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
         return this;
     }
-/*
-//    private void buildDict(TableInfo table, TableField field) {
-//        String comment = field.getComment();//注释
-//        if (comment == null) {
-//            return;
-//        }
-//        Set<String> importPackages = table.getImportPackages();
-//        Matcher matcher = DICT_PATTERN.matcher(comment);
-//        if (matcher.find()) {
-//            String dictCode = matcher.group(1);
-//            field.getCustomMap().put("dict", dictCode);
-//            importPackages.add(Dictionary.class.getName());
-//            importPackages.add(DictionaryType.class.getName());
-//        }
-//    }
-*/
-
 
     /**
-     * 生成枚举值
+     * 生成 需要注入 类型的字段
+     *
+     * @param table
+     * @param field
+     */
+    private void buildInjectionField(TableInfo table, TableField field) {
+        String comment = field.getComment();//注释
+        if (comment == null) {
+            return;
+        }
+        Set<String> importPackages = table.getImportPackages();
+        Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment);
+        if (matcher.find()) {
+            String annotation = trim(matcher.group(1));
+            String api = trim(matcher.group(2));
+            String method = trim(matcher.group(3));
+            String type = trim(matcher.group(4));
+            String typePackage = trim(matcher.group(6));
+
+            field.getCustomMap().put("annotation", annotation);
+//            field.getCustomMap().put("api", api);
+//            field.getCustomMap().put("method", method);
+            field.getCustomMap().put("type", type);
+//            field.getCustomMap().put("type", type);
+
+            if (!api.contains("\"")) {
+                if (api.contains(".")) {
+                    importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                } else {
+                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s", api));
+                }
+            }
+            if (!method.contains("\"")) {
+                if (method.contains(".")) {
+                    importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                } else {
+                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s", method));
+                }
+            }
+            if (typePackage.contains(".")) {
+                importPackages.add(typePackage);
+            }
+            importPackages.add("com.github.zuihou.injection.annonation.InjectionField");
+            importPackages.add("com.github.zuihou.model.RemoteData");
+        }
+    }
+
+    private String trim(String val) {
+        return val == null ? StringPool.EMPTY : val.trim();
+    }
+
+    /**
+     * 生成枚举类型类
      *
      * @throws Exception
      */
@@ -236,16 +307,23 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
                 .append(".java");
 
 
-//        String packageBase = config.getPackageBase().replace(".", File.separator);
-//        basePathSb .append(File.separator).append(packageBase);
-//        basePathSb.append(File.separator)
-//                .append("enumeration");
-//        if (StringUtils.isNotEmpty(config.getChildPackageName())) {
-//            basePathSb.append(File.separator).append(config.getChildPackageName());
-//        }
-//        basePathSb.append(File.separator)
-//                .append(enumName)
-//                .append(StringPool.DOT_JAVA);
+        Map<String, Object> customMap = field.getCustomMap();
+        if (customMap == null) {
+            customMap = new HashMap<>();
+        }
+        customMap.put("isEnum", "1");
+        field.setCustomMap(customMap);
+
+        /*String packageBase = config.getPackageBase().replace(".", File.separator);
+        basePathSb .append(File.separator).append(packageBase);
+        basePathSb.append(File.separator)
+                .append("enumeration");
+        if (StringUtils.isNotEmpty(config.getChildPackageName())) {
+            basePathSb.append(File.separator).append(config.getChildPackageName());
+        }
+        basePathSb.append(File.separator)
+                .append(enumName)
+                .append(StringPool.DOT_JAVA);*/
 
         FileCreateConfig fileCreateConfig = config.getFileCreateConfig();
         if (GenerateType.ADD.eq(fileCreateConfig.getGenerateEnum())
@@ -276,6 +354,12 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
     }
 
 
+    /**
+     * 生成实体类中字段的 枚举类型
+     *
+     * @param tableInfo
+     * @param field
+     */
     private void build(TableInfo tableInfo, TableField field) {
         String comment = field.getComment();
         String entityName = tableInfo.getEntityName();

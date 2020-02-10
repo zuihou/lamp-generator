@@ -23,7 +23,7 @@ import lombok.experimental.Accessors;
 </#if>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>
-        <#if field.propertyName == fieldType.name && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))>
+        <#if field.propertyName == fieldType.name && table.name==fieldType.table && field.propertyType=="String">
 import ${fieldType.packagePath};
             <#break>
         </#if>
@@ -85,7 +85,7 @@ public class ${entity}UpdateDTO implements Serializable {
     <#assign myPropertyType="${field.propertyType}"/>
     <#assign isEnumType="1"/>
     <#list cfg.filedTypes as fieldType>
-        <#if fieldType.name == field.propertyName && table.name==fieldType.table && (field.type?starts_with("varchar") || field.type?starts_with("char"))>
+        <#if fieldType.name == field.propertyName && table.name==fieldType.table && field.propertyType=="String">
             <#assign myPropertyType="${fieldType.type}"/>
             <#assign isEnumType="2"/>
         </#if>
@@ -130,8 +130,28 @@ public class ${entity}UpdateDTO implements Serializable {
     @DictionaryType("${field.customMap.dict}")
         <#assign myPropertyType="Dictionary"/>
     </#if>
-    private ${myPropertyType} ${field.propertyName};
+    <#assign myPropertyName="${field.propertyName}"/>
+<#-- 自动注入注解 -->
+    <#if field.customMap.annotation??>
+    ${field.customMap.annotation}
+        <#assign myPropertyType="${field.customMap.type}"/>
+        <#if field.propertyName?ends_with("Id")>
+            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        </#if>
+    </#if>
+    private ${myPropertyType} ${myPropertyName};
 </#if>
 </#list>
+<#if superEntityClass?? && superEntityClass=="TreeEntity">
+    @ApiModelProperty(value = "名称")
+    @NotEmpty(message = "名称不能为空")
+    @Length(max = 255, message = "名称长度不能超过255")
+    protected String label;
 
+    @ApiModelProperty(value = "父ID")
+    protected <#list table.commonFields as field><#if field.keyFlag>${field.propertyType}</#if></#list> parentId;
+
+    @ApiModelProperty(value = "排序号")
+    protected Integer sortValue;
+</#if>
 }

@@ -3,6 +3,7 @@ package com.github.zuihoou.generator.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.github.zuihoou.generator.model.GenTableColumn;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.EntityType;
 import lombok.AllArgsConstructor;
@@ -10,9 +11,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 
 /**
  * 代码生成配置
@@ -143,12 +143,23 @@ public class CodeGeneratorConfig {
      */
     private boolean enableMicroService = true;
 
-    //////////////////////////////////分包部分////////////////////////////////////////
     private FileCreateConfig fileCreateConfig = new FileCreateConfig();
     /**
      * 需要制定生成路径的枚举类列表
      */
     private Set<EntityFiledType> filedTypes = new HashSet<>();
+
+    private Vue vue = new Vue();
+
+    @Data
+    public static class Vue {
+        private String viewsPath = "views" + File.separator + "zuihou";
+
+        /**
+         * 表名 - <字段名 - 字段信息>
+         */
+        private Map<String, Map<String, GenTableColumn>> tableFieldMap = new HashMap<>();
+    }
 
     /**
      * 必填项 构造器
@@ -168,6 +179,16 @@ public class CodeGeneratorConfig {
         config.setServiceName(serviceName).setAuthor(author).setTablePrefix(tablePrefix)
                 .setTableInclude(tableInclude.stream().toArray(String[]::new))
                 .setChildModuleName(childModuleName == null ? "" : childModuleName);
+        config.setPackageBase("com.github.zuihou." + config.getChildModuleName());
+        return config;
+    }
+
+
+    public static CodeGeneratorConfig buildVue(String serviceName, String tablePrefix, List<String> tableInclude) {
+        CodeGeneratorConfig config = new CodeGeneratorConfig();
+        config.setServiceName(serviceName).setTablePrefix(tablePrefix)
+                .setTableInclude(tableInclude.stream().toArray(String[]::new))
+                .setChildModuleName("");
         config.setPackageBase("com.github.zuihou." + config.getChildModuleName());
         return config;
     }

@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.querys.*;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
@@ -29,18 +30,26 @@ import java.util.Map;
  * @author zuihou
  * @date 2019/05/25
  */
-public class CodeGenerator {
+public class VueGenerator {
 
-    public static final String QUERY_PATH = "Query";
-//    public static final String API_PATH = "Api";
-    public static final String ENUM_PATH = "Enum";
-    public static final String CONSTANT_PATH = "Constant";
-    public static final String SAVE_DTO_PATH = "SaveDTO";
-    public static final String UPDATE_DTO_PATH = "UpdateDTO";
-    public static final String PAGE_DTO_PATH = "PageDTO";
+    public static final String API_PATH = "Api";
+    public static final String PAGE_INDEX_PATH = "PageIndex";
+    public static final String TREE_INDEX_PATH = "TreeIndex";
+    public static final String EDIT_PATH = "Edit";
+    public static final String LANG_PATH = "Lang";
+//    public static final String QUERY_PATH = "Query";
+//    public static final String ENUM_PATH = "Enum";
+//    public static final String CONSTANT_PATH = "Constant";
+//    public static final String SAVE_DTO_PATH = "SaveDTO";
+//    public static final String UPDATE_DTO_PATH = "UpdateDTO";
+//    public static final String PAGE_DTO_PATH = "PageDTO";
 
-    public static final String SRC_MAIN_JAVA = "src" + File.separator + "main" + File.separator + "java";
-    public static final String SRC_MAIN_RESOURCE = "src" + File.separator + "main" + File.separator + "resources";
+//    public static final String SRC_MAIN_JAVA = "src" + File.separator + "main" + File.separator + "java";
+//    public static final String SRC_MAIN_RESOURCE = "src" + File.separator + "main" + File.separator + "resources";
+
+    public static final String SRC = "src";
+//    public static final String SRC_API = "src" + File.separator + "api";
+//    public static final String SRC_VIEWS = "src" + File.separator + "views" + File.separator + "zuihou";
 
     public static void run(final CodeGeneratorConfig config) {
         // 代码生成器
@@ -78,7 +87,6 @@ public class CodeGenerator {
         StrategyConfig strategy = strategyConfig(config);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngineExt(config));
-//        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
 
         mpg.execute();
     }
@@ -92,7 +100,7 @@ public class CodeGenerator {
      */
     private static GlobalConfig globalConfig(final CodeGeneratorConfig config, String projectPath) {
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir(String.format("%s/%s", projectPath, SRC_MAIN_JAVA));
+        gc.setOutputDir(String.format("%s/%s", projectPath, SRC));
         gc.setAuthor(config.getAuthor());
         gc.setOpen(false);
         gc.setServiceName("%sService");
@@ -188,8 +196,13 @@ public class CodeGenerator {
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
-                Map<String, Object> map = initImportPackageInfo(config.getPackageBase(), config.getChildPackageName());
+                Map<String, Object> map = initImportPackageInfo(config);
                 this.setMap(map);
+            }
+
+            @Override
+            public void initTableMap(TableInfo tableInfo) {
+                this.initMap();
             }
         };
         cfg.setFileCreate(config.getFileCreateConfig());
@@ -202,29 +215,13 @@ public class CodeGenerator {
     /**
      * 配置包信息    配置规则是：   parentPackage + "层" + "模块"
      */
-    public static Map<String, Object> initImportPackageInfo(String parentPackage, String childPackageName) {
+    public static Map<String, Object> initImportPackageInfo(CodeGeneratorConfig config) {
+        String parentPackage = config.getPackageBase();
+        String childPackageName = config.getChildPackageName();
         Map<String, Object> packageMap = new HashMap<>();
-        if (childPackageName != null && !"".equals(childPackageName.trim())) {
-            childPackageName = "." + childPackageName;
-        }
 
-//        packageMap.put(API_PATH, parentPackage + ".api" + childPackageName);
-//        packageMap.put(ConstVal.CONTROLLER, parentPackage + ".controller" + childPackageName);
-
-//        packageMap.put(ConstVal.SERVICE, parentPackage + ".service" + childPackageName);
-//        packageMap.put(ConstVal.SERVICE_IMPL, parentPackage + ".service" + childPackageName + ".impl");
-
-//        packageMap.put(ConstVal.MAPPER, parentPackage + ".dao" + childPackageName);
-        packageMap.put(QUERY_PATH, parentPackage + ".query" + childPackageName);
-//        packageMap.put(ConstVal.ENTITY, parentPackage + ".entity" + childPackageName);
-
-        packageMap.put(ENUM_PATH, parentPackage + ".entity" + childPackageName);
-        packageMap.put(CONSTANT_PATH, parentPackage + ".constant" + childPackageName);
-        packageMap.put("constantSuffix", "Constant");
-//        packageMap.put(DTO_PATH, parentPackage + ".dto" + childPackageName);
-        packageMap.put(SAVE_DTO_PATH, parentPackage + ".dto" + childPackageName);
-        packageMap.put(UPDATE_DTO_PATH, parentPackage + ".dto" + childPackageName);
-        packageMap.put(PAGE_DTO_PATH, parentPackage + ".dto" + childPackageName);
+        packageMap.put("serviceName", config.getServiceName());
+        packageMap.put("childPackageName", childPackageName);
 
         return packageMap;
     }
@@ -236,27 +233,16 @@ public class CodeGenerator {
         if (!projectRootPath.endsWith(File.separator)) {
             projectRootPath += File.separator;
         }
-        String packageBase = config.getPackageBase().replace(".", File.separator);
 
-        StringBuilder basePathSb = new StringBuilder(projectRootPath).append("%s");
-        basePathSb.append(SRC_MAIN_JAVA).append(File.separator)
-                .append(packageBase)
-                .toString();
+        StringBuilder basePathSb = new StringBuilder(projectRootPath).append(SRC);
 
         final String basePath = basePathSb.toString();
 
-        focList.add(new FileOutConfigExt(basePath, ConstVal.CONTROLLER, config));
-        focList.add(new FileOutConfigExt(basePath, ConstVal.SERVICE, config));
-        focList.add(new FileOutConfigExt(basePath, ConstVal.SERVICE_IMPL, config));
-        focList.add(new FileOutConfigExt(basePath, ConstVal.MAPPER, config));
-        focList.add(new FileOutConfigExt(basePath, ConstVal.XML, config));
-
-        focList.add(new FileOutConfigExt(basePath, QUERY_PATH, config));
-        focList.add(new FileOutConfigExt(basePath, CONSTANT_PATH, config));
-//        focList.add(new FileOutConfigExt(basePath, DTO_PATH, config));
-        focList.add(new FileOutConfigExt(basePath, SAVE_DTO_PATH, config));
-        focList.add(new FileOutConfigExt(basePath, UPDATE_DTO_PATH, config));
-        focList.add(new FileOutConfigExt(basePath, PAGE_DTO_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, API_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, PAGE_INDEX_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, EDIT_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, LANG_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, TREE_INDEX_PATH, config));
 
         return focList;
     }
