@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 /**
  * ${description}-Mybatis拦截器配置
@@ -31,6 +32,7 @@ public class ${service}MybatisAutoConfiguration extends BaseMybatisConfiguration
      *
      * @return DataScopeInterceptor
      */
+    @Order(10)
     @Bean
     @ConditionalOnProperty(name = "zuihou.database.isDataScope", havingValue = "true", matchIfMissing = true)
     public DataScopeInterceptor dataScopeInterceptor() {

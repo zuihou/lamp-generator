@@ -2,7 +2,6 @@ package ${package.Controller};
 
 
 import java.util.List;
-import cn.hutool.core.bean.BeanUtil;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.github.zuihou.base.R;
 import com.github.zuihou.log.annotation.SysLog;
@@ -20,6 +19,7 @@ import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import com.github.zuihou.base.entity.SuperEntity;
 import com.github.zuihou.model.RemoteData;
+import com.github.zuihou.utils.BeanPlusUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -89,7 +89,7 @@ public class ${table.controllerName} {
     @GetMapping("/page")
     @SysLog("分页查询${tableComment}")
     public R<IPage<${entity}>> page(${entity}PageDTO data) {
-        ${entity} ${entity?uncap_first} = BeanUtil.toBean(data, ${entity}.class);
+        ${entity} ${entity?uncap_first} = BeanPlusUtil.toBean(data, ${entity}.class);
         <#list table.fields as field>
         <#-- 自动注入注解 -->
         <#if field.customMap.annotation??>
@@ -139,7 +139,7 @@ public class ${table.controllerName} {
     @PostMapping
     @SysLog("新增${tableComment}")
     public R<${entity}> save(@RequestBody @Validated ${entity}SaveDTO data) {
-        ${entity} ${entity?uncap_first} = BeanUtil.toBean(data, ${entity}.class);
+        ${entity} ${entity?uncap_first} = BeanPlusUtil.toBean(data, ${entity}.class);
         ${table.serviceName?uncap_first}.save(${entity?uncap_first});
         return success(${entity?uncap_first});
     }
@@ -154,7 +154,7 @@ public class ${table.controllerName} {
     @PutMapping
     @SysLog("修改${tableComment}")
     public R<${entity}> update(@RequestBody @Validated(SuperEntity.Update.class) ${entity}UpdateDTO data) {
-        ${entity} ${entity?uncap_first} = BeanUtil.toBean(data, ${entity}.class);
+        ${entity} ${entity?uncap_first} = BeanPlusUtil.toBean(data, ${entity}.class);
         ${table.serviceName?uncap_first}.updateById(${entity?uncap_first});
         return success(${entity?uncap_first});
     }
