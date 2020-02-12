@@ -1,6 +1,7 @@
 package com.github.zuihoou.generator.ext;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
@@ -175,6 +176,13 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
             String type = trim(matcher.group(4));
             String typePackage = trim(matcher.group(6));
 
+            if (StrUtil.isNotEmpty(type) && StrUtil.contains(typePackage, ".")) {
+                String data = StrUtil.subAfter(typePackage, ".", true);
+                if (StrUtil.isNotEmpty(data)) {
+                    type = StrUtil.replace(type, typePackage, data);
+                }
+            }
+
             field.getCustomMap().put("annotation", annotation);
 //            field.getCustomMap().put("api", api);
 //            field.getCustomMap().put("method", method);
@@ -313,17 +321,6 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         }
         customMap.put("isEnum", "1");
         field.setCustomMap(customMap);
-
-        /*String packageBase = config.getPackageBase().replace(".", File.separator);
-        basePathSb .append(File.separator).append(packageBase);
-        basePathSb.append(File.separator)
-                .append("enumeration");
-        if (StringUtils.isNotEmpty(config.getChildPackageName())) {
-            basePathSb.append(File.separator).append(config.getChildPackageName());
-        }
-        basePathSb.append(File.separator)
-                .append(enumName)
-                .append(StringPool.DOT_JAVA);*/
 
         FileCreateConfig fileCreateConfig = config.getFileCreateConfig();
         if (GenerateType.ADD.eq(fileCreateConfig.getGenerateEnum())

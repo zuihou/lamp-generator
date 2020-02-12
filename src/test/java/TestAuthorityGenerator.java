@@ -24,8 +24,8 @@ public class TestAuthorityGenerator {
     public static void main(String[] args) {
 //        CodeGeneratorConfig build = buildDefaultsEntity();
 //        CodeGeneratorConfig build = buildAuthSuperEntity();
-//        CodeGeneratorConfig build = buildAuthEntity();
-        CodeGeneratorConfig build = buildCommonEntity();
+        CodeGeneratorConfig build = buildAuthEntity();
+//        CodeGeneratorConfig build = buildCommonEntity();
 //        CodeGeneratorConfig build = buildCommonSuperEntity();
 //        CodeGeneratorConfig build = buildCoreEntity();
 
@@ -36,13 +36,13 @@ public class TestAuthorityGenerator {
         build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
 
         // null 表示 使用下面的 生成策略
-//        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
+        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
         // 不为null 表示忽略下面的 生成策略
-        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
+//        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
 
         //实体类的生成策略 为覆盖
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateEnum(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
         //dao 的生成策略为 忽略
@@ -90,7 +90,7 @@ public class TestAuthorityGenerator {
                 "c_auth_user"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("authority", "", "zuihou", "", tables);
+                build("authority", "", "zuihou", "c_auth_", tables);
 //                build("authority", "", "zuihou", "c_auth_", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("auth");

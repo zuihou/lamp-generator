@@ -54,6 +54,8 @@ public class TestHahaGenerator {
         ));
         build.setFiledTypes(filedTypes);
 
+        build.setPackageBase("cn.github.hehe." + build.getChildModuleName());
+
         // 运行
         CodeGenerator.run(build);
     }
@@ -92,6 +94,7 @@ public class TestHahaGenerator {
         // 子包名
         build.setChildPackageName("");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+
         return build;
     }
 }

@@ -34,7 +34,7 @@ public class TestInitProject {
                 .setGroupId("com.github.zuihou")
         ;
         // 项目的业务代码 存放的包路径
-        config.setPackageBase("com.github.zuihou." + config.getChildModuleName());
+        config.setPackageBase("cn.github.hehe." + config.getChildModuleName());
 
         System.out.println(config.getProjectRootPath());
         ProjectGenerator pg = new ProjectGenerator(config);
