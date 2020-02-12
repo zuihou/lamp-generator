@@ -42,7 +42,8 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
      * 匹配： @InjectionField(api="", method="") RemoteData<Long, Org>
      * 匹配： @InjectionField(api="", method="")
      */
-    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(]api *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
+//    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(]api *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
+    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(](api|feign)? *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
 
 
     /**
@@ -156,6 +157,25 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         return this;
     }
 
+    public static void main(String[] args) {
+//        String comment = "@InjectionField(api=\"xxxx\", method=\"bbbbb\") RemoteData<Long, Org>";
+        String comment = "@InjectionField(feign=FreemarkerTemplateEngineExt.class, method=\"bbbbb\") RemoteData<Long, Org>";
+        Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment);
+        if (matcher.find()) {
+            String annotation = trim(matcher.group(1)); //@InjectionField(api="xxxx", method="bbbbb")
+            String api = trim(matcher.group(3)); //xxxx
+            String method = trim(matcher.group(4));  //bbbbb
+            String type = trim(matcher.group(5)); //RemoteData<Long, Org>
+            // 5 <Long, Org>
+            String typePackage = trim(matcher.group(7)); //Org
+            System.out.println(111);
+        }
+    }
+
+    private static String trim(String val) {
+        return val == null ? StringPool.EMPTY : val.trim();
+    }
+
     /**
      * 生成 需要注入 类型的字段
      *
@@ -171,10 +191,10 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment);
         if (matcher.find()) {
             String annotation = trim(matcher.group(1));
-            String api = trim(matcher.group(2));
-            String method = trim(matcher.group(3));
-            String type = trim(matcher.group(4));
-            String typePackage = trim(matcher.group(6));
+            String api = trim(matcher.group(3));
+            String method = trim(matcher.group(4));
+            String type = trim(matcher.group(5));
+            String typePackage = trim(matcher.group(7));
 
             if (StrUtil.isNotEmpty(type) && StrUtil.contains(typePackage, ".")) {
                 String data = StrUtil.subAfter(typePackage, ".", true);
@@ -191,7 +211,14 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
             if (!api.contains("\"")) {
                 if (api.contains(".")) {
-                    importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                    if (api.endsWith("class")) {
+                        // 导入feign class
+                        importPackages.add(StrUtil.subBefore(api, ".", true));
+
+
+                    } else {
+                        importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                    }
                 } else {
                     importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s", api));
                 }
@@ -209,10 +236,6 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
             importPackages.add("com.github.zuihou.injection.annonation.InjectionField");
             importPackages.add("com.github.zuihou.model.RemoteData");
         }
-    }
-
-    private String trim(String val) {
-        return val == null ? StringPool.EMPTY : val.trim();
     }
 
     /**

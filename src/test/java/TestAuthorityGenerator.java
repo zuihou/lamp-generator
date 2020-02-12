@@ -24,8 +24,8 @@ public class TestAuthorityGenerator {
     public static void main(String[] args) {
 //        CodeGeneratorConfig build = buildDefaultsEntity();
 //        CodeGeneratorConfig build = buildAuthSuperEntity();
-        CodeGeneratorConfig build = buildAuthEntity();
-//        CodeGeneratorConfig build = buildCommonEntity();
+//        CodeGeneratorConfig build = buildAuthEntity();
+        CodeGeneratorConfig build = buildCommonEntity();
 //        CodeGeneratorConfig build = buildCommonSuperEntity();
 //        CodeGeneratorConfig build = buildCoreEntity();
 
@@ -42,9 +42,9 @@ public class TestAuthorityGenerator {
 
         //实体类的生成策略 为覆盖
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
+        fileCreateConfig.setGenerateEnum(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateDto(GenerateType.IGNORE);
+        fileCreateConfig.setGenerateXml(GenerateType.IGNORE);
         //dao 的生成策略为 忽略
         fileCreateConfig.setGenerateDao(GenerateType.IGNORE);
         fileCreateConfig.setGenerateServiceImpl(GenerateType.IGNORE);
