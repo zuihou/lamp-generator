@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 @Configuration
 public class ${service}WebConfiguration extends BaseConfig {
 
-    @Value("${r"${"}zuihou.mysql.biz-database:zuihou_defaults${r"}"}")
+    @Value("${r"${"}zuihou.database.bizDatabase:zuihou_defaults${r"}"}")
     private String database;
 
     @Bean
