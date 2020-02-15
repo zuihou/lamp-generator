@@ -36,7 +36,7 @@ public class TestInitProject {
         // 项目的业务代码 存放的包路径
         config.setPackageBase("cn.github.hehe." + config.getChildModuleName());
 
-        System.out.println(config.getProjectRootPath());
+        System.out.println("项目初始化根路径：" + config.getProjectRootPath());
         ProjectGenerator pg = new ProjectGenerator(config);
         pg.build();
     }
