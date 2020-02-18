@@ -7,7 +7,9 @@ zuihou:
       ${serviceName}:
         title: ${description}服务
         base-package: ${packageBase}.controller
-
+      general:
+        title: ${description}服务通用
+        base-package: ${packageBaseParent}.general
 server:
   port: ${serverPort}
 

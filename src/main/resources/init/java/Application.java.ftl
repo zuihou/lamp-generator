@@ -1,6 +1,5 @@
 package ${packageBaseParent};
 
-import com.github.zuihou.auth.server.EnableAuthServer;
 import com.github.zuihou.user.annotation.EnableLoginArgResolver;
 import com.github.zuihou.validator.config.EnableFormValidator;
 import lombok.extern.slf4j.Slf4j;
@@ -11,6 +10,9 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+<#if packageBaseParent != "com.github.zuihou">
+import org.springframework.context.annotation.ComponentScan;
+</#if>
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
@@ -26,9 +28,11 @@ import java.net.UnknownHostException;
 @EnableDiscoveryClient
 @Configuration
 @EnableFeignClients(value = { "${packageBaseParent}", })
+<#if packageBaseParent != "com.github.zuihou">
+@ComponentScan(basePackages = {"com.github.zuihou"})
+</#if>
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 @Slf4j
-@EnableAuthServer
 @EnableLoginArgResolver
 @EnableFormValidator
 public class ${service}ServerApplication {

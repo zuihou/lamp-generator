@@ -1,6 +1,6 @@
 package ${packageBase}.config;
 
-import com.github.zuihou.common.config.BaseConfig;
+import com.github.zuihou.boot.config.BaseConfig;
 import org.springframework.context.annotation.Configuration;
 import com.github.zuihou.authority.api.LogApi;
 import com.github.zuihou.log.event.SysLogListener;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Bean;
 @Configuration
 public class ${service}WebConfiguration extends BaseConfig {
 
-    @Value("${r"${"}zuihou.database.bizDatabase:zuihou_defaults${r"}"}")
+    @Value("${r"${"}zuihou.database.bizDatabase:zuihou_base${r"}"}")
     private String database;
 
     @Bean

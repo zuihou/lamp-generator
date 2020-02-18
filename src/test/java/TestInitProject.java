@@ -29,12 +29,12 @@ public class TestInitProject {
                 // 项目的版本， 一定要跟 zuihou-backend 下的其他服务版本一致， 否则会出错哦
                 .setVersion("1.0-SNAPSHOT")
                 // 服务的端口号
-                .setServerPort("8080")
+                .setServerPort("17080")
                 // 项目的 groupId
                 .setGroupId("com.github.zuihou")
         ;
         // 项目的业务代码 存放的包路径
-        config.setPackageBase("cn.github.hehe." + config.getChildModuleName());
+        config.setPackageBase("cn.github.haha." + config.getChildModuleName());
 
         System.out.println("项目初始化根路径：" + config.getProjectRootPath());
         ProjectGenerator pg = new ProjectGenerator(config);

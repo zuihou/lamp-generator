@@ -54,7 +54,7 @@ public class TestHahaGenerator {
         ));
         build.setFiledTypes(filedTypes);
 
-        build.setPackageBase("cn.github.hehe." + build.getChildModuleName());
+        build.setPackageBase("cn.github.haha." + build.getChildModuleName());
 
         // 运行
         CodeGenerator.run(build);
@@ -88,8 +88,8 @@ public class TestHahaGenerator {
                         tables);
 
         // 实体父类
-//        build.setSuperEntity(EntityType.TREE_ENTITY);
-        build.setSuperEntity(EntityType.ENTITY);
+        build.setSuperEntity(EntityType.TREE_ENTITY);
+//        build.setSuperEntity(EntityType.ENTITY);
 
         // 子包名
         build.setChildPackageName("");
