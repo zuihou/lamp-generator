@@ -78,10 +78,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
