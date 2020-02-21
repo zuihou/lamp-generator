@@ -27,9 +27,11 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @EnableDiscoveryClient
 @Configuration
-@EnableFeignClients(value = { "${packageBaseParent}", })
 <#if packageBaseParent != "com.github.zuihou">
-@ComponentScan(basePackages = {"com.github.zuihou"})
+@EnableFeignClients(value = { "${packageBaseParent}", "com.github.zuihou" })
+@ComponentScan(basePackages = {"${packageBaseParent}", "com.github.zuihou"})
+<#else>
+@EnableFeignClients(value = { "${packageBaseParent}" })
 </#if>
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 @Slf4j
