@@ -1,5 +1,7 @@
 package ${package.Entity};
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+import cn.afterturn.easypoi.excel.annotation.ExcelEntity;
 <#list table.importPackages as pkg>
 import ${pkg};
 </#list>
@@ -7,7 +9,6 @@ import ${pkg};
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
-import java.time.LocalDateTime;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
@@ -20,6 +21,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 </#if>
 <#if cfg.filedTypes??>
 <#list cfg.filedTypes as fieldType>
@@ -113,9 +115,6 @@ public class ${entity} implements Serializable {
             <#assign isEnumType="2"/>
         </#if>
     </#list>
-    <#if field.customMap.dict??>
-        <#assign isEnumType="3"/>
-    </#if>
     <#if field.customMap.Null == "NO" >
         <#if (field.columnType!"") == "STRING" && isEnumType == "1">
     @NotEmpty(message = "${fieldComment}不能为空")
@@ -186,11 +185,13 @@ public class ${entity} implements Serializable {
     <#-- 自动注入注解 -->
     <#if field.customMap.annotation??>
     ${field.customMap.annotation}
+    @ExcelEntity(name = "")
         <#assign myPropertyType="${field.customMap.type}"/>
         <#if field.propertyName?ends_with("Id")>
             <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
         </#if>
     </#if>
+    @Excel(name = "${fieldComment}"<#if myPropertyType!?contains("Local")>, format = DEFAULT_DATE_TIME_FORMAT, width = 20</#if><#if myPropertyType!?contains("Boolean")>, replace = {"是_true", "否_false", "_null"}</#if><#if isEnumType=="2">, replace = {<#list field.customMap.enumCustom.list?keys as key>"${field.customMap.enumCustom.list[key][0]}_${key?upper_case}", </#list> "_null"}</#if>)
     private ${myPropertyType} ${myPropertyName};
     </#if>
 

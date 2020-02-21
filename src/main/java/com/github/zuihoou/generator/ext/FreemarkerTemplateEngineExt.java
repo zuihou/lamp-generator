@@ -337,6 +337,8 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
         objectMap.put("enumCustom", enumCustom);
 
+        field.getCustomMap().put("enumCustom", enumCustom);
+
         StringBuilder basePathSb = getBasePath();
         basePathSb.append(File.separator).append(entityFiledType.getPath())
                 .append(".java");

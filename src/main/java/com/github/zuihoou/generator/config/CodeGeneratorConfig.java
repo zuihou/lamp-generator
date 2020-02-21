@@ -3,6 +3,7 @@ package com.github.zuihoou.generator.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.generator.config.ConstVal;
 import com.github.zuihoou.generator.model.GenTableColumn;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.EntityType;
@@ -104,7 +105,20 @@ public class CodeGeneratorConfig {
     /**
      * controller的父类
      */
-    private String superControllerClass = "com.github.zuihou.base.BaseController";
+    private String superControllerClass = "com.github.zuihou.base.SuperController";
+
+    /**
+     * 自定义继承的Mapper类全称，带包名
+     */
+    private String superMapperClass = "com.github.zuihou.base.mapper.SuperMapper";
+    /**
+     * 自定义继承的Service类全称，带包名
+     */
+    private String superServiceClass = "com.github.zuihou.base.service.SuperService";
+    /**
+     * 自定义继承的ServiceImpl类全称，带包名
+     */
+    private String superServiceImplClass = "com.github.zuihou.base.service.SuperServiceCacheImpl";
     /**
      * 表前缀
      */
