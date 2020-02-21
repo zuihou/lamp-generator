@@ -37,7 +37,7 @@ public class ProjectGenerator {
 
 
     private final static String[] ALL_MODULAR_LIST = new String[]{
-            ENTITY, BIZ, CONTROLLER, SERVER,
+            API, ENTITY, BIZ, CONTROLLER, SERVER,
     };
     private final static String[] CHILD_MODULAR_LIST = new String[]{
             BIZ, CONTROLLER
@@ -95,6 +95,7 @@ public class ProjectGenerator {
             String modularPath = this.mkModular(servicePath, serviceName, modular, isChildModule);
 
             this.mkMaven(modularPath);
+            this.mkBasePackage(modularPath);
 
             this.generatorPom(objectMap, String.format(INIT_FTL, modular), modularPath);
         }
@@ -102,8 +103,9 @@ public class ProjectGenerator {
         if (!isChildModule) {
             //根 pom
             this.writer(objectMap, String.format(INIT_FTL, "pom"), Paths.get(servicePath, "pom.xml").toString());
-            // api 模块
-            this.generatorApiModular(serviceName, objectMap);
+
+            // api 模块 生成在 zuihou-api 模块下
+//            this.generatorApiModular(serviceName, objectMap);
 
             // server 模块
             String serverApplicationPath = this.mkServer(servicePath, serviceName);
@@ -319,5 +321,15 @@ public class ProjectGenerator {
                 mavenPathFile.mkdirs();
             }
         }
+    }
+
+    private void mkBasePackage(String modularPath) {
+        String basePackage = Paths.get(modularPath, SRC_MAIN_JAVA, StrUtil.replace(config.getPackageBase(), ".", File.separator)).toString();
+        File mavenPathFile = new File(basePackage);
+        if (!mavenPathFile.exists()) {
+            mavenPathFile.mkdirs();
+        }
+
+
     }
 }

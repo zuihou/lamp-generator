@@ -16,6 +16,7 @@
     <packaging>pom</packaging>
 
     <modules>
+        <module>${projectPrefix}${serviceName}-api</module>
         <module>${projectPrefix}${serviceName}-entity</module>
         <module>${projectPrefix}${serviceName}-biz</module>
         <module>${projectPrefix}${serviceName}-controller</module>
