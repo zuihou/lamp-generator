@@ -1,6 +1,7 @@
 package com.github.zuihoou.generator.ext;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
@@ -39,10 +40,11 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
     /**
      * 注入字段 正则
      * 匹配： @InjectionField(api="", method="") RemoteData<Long, Org>
-     * 匹配： @InjectionField(api="", method="")
+     * 匹配： @InjectionField(api="", method="" beanClass=Xxx.class)
+     * 匹配： @InjectionField(api="orgApi", method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
+     * 匹配： @InjectionField(feign=OrgApi.class, method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
      */
-    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(]api *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
-
+    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(](api|feign)? *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)(, *beanClass *= *[a-zA-Z0-9._]+)?[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
 
     /**
      * 枚举类 正则
@@ -155,6 +157,28 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         return this;
     }
 
+
+    private static String trim(String val) {
+        return val == null ? StringPool.EMPTY : val.trim();
+    }
+
+
+    public static void main(String[] args) {
+        String comment = "@InjectionField(api=\"xxxx\", method=\"bbbbb\", beanClass=1) RemoteData<Long, Org>";
+//        String comment = "@InjectionField(feign=FreemarkerTemplateEngineExt.class, method=\"bbbbb\"   beanClass=  Xxx.class) RemoteData<Long, Org>";
+        Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment);
+        if (matcher.find()) {
+            String annotation = trim(matcher.group(1)); //@InjectionField(api="xxxx", method="bbbbb")
+            String api = trim(matcher.group(3)); //xxxx
+            String method = trim(matcher.group(4));  //bbbbb
+            String type = trim(matcher.group(6)); //RemoteData<Long, Org>
+            // 5 <Long, Org>
+            String typePackage = trim(matcher.group(8)); //Org
+            System.out.println(111);
+        }
+    }
+
+
     /**
      * 生成 需要注入 类型的字段
      *
@@ -162,7 +186,8 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
      * @param field
      */
     private void buildInjectionField(TableInfo table, TableField field) {
-        String comment = field.getComment();//注释
+        //注释
+        String comment = field.getComment();
         if (comment == null) {
             return;
         }
@@ -170,10 +195,17 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment);
         if (matcher.find()) {
             String annotation = trim(matcher.group(1));
-            String api = trim(matcher.group(2));
-            String method = trim(matcher.group(3));
-            String type = trim(matcher.group(4));
-            String typePackage = trim(matcher.group(6));
+            String api = trim(matcher.group(3));
+            String method = trim(matcher.group(4));
+            String type = trim(matcher.group(6));
+            String typePackage = trim(matcher.group(8));
+
+            if (StrUtil.isNotEmpty(type) && StrUtil.contains(typePackage, ".")) {
+                String data = StrUtil.subAfter(typePackage, ".", true);
+                if (StrUtil.isNotEmpty(data)) {
+                    type = StrUtil.replace(type, typePackage, data);
+                }
+            }
 
             field.getCustomMap().put("annotation", annotation);
 //            field.getCustomMap().put("api", api);
@@ -183,7 +215,14 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
             if (!api.contains("\"")) {
                 if (api.contains(".")) {
-                    importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                    if (api.endsWith("class")) {
+                        // 导入feign class
+                        importPackages.add(StrUtil.subBefore(api, ".", true));
+
+
+                    } else {
+                        importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                    }
                 } else {
                     importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s", api));
                 }
@@ -201,10 +240,6 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
             importPackages.add("com.github.zuihou.injection.annonation.InjectionField");
             importPackages.add("com.github.zuihou.model.RemoteData");
         }
-    }
-
-    private String trim(String val) {
-        return val == null ? StringPool.EMPTY : val.trim();
     }
 
     /**
@@ -302,6 +337,8 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
         objectMap.put("enumCustom", enumCustom);
 
+        field.getCustomMap().put("enumCustom", enumCustom);
+
         StringBuilder basePathSb = getBasePath();
         basePathSb.append(File.separator).append(entityFiledType.getPath())
                 .append(".java");
@@ -313,17 +350,6 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         }
         customMap.put("isEnum", "1");
         field.setCustomMap(customMap);
-
-        /*String packageBase = config.getPackageBase().replace(".", File.separator);
-        basePathSb .append(File.separator).append(packageBase);
-        basePathSb.append(File.separator)
-                .append("enumeration");
-        if (StringUtils.isNotEmpty(config.getChildPackageName())) {
-            basePathSb.append(File.separator).append(config.getChildPackageName());
-        }
-        basePathSb.append(File.separator)
-                .append(enumName)
-                .append(StringPool.DOT_JAVA);*/
 
         FileCreateConfig fileCreateConfig = config.getFileCreateConfig();
         if (GenerateType.ADD.eq(fileCreateConfig.getGenerateEnum())

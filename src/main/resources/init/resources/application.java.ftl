@@ -1,14 +1,15 @@
 zuihou:
   database:
     isMultiTenant: true
-  mysql:
-    biz-database: zuihou_base
+    bizDatabase: zuihou_base
   swagger:
     docket:
       ${serviceName}:
         title: ${description}服务
         base-package: ${packageBase}.controller
-
+      general:
+        title: ${description}服务通用
+        base-package: ${packageBaseParent}.general
 server:
   port: ${serverPort}
 

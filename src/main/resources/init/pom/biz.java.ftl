@@ -40,7 +40,10 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-j2cache-starter</artifactId>
         </dependency>
-
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-boot</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -49,13 +52,7 @@
 
         <dependency>
             <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
-
-        <!-- 获取注册中心的数据会用到 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-commons</artifactId>
+            <artifactId>mybatis-plus</artifactId>
         </dependency>
 
         <!-- @RefreshScope 需要使用 -->

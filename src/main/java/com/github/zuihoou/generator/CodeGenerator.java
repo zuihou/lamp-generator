@@ -32,7 +32,7 @@ import java.util.Map;
 public class CodeGenerator {
 
     public static final String QUERY_PATH = "Query";
-//    public static final String API_PATH = "Api";
+    //    public static final String API_PATH = "Api";
     public static final String ENUM_PATH = "Enum";
     public static final String CONSTANT_PATH = "Constant";
     public static final String SAVE_DTO_PATH = "SaveDTO";
@@ -175,6 +175,9 @@ public class CodeGenerator {
         strategy.setEntityColumnConstant(GenerateType.IGNORE.neq(pc.getFileCreateConfig().getGenerateConstant()));
         strategy.setRestControllerStyle(true);
         strategy.setSuperEntityClass(pc.getSuperEntity().getVal());
+        strategy.setSuperServiceClass(pc.getSuperServiceClass());
+        strategy.setSuperServiceImplClass(pc.getSuperServiceImplClass());
+        strategy.setSuperMapperClass(pc.getSuperMapperClass());
         strategy.setSuperControllerClass(pc.getSuperControllerClass());
 
         strategy.setSuperEntityColumns(pc.getSuperEntity().getColumns());

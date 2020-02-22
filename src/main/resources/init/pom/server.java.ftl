@@ -38,7 +38,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-openfeign-starter</artifactId>
+            <artifactId>zuihou-cloud-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
@@ -78,10 +78,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <dependency>
-            <groupId>org.ow2.asm</groupId>
-            <artifactId>asm</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -108,6 +104,14 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-spring-boot-starter</artifactId>
         </dependency>
 
         <dependency>

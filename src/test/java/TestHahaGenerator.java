@@ -54,6 +54,8 @@ public class TestHahaGenerator {
         ));
         build.setFiledTypes(filedTypes);
 
+        build.setPackageBase("cn.github.haha." + build.getChildModuleName());
+
         // 运行
         CodeGenerator.run(build);
     }
@@ -86,12 +88,13 @@ public class TestHahaGenerator {
                         tables);
 
         // 实体父类
-//        build.setSuperEntity(EntityType.TREE_ENTITY);
-        build.setSuperEntity(EntityType.ENTITY);
+        build.setSuperEntity(EntityType.TREE_ENTITY);
+//        build.setSuperEntity(EntityType.ENTITY);
 
         // 子包名
         build.setChildPackageName("");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+
         return build;
     }
 }
