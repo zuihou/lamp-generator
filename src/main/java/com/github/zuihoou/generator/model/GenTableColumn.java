@@ -94,6 +94,10 @@ public class GenTableColumn {
      * 字典类型 暂时不支持
      */
     private String dictType;
+    /**
+     * 枚举类型
+     */
+    private String enumType;
 
     public GenTableColumn() {
     }
@@ -114,4 +118,5 @@ public class GenTableColumn {
         this.isQuery = isQuery;
         this.htmlType = htmlType;
     }
+
 }

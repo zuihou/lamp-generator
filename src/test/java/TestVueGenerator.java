@@ -29,8 +29,8 @@ public class TestVueGenerator {
         FileCreateConfig fileCreateConfig = new FileCreateConfig(null, true);
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE, true);
 
-//        CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
-        CodeGeneratorConfig build = buildTreeEntity(fileCreateConfig);
+        CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
+//        CodeGeneratorConfig build = buildTreeEntity(fileCreateConfig);
         //mysql 账号密码
         build.setUsername("root");
         build.setPassword("root");
@@ -50,7 +50,7 @@ public class TestVueGenerator {
         build.setFiledTypes(filedTypes);
 
         // 自定义前端页面字段的显示演示， 不填写时，默认生成全字段
-//        buildVue(build);
+        buildVue(build);
 
         //生成代码
         VueGenerator.run(build);
@@ -72,14 +72,18 @@ public class TestVueGenerator {
         Map<String, Map<String, GenTableColumn>> map = new HashMap<>();
         //字段名 对应的显示方式
         Map<String, GenTableColumn> keyField = new HashMap<>();
-        keyField.put("key", new GenTableColumn("key", YES, YES, YES, YES, HtmlType.INPUT));
+//        keyField.put("key", new GenTableColumn("key", YES, YES, YES, YES, HtmlType.INPUT));
         keyField.put("name", new GenTableColumn("name", YES, YES, YES, YES, HtmlType.INPUT));
-        keyField.put("value", new GenTableColumn("value", YES, YES, YES, YES, HtmlType.INPUT));
-        keyField.put("describe_", new GenTableColumn("describe_", YES, YES, YES, NO, HtmlType.TEXTAREA));
-        keyField.put("status_", new GenTableColumn("status_", YES, YES, YES, NO, HtmlType.RADIO_BUTTON));
-        keyField.put("readony_", new GenTableColumn("readony_", NO, NO, YES, NO, HtmlType.RADIO_BUTTON));
+//        keyField.put("value", new GenTableColumn("value", YES, YES, YES, YES, HtmlType.INPUT));
+//        keyField.put("describe_", new GenTableColumn("describe_", YES, YES, YES, NO, HtmlType.TEXTAREA));
+//        keyField.put("status_", new GenTableColumn("status_", YES, YES, YES, NO, HtmlType.RADIO_BUTTON));
+//        keyField.put("readony_", new GenTableColumn("readony_", NO, NO, YES, NO, HtmlType.RADIO_BUTTON));
+        keyField.put("type3", new GenTableColumn("type3", YES, YES, YES, NO, HtmlType.RADIO_BUTTON).setDictType("EDUCATION"));
+        keyField.put("type2", new GenTableColumn("type2", YES, YES, YES, NO, HtmlType.SELECT).setEnumType("ProductType2Enum"));
+        keyField.put("type_", new GenTableColumn("type_", YES, YES, YES, NO, HtmlType.RADIO).setEnumType("ProductType"));
+        keyField.put("status", new GenTableColumn("status", YES, YES, YES, NO, HtmlType.SWITCH));
         //表名
-        map.put("c_common_parameter", keyField);
+        map.put("m_product", keyField);
 
         vue.setTableFieldMap(map);
         build.setVue(vue);
