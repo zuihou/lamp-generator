@@ -22,8 +22,8 @@ public class TestHahaGenerator {
      * @param args
      */
     public static void main(String[] args) {
-//        CodeGeneratorConfig build = buildHeheEntity();
-        CodeGeneratorConfig build = buildHahaEntity();
+        CodeGeneratorConfig build = buildHeheEntity();
+//        CodeGeneratorConfig build = buildHahaEntity();
 
         //mysql 账号密码
         build.setUsername("root");

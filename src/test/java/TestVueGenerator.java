@@ -29,8 +29,8 @@ public class TestVueGenerator {
         FileCreateConfig fileCreateConfig = new FileCreateConfig(null, true);
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE, true);
 
-        CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
-//        CodeGeneratorConfig build = buildTreeEntity(fileCreateConfig);
+//        CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
+        CodeGeneratorConfig build = buildTreeEntity(fileCreateConfig);
         //mysql 账号密码
         build.setUsername("root");
         build.setPassword("root");
