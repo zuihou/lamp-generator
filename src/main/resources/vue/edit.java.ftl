@@ -87,23 +87,41 @@
           type="${inputType}"/>
         <#elseif htmlType?index_of('radio')!=-1>
         <el-radio-group v-model="${entity?uncap_first}.${myPropertyName}" size="medium">
-          <#if myPropertyName == "status">
+          <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
+          <el-${htmlType} :key="index" :label="key" v-for="(item, key, index) in enums.${field.customMap.info.enumType}">{{item}}</el-${htmlType}>
+          <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
+          <el-${htmlType} :key="index" :label="key" v-for="(item, key, index) in dicts.${field.customMap.info.dictType}">{{item}}</el-${htmlType}>
+          <#else>
+            <#if myPropertyName == "status">
           <el-${htmlType} :label="true">{{ $t("common.status.valid") }}</el-${htmlType}>
           <el-${htmlType} :label="false">{{ $t("common.status.invalid") }}</el-${htmlType}>
-          <#else>
+            <#else>
           <el-${htmlType} :label="true">{{ $t("common.yes") }}</el-${htmlType}>
           <el-${htmlType} :label="false">{{ $t("common.no") }}</el-${htmlType}>
+            </#if>
           </#if>
         </el-radio-group>
         <#elseif htmlType=="switch">
         <el-switch :active-text="$t('common.yes')" :inactive-text="$t('common.no')" v-model="${entity?uncap_first}.${myPropertyName}" />
         <#elseif htmlType?index_of('checkbox')!=-1>
         <el-checkbox-group v-model="${entity?uncap_first}.${myPropertyName}">
+          <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
+          <el-${htmlType} :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.${field.customMap.info.enumType}"/>
+          <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
+          <el-${htmlType} :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.${field.customMap.info.dictType}"/>
+          <#else>
           <el-${htmlType} label="${entity?uncap_first}.${myPropertyName}"></el-${htmlType}>
+          </#if>
         </el-checkbox-group>
         <#elseif htmlType=="select">
         <el-select v-model="${entity?uncap_first}.${myPropertyName}" placeholder="${fieldComment}" style="width:100%">
+            <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.${field.customMap.info.enumType}"/>
+            <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
+          <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.${field.customMap.info.dictType}"/>
+            <#else>
           <el-option v-for="item in ${entity?uncap_first}List" :key="item.id" :label="item.name" :value="item.id"/>
+            </#if>
         </el-select>
         <#else >
         <el-${htmlType} type="${inputType}" v-model="${entity?uncap_first}.${myPropertyName}" placeholder="${fieldComment}"/>
@@ -139,6 +157,22 @@ export default {
       width: this.initWidth(),
       rules: {
 
+      },
+      // 枚举
+      enums: {
+        <#list table.fields as field>
+        <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
+        ${field.customMap.info.enumType}: {},
+        </#if>
+        </#list>
+      },
+      // 字典
+      dicts: {
+        <#list table.fields as field>
+        <#if field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
+        ${field.customMap.info.dictType}: {},
+        </#if>
+        </#list>
       }
     };
   },
@@ -203,10 +237,13 @@ export default {
         return "800px";
       }
     },
-    set${entity}(val) {
+    set${entity}(val = {}) {
       const vm = this;
-      if (val) {
-        vm.${entity?uncap_first} = { ...val };
+
+      vm.dicts = val['dicts'];
+      vm.enums = val['enums'];
+      if (val['row']) {
+        vm.${entity?uncap_first} = { ...val['row'] };
 
         <#list table.fields as field>
         <#assign myPropertyName="${field.propertyName}"/>

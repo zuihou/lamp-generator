@@ -31,10 +31,10 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
 
     protected static final String ${entity?upper_case} = "${entity?lower_case}";
 
-    private String classTypeName = "";
+    private String classSimpleName = "";
 
     public ${table.serviceImplName}() {
-        this.classTypeName = this.getClass().getSimpleName();
+        this.classSimpleName = this.getClass().getSimpleName();
     }
 
     @Override
@@ -43,8 +43,8 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
 
     @Override
-    protected String getClassTypeName() {
-        return classTypeName;
+    protected String getClassSimpleName() {
+        return classSimpleName;
     }
 
     protected ${table.serviceName} currentProxy() {
@@ -52,5 +52,5 @@ public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.m
     }
 
 
-    }
+}
 </#if>

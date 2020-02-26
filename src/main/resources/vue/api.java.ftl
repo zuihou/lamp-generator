@@ -2,15 +2,13 @@ import axiosApi from './AxiosApi.js'
 
 const apiList = {
   page: {
-    method: 'GET',
+    method: 'POST',
     url: `/${cfg.serviceName}/${entity?uncap_first}/page`,
   },
-<#if superEntityClass?? && superEntityClass=="TreeEntity">
   find: {
     method: 'GET',
     url: `/${cfg.serviceName}/${entity?uncap_first}`,
   },
-</#if>
   update: {
     method: 'PUT',
     url: `/${cfg.serviceName}/${entity?uncap_first}`
@@ -22,40 +20,77 @@ const apiList = {
   delete: {
     method: 'DELETE',
     url: `/${cfg.serviceName}/${entity?uncap_first}`
+  },
+  export: {
+    method: 'POST',
+    url: `/${cfg.serviceName}/${entity?uncap_first}/export`
+  },
+  preview: {
+    method: 'POST',
+    url: `/${cfg.serviceName}/${entity?uncap_first}/preview`
+  },
+  import: {
+    method: 'POST',
+    url: `/${cfg.serviceName}/${entity?uncap_first}/import`
   }
 }
 
 export default {
-  page (data) {
+  page (data, custom = {}) {
     return axiosApi({
       ...apiList.page,
-      data
+      data,
+      custom
     })
   },
-<#if superEntityClass?? && superEntityClass=="TreeEntity">
-  find (data) {
+  find (data, custom = {}) {
     return axiosApi({
       ...apiList.find,
-      data
+      data,
+      custom
     })
   },
-</#if>
-  save (data) {
+  save (data, custom = {}) {
     return axiosApi({
       ...apiList.save,
-      data
+      data,
+      custom
     })
   },
-  update (data) {
+  update (data, custom = {}) {
     return axiosApi({
       ...apiList.update,
-      data
+      data,
+      custom
     })
   },
-  delete (data) {
+  delete (data, custom = {}) {
     return axiosApi({
       ...apiList.delete,
-      data
+      data,
+      custom
+    })
+  },
+  export (data, custom = {}) {
+    return axiosApi({
+      ...apiList.export,
+      responseType: "blob",
+      data,
+      custom
+    })
+  },
+  preview (data, custom = {}) {
+    return axiosApi({
+      ...apiList.preview,
+      data,
+      custom
+    })
+  },
+  import (data, custom = {}) {
+    return axiosApi({
+      ...apiList.import,
+      data,
+      custom
     })
   }
 }
