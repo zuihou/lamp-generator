@@ -78,9 +78,13 @@ public class TestVueGenerator {
 //        keyField.put("describe_", new GenTableColumn("describe_", YES, YES, YES, NO, HtmlType.TEXTAREA));
 //        keyField.put("status_", new GenTableColumn("status_", YES, YES, YES, NO, HtmlType.RADIO_BUTTON));
 //        keyField.put("readony_", new GenTableColumn("readony_", NO, NO, YES, NO, HtmlType.RADIO_BUTTON));
+        // 指定 type3 字段使用 radio-button 样式， 拉取字典 EDUCATION 的值
         keyField.put("type3", new GenTableColumn("type3", YES, YES, YES, NO, HtmlType.RADIO_BUTTON).setDictType("EDUCATION"));
+        // 指定 type2 字段使用 select 样式， 拉取枚举 ProductType2Enum 的值
         keyField.put("type2", new GenTableColumn("type2", YES, YES, YES, NO, HtmlType.SELECT).setEnumType("ProductType2Enum"));
+        // 指定 type_ 字段使用 radio 样式， 拉取枚举 ProductType 的值
         keyField.put("type_", new GenTableColumn("type_", YES, YES, YES, NO, HtmlType.RADIO).setEnumType("ProductType"));
+        // 指定 status 字段使用 SWITCH 样式
         keyField.put("status", new GenTableColumn("status", YES, YES, YES, NO, HtmlType.SWITCH));
         //表名
         map.put("m_product", keyField);
