@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
+import java.time.LocalDateTime;
 <#if entityLombokModel>
 import lombok.AllArgsConstructor;
 import lombok.Builder;
