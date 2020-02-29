@@ -84,6 +84,7 @@ public class ${table.controllerName} {
     protected void handlerImport(List<Map<String, String>> list){
         List<${entity}> ${entity?uncap_first}List = list.stream().map((map) -> {
             ${entity} ${entity?uncap_first} = ${entity}.builder().build();
+            //TODO 请在这里完成转换
             return ${entity?uncap_first};
         }).collect(Collectors.toList());
 
