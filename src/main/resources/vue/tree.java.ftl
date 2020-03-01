@@ -11,19 +11,25 @@
             <el-button @click="reset" class="filter-item" plain type="warning">
               {{ $t("table.reset") }}
             </el-button>
-            <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['${entity?uncap_first}:add', '${entity?uncap_first}:delete', '${entity?uncap_first}:export']">
+            <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['${entity?uncap_first}:add']">
+              {{ $t("table.add") }}
+            </el-button>
+            <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['${entity?uncap_first}:import', '${entity?uncap_first}:delete', '${entity?uncap_first}:export']">
               <el-button>
                 {{ $t("table.more") }}<i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click.native="add" v-has-permission="['${entity?uncap_first}:add']">
-                  {{ $t("table.add") }}
-                </el-dropdown-item>
                 <el-dropdown-item @click.native="batchDelete" v-has-permission="['${entity?uncap_first}:delete']">
                   {{ $t("table.delete") }}
                 </el-dropdown-item>
                 <el-dropdown-item @click.native="exportExcel" v-has-permission="['${entity?uncap_first}:export']">
                   {{ $t("table.export") }}
+                </el-dropdown-item>
+                <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['${entity?uncap_first}:export']">
+                  {{ $t("table.exportPreview") }}
+                </el-dropdown-item>
+                <el-dropdown-item @click.native="importExcel" v-has-permission="['${entity?uncap_first}:import']">
+                  {{ $t("table.import") }}
                 </el-dropdown-item>
               </el-dropdown-menu>
             </el-dropdown>
@@ -138,23 +144,41 @@
                     type="${inputType}"/>
                         <#elseif htmlType?index_of('radio')!=-1>
               <el-radio-group v-model="${entity?uncap_first}.${myPropertyName}" size="medium">
-                                <#if myPropertyName == "status">
+                <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
+                <el-${htmlType} :key="index" :label="key" v-for="(item, key, index) in enums.${field.customMap.info.enumType}">{{item}}</el-${htmlType}>
+                <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
+                <el-${htmlType} :key="index" :label="key" v-for="(item, key, index) in dicts.${field.customMap.info.dictType}">{{item}}</el-${htmlType}>
+                <#else>
+                  <#if myPropertyName == "status">
                 <el-${htmlType} :label="true">{{ $t("common.status.valid") }}</el-${htmlType}>
                 <el-${htmlType} :label="false">{{ $t("common.status.invalid") }}</el-${htmlType}>
-                                <#else>
+                  <#else>
                 <el-${htmlType} :label="true">{{ $t("common.yes") }}</el-${htmlType}>
                 <el-${htmlType} :label="false">{{ $t("common.no") }}</el-${htmlType}>
-                                </#if>
+                  </#if>
+                </#if>
               </el-radio-group>
                         <#elseif htmlType=="switch">
               <el-switch :active-text="$t('common.yes')" :inactive-text="$t('common.no')" v-model="${entity?uncap_first}.${myPropertyName}" />
                         <#elseif htmlType?index_of('checkbox')!=-1>
               <el-checkbox-group v-model="${entity?uncap_first}.${myPropertyName}">
+                <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
+                <el-${htmlType} :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.${field.customMap.info.enumType}"/>
+                <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
+                <el-${htmlType} :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.${field.customMap.info.dictType}"/>
+                <#else>
                 <el-${htmlType} label="${entity?uncap_first}.${myPropertyName}"></el-${htmlType}>
+                </#if>
               </el-checkbox-group>
                         <#elseif htmlType=="select">
               <el-select v-model="${entity?uncap_first}.${myPropertyName}" placeholder="${fieldComment}" style="width:100%">
+                <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
+                <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in enums.${field.customMap.info.enumType}"/>
+                <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
+                <el-option :key="index" :label="item" :value="key" v-for="(item, key, index) in dicts.${field.customMap.info.dictType}"/>
+                <#else>
                 <el-option v-for="item in ${entity?uncap_first}List" :key="item.id" :label="item.name" :value="item.id"/>
+                </#if>
               </el-select>
                         <#else >
                 <el-${htmlType} type="${inputType}" v-model="${entity?uncap_first}.${myPropertyName}" placeholder="${fieldComment}"/>
@@ -179,13 +203,27 @@
         </el-card>
       </el-col>
     </el-row>
+
+    <${entity?uncap_first}-import ref="import" :dialog-visible="fileImport.isVisible" :type="fileImport.type"
+    :action="fileImport.action" accept=".xls,.xlsx" @close="importClose" @success="importSuccess" />
+    <el-dialog :close-on-click-modal="false" :close-on-press-escape="true"
+               title="预览" width="80%" top="50px" :visible.sync="preview.isVisible" v-el-drag-dialog>
+      <el-scrollbar>
+        <div v-html="preview.context"></div>
+      </el-scrollbar>
+    </el-dialog>
   </div>
 </template>
 <script>
 import ${entity?uncap_first}Api from "@/api/${entity}.js";
+import elDragDialog from '@/directive/el-drag-dialog'
+import ${entity}Import from "@/components/zuihou/Import"
+import {downloadFile, loadEnums, initDicts, initQueryParams} from '@/utils/commons'
 
 export default {
   name: "${entity}Manager",
+  directives: { elDragDialog },
+  components: { ${entity}Import },
   data() {
     return {
       label: "",
@@ -193,10 +231,49 @@ export default {
       ${entity?uncap_first}: this.init${entity}(),
       rules: {
 
+      },
+      // 预览
+      preview: {
+        isVisible: false,
+        context: ''
+      },
+      // 导入
+      fileImport: {
+        isVisible: false,
+        type: "import",
+        action: `${r'${'}process.env.VUE_APP_BASE_API${r'}'}/${cfg.serviceName}/${entity?uncap_first}/import`
+      },
+      // 枚举
+      enums: {
+        <#list table.fields as field>
+        <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
+        ${field.customMap.info.enumType}: {},
+        </#if>
+        </#list>
+      },
+      // 字典
+      dicts: {
+        <#list table.fields as field>
+        <#if field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
+        ${field.customMap.info.dictType}: {},
+        </#if>
+        </#list>
       }
     };
   },
   mounted() {
+    // 初始化字典和枚举
+    const enumList = [];
+    const dictList = [];
+    <#list table.fields as field>
+    <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
+    enumList.push('${field.customMap.info.enumType}');
+    <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
+    dictList.push('${field.customMap.info.dictType}');
+    </#if>
+    </#list>
+    loadEnums(enumList, this.enums, '${cfg.serviceName}');
+    initDicts(dictList, this.dicts);
   },
   methods: {
     init${entity}() {
@@ -238,16 +315,37 @@ export default {
       });
     },
     loadTree(node, resolve) {
-      ${entity?uncap_first}Api.find({parentId: node.data.id}).then(response => {
+      ${entity?uncap_first}Api.find({parentId: node.data.id ? node.data.id : 0}).then(response => {
         const res = response.data;
         resolve(res.data);
       });
     },
-    exportExcel() {
-      this.$message({
-        message: "待完善",
-        type: "warning"
+    exportExcelPreview() {
+      const queryParams = initQueryParams();
+      queryParams.map.fileName = '导出数据';
+      ${entity?uncap_first}Api.preview(queryParams).then(response => {
+        const res = response.data;
+        this.preview.isVisible = true;
+        this.preview.context = res.data;
       });
+    },
+    exportExcel() {
+      const queryParams = initQueryParams();
+      queryParams.map.fileName = '导出数据';
+      ${entity?uncap_first}Api.export(queryParams).then(response => {
+        downloadFile(response);
+      });
+    },
+    importExcel() {
+      this.fileImport.type = "upload";
+      this.fileImport.isVisible = true;
+      this.$refs.import.setModel(false);
+    },
+    importSuccess() {
+      this.init${entity}Tree(0);
+    },
+    importClose() {
+      this.fileImport.isVisible = false;
     },
     handleNumChange(val) {
       this.${entity?uncap_first}.sortValue = val;

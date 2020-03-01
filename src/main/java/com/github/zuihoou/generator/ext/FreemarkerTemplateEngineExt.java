@@ -101,7 +101,9 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
                 Map<String, GenTableColumn> fieldMap = tableFieldMap.get(t.getName());
                 if (CollUtil.isNotEmpty(fieldMap)) {
                     GenTableColumn genFiled = fieldMap.get(field.getName());
-                    customMap.put("info", genFiled);
+                    if(genFiled!= null) {
+                        customMap.put("info", genFiled);
+                    }
                 }
                 field.setCustomMap(customMap);
 

@@ -22,8 +22,8 @@ public class TestHahaGenerator {
      * @param args
      */
     public static void main(String[] args) {
-//        CodeGeneratorConfig build = buildHeheEntity();
-        CodeGeneratorConfig build = buildHahaEntity();
+        CodeGeneratorConfig build = buildHeheEntity();
+//        CodeGeneratorConfig build = buildHahaEntity();
 
         //mysql 账号密码
         build.setUsername("root");
@@ -88,8 +88,8 @@ public class TestHahaGenerator {
                         tables);
 
         // 实体父类
-        build.setSuperEntity(EntityType.TREE_ENTITY);
-//        build.setSuperEntity(EntityType.ENTITY);
+//        build.setSuperEntity(EntityType.TREE_ENTITY);
+        build.setSuperEntity(EntityType.ENTITY);
 
         // 子包名
         build.setChildPackageName("");
