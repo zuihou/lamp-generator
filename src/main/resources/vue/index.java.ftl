@@ -69,7 +69,7 @@
 
     <el-table :data="tableData.records" :key="tableKey" @cell-click="cellClick"
               @filter-change="filterChange" @selection-change="onSelectChange" @sort-change="sortChange"
-              border fit ref="table" row-key="id" style="width: 100%;" v-loading="loading">
+              border fit row-key="id" ref="table" style="width: 100%;" v-loading="loading">
       <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
       <#list table.fields as field>
       <#assign fType = "${field.type}"/>
@@ -154,7 +154,7 @@
         </template>
       </el-table-column>
       <el-table-column
-        :label="$t('table.operation')" align="center" class-name="small-padding fixed-width" width="100px">
+        :label="$t('table.operation')" align="center" column-key="operation" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{ row }">
           <i @click="copy(row)" class="el-icon-copy-document table-operation" :title="$t('common.delete')"
              style="color: #2db7f5;" v-hasPermission="['${entity?uncap_first}:copy']"/>
@@ -431,7 +431,23 @@ export default {
         }
       }
       this.search()
-    }
+    },
+    cellClick (row, column) {
+      if (column['columnKey'] === "operation") {
+        return;
+      }
+      let flag = false;
+      this.selection.forEach((item)=>{
+        if(item.id === row.id) {
+          flag = true;
+          this.$refs.table.toggleRowSelection(row);
+        }
+      })
+
+      if(!flag){
+        this.$refs.table.toggleRowSelection(row, true);
+      }
+    },
   }
 };
 </script>
