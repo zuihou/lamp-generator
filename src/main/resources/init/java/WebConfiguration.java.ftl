@@ -4,8 +4,8 @@ import com.github.zuihou.boot.config.BaseConfig;
 import org.springframework.context.annotation.Configuration;
 import com.github.zuihou.authority.api.LogApi;
 import com.github.zuihou.log.event.SysLogListener;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 
 /**
  * ${description}-Web配置
@@ -16,11 +16,9 @@ import org.springframework.context.annotation.Bean;
 @Configuration
 public class ${service}WebConfiguration extends BaseConfig {
 
-    @Value("${r"${"}zuihou.database.bizDatabase:zuihou_base${r"}"}")
-    private String database;
-
     @Bean
+    @ConditionalOnExpression("${zuihou.log.enabled:true} && 'DB'.equals('${zuihou.log.type:LOGGER}')")
     public SysLogListener sysLogListener(LogApi logApi) {
-        return new SysLogListener(this.database, (log) -> logApi.save(log));
+        return new SysLogListener((log) -> logApi.save(log));
     }
 }
