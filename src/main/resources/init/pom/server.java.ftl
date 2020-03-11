@@ -38,6 +38,12 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
+            <artifactId>zuihou-j2cache-starter</artifactId>
+        </dependency>
+
+
+        <dependency>
+            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-cloud-starter</artifactId>
         </dependency>
         <dependency>
@@ -46,13 +52,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-j2cache-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-config</artifactId>
         </dependency>
-
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
             <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
@@ -122,6 +123,9 @@
     </dependencies>
 
     <build>
+        <filters>
+            <filter>../../src/main/filters/config-${r"${"}env${r"}"}.properties</filter>
+        </filters>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
@@ -142,7 +146,7 @@
                 <version>${r"${"}dockerfile-maven-plugin.version${r"}"}</version>
                 <configuration>
                     <repository>${r"${"}docker.image.prefix${r"}"}/${r"${"}project.artifactId${r"}"}</repository>
-                    <tag>${r"${"}project.version${r"}"}</tag>
+                    <tag>${r"${"}zuihou-project.version${r"}"}</tag>
                     <buildArgs>
                         <JAR_FILE>target/${r"${"}project.build.finalName${r"}"}.jar</JAR_FILE>
                     </buildArgs>

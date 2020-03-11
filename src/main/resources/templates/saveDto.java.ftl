@@ -81,9 +81,6 @@ public class ${entity}SaveDTO implements Serializable {
             <#assign isEnumType="2"/>
         </#if>
     </#list>
-    <#if field.customMap.dict??>
-        <#assign isEnumType="3"/>
-    </#if>
     <#if field.customMap.Null == "NO" >
         <#if (field.columnType!"") == "STRING" && isEnumType == "1">
     @NotEmpty(message = "${fieldComment}不能为空")
@@ -116,10 +113,6 @@ public class ${entity}SaveDTO implements Serializable {
         <#if field.propertyType?starts_with("Short")>
     @Range(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
         </#if>
-    </#if>
-    <#if field.customMap.dict??>
-    @DictionaryType("${field.customMap.dict}")
-        <#assign myPropertyType="Dictionary"/>
     </#if>
     <#assign myPropertyName="${field.propertyName}"/>
     <#-- 自动注入注解 -->

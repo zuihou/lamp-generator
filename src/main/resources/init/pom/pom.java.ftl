@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>${groupId}</groupId>
-        <artifactId>${projectPrefix}backend</artifactId>
+        <artifactId>${projectPrefix}admin-cloud</artifactId>
         <version>${version}</version>
         <relativePath>../</relativePath>
     </parent>
@@ -28,17 +28,17 @@
             <dependency>
                 <groupId>${groupId}</groupId>
                 <artifactId>${projectPrefix}${serviceName}-entity</artifactId>
-                <version>${r"${"}project.version${r"}"}</version>
+                <version>${r"${"}zuihou-project.version${r"}"}</version>
             </dependency>
             <dependency>
                 <groupId>${groupId}</groupId>
                 <artifactId>${projectPrefix}${serviceName}-biz</artifactId>
-                <version>${r"${"}project.version${r"}"}</version>
+                <version>${r"${"}zuihou-project.version${r"}"}</version>
             </dependency>
             <dependency>
                 <groupId>${groupId}</groupId>
                 <artifactId>${projectPrefix}${serviceName}-controller</artifactId>
-                <version>${r"${"}project.version${r"}"}</version>
+                <version>${r"${"}zuihou-project.version${r"}"}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

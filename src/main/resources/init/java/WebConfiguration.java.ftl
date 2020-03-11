@@ -17,7 +17,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 public class ${service}WebConfiguration extends BaseConfig {
 
     @Bean
-    @ConditionalOnExpression("${zuihou.log.enabled:true} && 'DB'.equals('${zuihou.log.type:LOGGER}')")
+    @ConditionalOnExpression("${r'${'}zuihou.log.enabled:true${r'}'} && 'DB'.equals('${r'${'}zuihou.log.type:LOGGER${r'}'}')")
     public SysLogListener sysLogListener(LogApi logApi) {
         return new SysLogListener((log) -> logApi.save(log));
     }

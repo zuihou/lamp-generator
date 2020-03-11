@@ -73,11 +73,6 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 <#if superEntityClass?? && superEntityClass=="TreeEntity">
     <#assign hasCustomAnno="1"/>
 </#if>
-<#--<#list table.fields as field>-->
-<#--<#if field.customMap?? && field.customMap.annotation??>-->
-<#--    <#assign hasCustomAnno="1"/>-->
-<#--</#if>-->
-<#--</#list>-->
 public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if><#list table.commonFields as field><#if field.keyFlag><<#if hasCustomAnno == "1">${entity}, </#if>${field.propertyType}></#if></#list> {
 <#elseif activeRecord>
 @AllArgsConstructor
@@ -225,10 +220,12 @@ public class ${entity} implements Serializable {
 
 <#-- 如果有父类，自定义无全参构造方法 -->
     @Builder
-    public ${entity}(<#list table.commonFields as cf>${cf.propertyType} ${cf.propertyName}, </#list>
-                    <#list table.fields as field><#assign myPropertyType="${field.propertyType}"/><#if field.customMap.annotation??><#assign myPropertyType="${field.customMap.type}"/></#if><#if field.customMap.dict??><#assign myPropertyType="Dictionary"/></#if><#list cfg.filedTypes as fieldType><#if fieldType.name == field.propertyName && table.name==fieldType.table && field.propertyType=="String"><#assign myPropertyType="${fieldType.type}"/></#if></#list><#if field_has_next>${((field_index + 1) % 6 ==0)?string('\r\n                    ', '')}${myPropertyType} ${field.propertyName}, <#else>${myPropertyType} ${field.propertyName}</#if></#list>) {
+    public ${entity}(<#list table.commonFields as cf><#if cf.propertyName!="tenantCode">${cf.propertyType} ${cf.propertyName}, </#if></#list>
+                    <#list table.fields as field><#assign myPropertyType="${field.propertyType}"/><#if field.customMap.annotation??><#assign myPropertyType="${field.customMap.type}"/></#if><#list cfg.filedTypes as fieldType><#if fieldType.name == field.propertyName && table.name==fieldType.table && field.propertyType=="String"><#assign myPropertyType="${fieldType.type}"/></#if></#list><#if field_has_next>${((field_index + 1) % 6 ==0)?string('\r\n                    ', '')}${myPropertyType} ${field.propertyName}, <#else>${myPropertyType} ${field.propertyName}</#if></#list>) {
     <#list table.commonFields as cf>
+        <#if cf.propertyName!="tenantCode">
         this.${cf.propertyName} = ${cf.propertyName};
+        </#if>
     </#list>
     <#list table.fields as field>
         <#assign myPropertyName="${field.propertyName}"/>

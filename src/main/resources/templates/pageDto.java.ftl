@@ -82,9 +82,6 @@ public class ${entity}PageDTO implements Serializable {
             <#assign isEnumType="2"/>
         </#if>
     </#list>
-    <#if field.customMap.dict??>
-        <#assign isEnumType="3"/>
-    </#if>
     <#if field.customMap.Null == "NO" >
         <#if (field.columnType!"") == "STRING" && isEnumType == "1">
     @NotEmpty(message = "${fieldComment}不能为空")
@@ -118,20 +115,18 @@ public class ${entity}PageDTO implements Serializable {
     @Range(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
         </#if>
     </#if>
-    <#if field.customMap.dict??>
-    @DictionaryType("${field.customMap.dict}")
-        <#assign myPropertyType="Dictionary"/>
+    <#-- 自动注入注解 -->
+    <#if field.customMap.annotation??>
+    ${field.customMap.annotation}
+        <#assign myPropertyType="${field.customMap.type}"/>
+        <#if field.propertyName?ends_with("Id")>
+            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
+        </#if>
     </#if>
     <#assign myPropertyName="${field.propertyName}"/>
     private ${myPropertyType} ${myPropertyName};
 </#if>
 </#list>
-
-    @ApiModelProperty(value = "开始时间")
-    private LocalDateTime startCreateTime;
-
-    @ApiModelProperty(value = "截止时间")
-    private LocalDateTime endCreateTime;
 
 <#if superEntityClass?? && superEntityClass=="TreeEntity">
     @ApiModelProperty(value = "名称")

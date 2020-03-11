@@ -1,14 +1,6 @@
 <template>
   <el-dialog :close-on-click-modal="false" :close-on-press-escape="true" :title="title" :type="type"
              :visible.sync="isVisible" :width="width" top="50px" v-el-drag-dialog>
-    <div class="dialog-footer" slot="footer">
-      <el-button @click="isVisible = false" plain type="warning">
-        {{ $t("common.cancel") }}
-      </el-button>
-      <el-button @click="submitForm" plain type="primary">
-        {{ $t("common.confirm") }}
-      </el-button>
-    </div>
     <el-form :model="${entity?uncap_first}" :rules="rules" label-position="right" label-width="100px" ref="form">
       <#list table.fields as field>
       <#assign fType = "${field.type}"/>
@@ -130,6 +122,14 @@
       </#if>
       </#list>
     </el-form>
+    <div class="dialog-footer" slot="footer">
+      <el-button @click="isVisible = false" plain type="warning">
+        {{ $t("common.cancel") }}
+      </el-button>
+      <el-button @click="submitForm" :disabled="confirmDisabled" plain type="primary">
+        {{ $t("common.confirm") }}
+      </el-button>
+    </div>
   </el-dialog>
 </template>
 <script>
@@ -152,6 +152,7 @@ export default {
   },
   data() {
     return {
+      confirmDisabled: false,
       ${entity?uncap_first}: this.init${entity}(),
       screenWidth: 0,
       width: this.initWidth(),
@@ -270,6 +271,7 @@ export default {
       // 先清除校验，再清除表单，不然有奇怪的bug
       this.$refs.form.clearValidate();
       this.$refs.form.resetFields();
+      this.confirmDisabled = false;
       this.${entity?uncap_first} = this.init${entity}();
     },
     submitForm() {
@@ -292,6 +294,7 @@ export default {
     },
     save() {
       const vm = this;
+      vm.confirmDisabled = true;
       ${entity?uncap_first}Api.save(this.${entity?uncap_first}).then(response => {
         const res = response.data;
         if (res.isSuccess) {
@@ -302,20 +305,22 @@ export default {
           });
           vm.$emit("success");
         }
-      });
+      }).finally(()=> vm.confirmDisabled = false);
     },
     update() {
+      const vm = this;
+      vm.confirmDisabled = true;
       ${entity?uncap_first}Api.update(this.${entity?uncap_first}).then(response => {
         const res = response.data;
         if (res.isSuccess) {
-          this.isVisible = false;
-          this.$message({
+          vm.isVisible = false;
+          vm.$message({
             message: this.$t("tips.updateSuccess"),
             type: "success"
           });
-          this.$emit("success");
+          vm.$emit("success");
         }
-      });
+      }).finally(()=> vm.confirmDisabled = false);
     }
   }
 };

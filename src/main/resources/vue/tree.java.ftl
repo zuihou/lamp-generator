@@ -309,13 +309,13 @@ export default {
       };
     },
     init${entity}Tree(parentId = 0) {
-      ${entity?uncap_first}Api.find({parentId: parentId}).then(response => {
+      ${entity?uncap_first}Api.query({parentId: parentId}).then(response => {
         const res = response.data;
         this.${entity?uncap_first}Tree = res.data;
       });
     },
     loadTree(node, resolve) {
-      ${entity?uncap_first}Api.find({parentId: node.data.id ? node.data.id : 0}).then(response => {
+      ${entity?uncap_first}Api.query({parentId: node.data.id ? node.data.id : 0}).then(response => {
         const res = response.data;
         resolve(res.data);
       });

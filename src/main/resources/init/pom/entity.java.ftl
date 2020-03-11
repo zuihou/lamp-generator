@@ -18,6 +18,7 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-common</artifactId>
+            <version>${r"${"}zuihou-project.version${r"}"}</version>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
@@ -30,6 +31,10 @@
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-annotation</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>cn.afterturn</groupId>
+            <artifactId>easypoi-base</artifactId>
         </dependency>
     </dependencies>
 

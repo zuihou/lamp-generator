@@ -1,7 +1,4 @@
 zuihou:
-  database:
-    isMultiTenant: true
-    bizDatabase: zuihou_base
   swagger:
     docket:
       ${serviceName}:

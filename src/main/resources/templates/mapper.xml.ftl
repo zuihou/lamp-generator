@@ -29,6 +29,7 @@
 </#if>
 </#list>
 <#list table.commonFields as field><#--生成公共字段 -->
+    <#if field.propertyName!="tenantCode">
     <#if field.keyFlag>
     <#if field.type?starts_with("int")>
         <id column="${field.name}" jdbcType="INTEGER" property="${field.propertyName}"/>
@@ -58,6 +59,7 @@
         <#else>
         <result column="${field.name}" jdbcType="${field.type?upper_case}" property="${field.propertyName}"/>
         </#if>
+    </#if>
     </#if>
     </#if>
 </#list>
@@ -91,7 +93,7 @@
 <#if baseColumnList>
     <!-- 通用查询结果列 -->
     <sql id="Base_Column_List">
-        <#list table.commonFields as field>${field.name}, </#list>
+        <#list table.commonFields as field><#if field.propertyName!="tenantCode">${field.name},</#if></#list>
         ${table.fieldNames}
     </sql>
 

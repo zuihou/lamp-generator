@@ -5,9 +5,9 @@ const apiList = {
     method: 'POST',
     url: `/${cfg.serviceName}/${entity?uncap_first}/page`,
   },
-  find: {
-    method: 'GET',
-    url: `/${cfg.serviceName}/${entity?uncap_first}`,
+  query: {
+    method: 'POST',
+    url: `/${cfg.serviceName}/${entity?uncap_first}/query`,
   },
   update: {
     method: 'PUT',
@@ -43,9 +43,9 @@ export default {
       custom
     })
   },
-  find (data, custom = {}) {
+  query (data, custom = {}) {
     return axiosApi({
-      ...apiList.find,
+      ...apiList.query,
       data,
       custom
     })

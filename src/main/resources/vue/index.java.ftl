@@ -109,7 +109,7 @@
                   <#if field.customMap?? && field.customMap.info?? && field.customMap.info.enumType??>
                         :filter-multiple="false" column-key="${myPropertyName}.code" :filters="${myPropertyName}List"
                   <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
-                        :filter-multiple="false" column-key="${myPropertyName}.code" :filters="${myPropertyName}List"
+                        :filter-multiple="false" column-key="${myPropertyName}.key" :filters="${myPropertyName}List"
                   </#if>
                         <#if field.propertyType =="LocalDate">width="110"<#elseif field.propertyType =="LocalDateTime">width="170"<#else>width="${width}"</#if>>
         <template slot-scope="scope">
@@ -157,7 +157,7 @@
         :label="$t('table.operation')" align="center" column-key="operation" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{ row }">
           <i @click="copy(row)" class="el-icon-copy-document table-operation" :title="$t('common.delete')"
-             style="color: #2db7f5;" v-hasPermission="['${entity?uncap_first}:copy']"/>
+             style="color: #2db7f5;" v-hasPermission="['${entity?uncap_first}:add']"/>
           <i @click="edit(row)" class="el-icon-edit table-operation" :title="$t('common.delete')"
              style="color: #2db7f5;" v-hasPermission="['${entity?uncap_first}:update']"/>
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" :title="$t('common.delete')"
@@ -328,6 +328,7 @@ export default {
       this.fileImport.isVisible = false;
     },
     singleDelete(row) {
+      this.$refs.table.clearSelection()
       this.$refs.table.toggleRowSelection(row, true);
       this.batchDelete();
     },
@@ -394,11 +395,10 @@ export default {
 
       ${entity?uncap_first}Api.page(this.queryParams).then(response => {
         const res = response.data;
-        this.loading = false;
         if (res.isSuccess) {
           this.tableData = res.data;
         }
-      });
+      }).finally(() => this.loading = false);
     },
     cellClick(row) {
       let flag = false;

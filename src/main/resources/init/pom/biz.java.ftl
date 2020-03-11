@@ -27,6 +27,7 @@
         <dependency>
             <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}authority-api</artifactId>
+            <version>${r"${"}zuihou-project.version${r"}"}</version>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
@@ -53,12 +54,6 @@
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus</artifactId>
-        </dependency>
-
-        <!-- @RefreshScope 需要使用 -->
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-context</artifactId>
         </dependency>
 
     </dependencies>
