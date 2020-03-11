@@ -147,12 +147,8 @@ public class ProjectGenerator {
 
         System.err.println("生成完毕，但请手动完成以下操作：");
         System.err.println("------------------------------------------");
-        System.err.println(String.format("将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "backend"));
+        System.err.println(String.format("将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "admin-cloud"));
         System.err.println(String.format("        <module>%s</module>", serviceName));
-
-//        System.err.println("------------------------------------------");
-//        System.err.println(String.format("将以下配置手工加入：%s/%s/pom.xml", this.config.getProjectPrefix() + "backend", this.config.getProjectPrefix() + "api"));
-//        System.err.println(String.format("        <module>%s</module>", serviceName + "-api"));
 
         System.err.println("------------------------------------------");
         String projectName = serviceName + "-server";

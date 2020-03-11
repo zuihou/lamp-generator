@@ -15,7 +15,7 @@ public class TestInitProject {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
         config
                 // zuihou-admin-cloud 项目的 绝对路径！
-                .setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend")
+                .setProjectRootPath(System.getProperty("user.dir"))
                 // 需要新建的 服务名      该例会生成 zuihou-haha 服务
                 .setServiceName("haha")
 
@@ -26,15 +26,15 @@ public class TestInitProject {
                 .setAuthor("zuihou")
                 // 项目描述
                 .setDescription("商品服务")
-                // 项目的版本， 一定要跟 zuihou-backend 下的其他服务版本一致， 否则会出错哦
-                .setVersion("1.0-SNAPSHOT")
+                // 项目的版本， 一定要跟 zuihou-admin-cloud 下的其他服务版本一致， 否则会出错哦
+                .setVersion("c.2.0-SNAPSHOT")
                 // 服务的端口号
                 .setServerPort("17080")
                 // 项目的 groupId
                 .setGroupId("com.github.zuihou")
         ;
         // 项目的业务代码 存放的包路径
-        config.setPackageBase("cn.github.haha." + config.getChildModuleName());
+        config.setPackageBase("cn.gitee.haha." + config.getChildModuleName());
 
         System.out.println("项目初始化根路径：" + config.getProjectRootPath());
         ProjectGenerator pg = new ProjectGenerator(config);

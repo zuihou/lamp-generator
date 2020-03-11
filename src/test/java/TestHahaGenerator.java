@@ -4,6 +4,7 @@ import com.github.zuihoou.generator.config.FileCreateConfig;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.EntityType;
 import com.github.zuihoou.generator.type.GenerateType;
+import com.github.zuihoou.generator.type.SuperClass;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -22,16 +23,16 @@ public class TestHahaGenerator {
      * @param args
      */
     public static void main(String[] args) {
-        CodeGeneratorConfig build = buildHeheEntity();
-//        CodeGeneratorConfig build = buildHahaEntity();
+//        CodeGeneratorConfig build = buildHeheEntity();
+        CodeGeneratorConfig build = buildHahaEntity();
 
         //mysql 账号密码
         build.setUsername("root");
         build.setPassword("root");
 
         System.out.println("输出路径：");
-        System.out.println(System.getProperty("user.dir") + "/zuihou-backend/zuihou-haha");
-        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-haha");
+        System.out.println(System.getProperty("user.dir") + "/zuihou-haha");
+        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-haha");
 
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
 //         生成全部后端类
@@ -54,7 +55,7 @@ public class TestHahaGenerator {
         ));
         build.setFiledTypes(filedTypes);
 
-        build.setPackageBase("cn.github.haha." + build.getChildModuleName());
+        build.setPackageBase("cn.gitee.haha." + build.getChildModuleName());
 
         // 运行
         CodeGenerator.run(build);
@@ -88,8 +89,21 @@ public class TestHahaGenerator {
                         tables);
 
         // 实体父类
-//        build.setSuperEntity(EntityType.TREE_ENTITY);
-        build.setSuperEntity(EntityType.ENTITY);
+        build.setSuperEntity(EntityType.TREE_ENTITY);
+//        build.setSuperEntity(EntityType.ENTITY);
+
+        build.setSuperControllerClass(SuperClass.SUPER_CLASS.getController());
+        build.setSuperServiceClass(SuperClass.SUPER_CLASS.getService());
+        build.setSuperServiceImplClass(SuperClass.SUPER_CLASS.getServiceImpl());
+        build.setSuperMapperClass(SuperClass.SUPER_CLASS.getMapper());
+//        build.setSuperControllerClass(SuperClass.NONE.getController());
+//        build.setSuperServiceClass(SuperClass.NONE.getService());
+//        build.setSuperServiceImplClass(SuperClass.NONE.getServiceImpl());
+//        build.setSuperMapperClass(SuperClass.NONE.getMapper());
+//        build.setSuperControllerClass(SuperClass.SUPER_CACHE_CLASS.getController());
+//        build.setSuperServiceClass(SuperClass.SUPER_CACHE_CLASS.getService());
+//        build.setSuperServiceImplClass(SuperClass.SUPER_CACHE_CLASS.getServiceImpl());
+//        build.setSuperMapperClass(SuperClass.SUPER_CACHE_CLASS.getMapper());
 
         // 子包名
         build.setChildPackageName("");

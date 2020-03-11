@@ -15,16 +15,16 @@ public enum EntityType {
     /**
      * 只有id
      */
-    SUPER_ENTITY("com.github.zuihou.base.entity.SuperEntity", new String[]{"id", "create_time", "create_user"}),
+    SUPER_ENTITY("com.github.zuihou.base.entity.SuperEntity", new String[]{"id", "tenant_code", "create_time", "create_user"}),
     /**
      * 有创建人创建时间等
      */
-    ENTITY("com.github.zuihou.base.entity.Entity", new String[]{"id", "create_time", "create_user", "update_time", "update_user"}),
+    ENTITY("com.github.zuihou.base.entity.Entity", new String[]{"id", "tenant_code", "create_time", "create_user", "update_time", "update_user"}),
 
     /**
      * 树形实体
      */
-    TREE_ENTITY("com.github.zuihou.base.entity.TreeEntity", new String[]{"id", "create_time", "create_user", "update_time", "update_user", "label", "parent_id", "sort_value"}),
+    TREE_ENTITY("com.github.zuihou.base.entity.TreeEntity", new String[]{"id", "tenant_code", "create_time", "create_user", "update_time", "update_user", "label", "parent_id", "sort_value"}),
 
     /**
      * 不继承任何实体

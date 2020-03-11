@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.github.zuihoou.generator.model.GenTableColumn;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.EntityType;
+import com.github.zuihoou.generator.type.SuperClass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -104,20 +105,20 @@ public class CodeGeneratorConfig {
     /**
      * controller的父类
      */
-    private String superControllerClass = "com.github.zuihou.base.SuperController";
+    private String superControllerClass = SuperClass.SUPER_CLASS.getController();
 
     /**
      * 自定义继承的Mapper类全称，带包名
      */
-    private String superMapperClass = "com.github.zuihou.base.mapper.SuperMapper";
+    private String superMapperClass = SuperClass.SUPER_CLASS.getMapper();
     /**
      * 自定义继承的Service类全称，带包名
      */
-    private String superServiceClass = "com.github.zuihou.base.service.SuperService";
+    private String superServiceClass = SuperClass.SUPER_CLASS.getService();
     /**
      * 自定义继承的ServiceImpl类全称，带包名
      */
-    private String superServiceImplClass = "com.github.zuihou.base.service.SuperCacheServiceImpl";
+    private String superServiceImplClass = SuperClass.SUPER_CLASS.getServiceImpl();
     /**
      * 表前缀
      */
@@ -138,7 +139,7 @@ public class CodeGeneratorConfig {
     /**
      * 驱动连接的URL
      */
-    private String url = "jdbc:mysql://127.0.0.1:3306/zuihou_core_dev?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull";
+    private String url = "jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull";
     /**
      * 驱动名称
      */
@@ -207,7 +208,7 @@ public class CodeGeneratorConfig {
     }
 
     public String getChildModuleName() {
-        if (StringUtils.isEmpty(this.childModuleName)) {
+        if (StringUtils.isBlank(this.childModuleName)) {
             this.childModuleName = this.serviceName;
         }
         return this.childModuleName;
