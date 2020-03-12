@@ -29,8 +29,8 @@ public class TestVueGenerator {
         FileCreateConfig fileCreateConfig = new FileCreateConfig(null, true);
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE, true);
 
-//        CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
-        CodeGeneratorConfig build = buildTreeEntity(fileCreateConfig);
+        CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
+//        CodeGeneratorConfig build = buildTreeEntity(fileCreateConfig);
         //mysql 账号密码
         build.setUsername("root");
         build.setPassword("root");
@@ -85,7 +85,7 @@ public class TestVueGenerator {
         // 指定 type_ 字段使用 radio 样式， 拉取枚举 ProductType 的值
         keyField.put("type_", new GenTableColumn("type_", YES, YES, YES, NO, HtmlType.RADIO).setEnumType("ProductType"));
         // 指定 status 字段使用 SWITCH 样式
-        keyField.put("status", new GenTableColumn("status", YES, YES, YES, NO, HtmlType.SWITCH));
+        keyField.put("status", new GenTableColumn("status", NO, NO, YES, NO, HtmlType.SWITCH));
         //表名
         map.put("m_product", keyField);
 

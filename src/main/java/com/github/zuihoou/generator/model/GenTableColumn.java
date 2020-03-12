@@ -22,12 +22,12 @@ public class GenTableColumn {
     public static final String NO = "0";
     private static final long serialVersionUID = 1L;
     /**
-     * 归属表
+     * 归属表 自动计算
      */
     private String tableName;
 
     /**
-     * 列名称
+     * 列名称 自动计算
      */
     private String name;
 
@@ -51,7 +51,9 @@ public class GenTableColumn {
      */
     private String javaField;
     /**
-     * 宽度
+     * Index页面 Table 的列宽度
+     *
+     * @since 2.0 支持
      */
     private String width;
 
@@ -62,21 +64,29 @@ public class GenTableColumn {
 
     /**
      * 是否为插入字段（1是） 为空时自动计算
+     *
+     * @since 2.0 支持
      */
     private String isInsert;
 
     /**
      * 是否编辑字段（1是） 为空时自动计算
+     *
+     * @since 2.0 支持
      */
     private String isEdit;
 
     /**
      * 是否列表字段（1是）为空时自动计算
+     *
+     * @since 2.0 支持
      */
     private String isList;
 
     /**
      * 是否查询字段（1是） 为空时自动计算
+     *
+     * @since 2.0 支持
      */
     private String isQuery;
 
@@ -87,15 +97,21 @@ public class GenTableColumn {
 
     /**
      * 显示类型（input文本框、textarea文本域、select下拉框、checkbox复选框、radio单选框、datetime日期控件） 为空时自动计算
+     *
+     * @since 2.0 支持
      */
     private String htmlType;
 
     /**
-     * 字典类型 暂时不支持
+     * 字典类型
+     *
+     * @since 2.0 支持
      */
     private String dictType;
     /**
      * 枚举类型
+     *
+     * @since 2.0 支持
      */
     private String enumType;
 
@@ -103,6 +119,8 @@ public class GenTableColumn {
     }
 
     /**
+     * 因为前段新增和报错共用一个页面，所以目前 isInsert 和 isEdit 必须都为0才不会显示在编辑页面
+     *
      * @param name     字段名
      * @param isInsert 是否显示在新增页面 1/0 空字符串就自动计算
      * @param isEdit   是否显示在修改页面 1/0 空字符串就自动计算

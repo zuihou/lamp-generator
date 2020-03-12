@@ -8,7 +8,7 @@
           <#assign fType = field.type?substring(0, field.type?index_of("("))?upper_case/>
       </#if>
       <#assign isInsert="1"/><#-- 是否保存 -->
-      <#assign isUpdate="1"/><#-- 是否修改 -->
+      <#assign isEdit="1"/><#-- 是否修改 -->
       <#assign htmlType="input"/><#-- 输入框 -->
       <#assign inputType=""/><#-- 输入框类型 -->
       <#assign myPropertyName="${field.propertyName}"/>
@@ -45,7 +45,7 @@
           </#if>
           <#if field.customMap.info??>
               <#if field.customMap.info.isInsert??><#assign isInsert="${field.customMap.info.isInsert}"/></#if>
-              <#if field.customMap.info.isUpdate??><#assign isUpdate="${field.customMap.info.isUpdate}"/></#if>
+              <#if field.customMap.info.isEdit??><#assign isEdit="${field.customMap.info.isEdit}"/></#if>
               <#if field.customMap.info.htmlType??>
                   <#assign htmlType="${field.customMap.info.htmlType}"/>
                   <#if field.customMap.info.htmlType == "textarea">
@@ -66,7 +66,8 @@
             <#assign myPropertyName="${field.propertyName}.code"/>
           </#if>
       </#if>
-      <#if isInsert =="1" || isUpdate =="1">
+        ${isInsert} -${isEdit} -${myPropertyName}
+      <#if isInsert =="1" || isEdit =="1">
       <el-form-item :label="$t('table.${entity?uncap_first}.${labelPropertyName}')" prop="${labelPropertyName}">
         <#if htmlType=="date-picker">
         <el-date-picker
