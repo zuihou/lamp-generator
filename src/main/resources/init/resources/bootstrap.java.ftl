@@ -1,9 +1,9 @@
 # @xxx@ 从pom.xml中取值, 所以 @xx@ 标注的值，都不能从nacos中获取
 zuihou:
   nacos:
-    ip: ${r"${"}NACOS_IP:@pom.nacos.ip@${r"}"}
-    port: ${r"${"}NACOS_PORT:@pom.nacos.port@${r"}"}
-    namespace: ${r"${"}NACOS_ID:@pom.nacos.namespace@${r"}"}
+    ip: ${r"${"}NACOS_IP:@nacos.ip@${r"}"}
+    port: ${r"${"}NACOS_PORT:@nacos.port@${r"}"}
+    namespace: ${r"${"}NACOS_ID:@nacos.namespace@${r"}"}
 
 spring:
   main:
@@ -11,7 +11,7 @@ spring:
   application:
     name: @project.artifactId@
   profiles:
-    active: @pom.profile.name@
+    active: @profile.active@
   cloud:
     nacos:
       config:
