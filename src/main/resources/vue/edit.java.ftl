@@ -66,7 +66,6 @@
             <#assign myPropertyName="${field.propertyName}.code"/>
           </#if>
       </#if>
-        ${isInsert} -${isEdit} -${myPropertyName}
       <#if isInsert =="1" || isEdit =="1">
       <el-form-item :label="$t('table.${entity?uncap_first}.${labelPropertyName}')" prop="${labelPropertyName}">
         <#if htmlType=="date-picker">
