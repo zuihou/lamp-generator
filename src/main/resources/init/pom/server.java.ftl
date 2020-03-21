@@ -124,7 +124,7 @@
 
     <build>
         <filters>
-            <filter>../../src/main/filters/config-${r"${"}env${r"}"}.properties</filter>
+            <filter>../../src/main/filters/config-${r"${"}profile.active${r"}"}.properties</filter>
         </filters>
         <plugins>
             <plugin>
