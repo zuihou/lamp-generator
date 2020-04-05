@@ -32,8 +32,8 @@ public class TestAuthorityGenerator {
         build.setUsername("root");
         build.setPassword("root");
         System.out.println("输出路径：");
-        System.out.println(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
-        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-authority");
+        System.out.println(System.getProperty("user.dir") + "/zuihou-authority");
+        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-authority");
 
         // null 表示 使用下面的 生成策略
         FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
@@ -81,13 +81,14 @@ public class TestAuthorityGenerator {
 
     private static CodeGeneratorConfig buildAuthEntity() {
         List<String> tables = Arrays.asList(
+                "c_auth_user_token"
 //                "c_auth_application"
 //                , "c_auth_application_system_api"
 //                , "c_auth_system_api"
 //                "c_auth_menu"
 //                , "c_auth_resource"
 //                "c_auth_role"
-                "c_auth_user"
+//                "c_auth_user"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou", "c_auth_", tables);

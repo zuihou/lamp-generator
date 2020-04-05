@@ -30,7 +30,7 @@
 
         <dependency>
             <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-user-starter</artifactId>
+            <artifactId>zuihou-security-starter</artifactId>
         </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>

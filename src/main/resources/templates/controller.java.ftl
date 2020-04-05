@@ -18,6 +18,7 @@ import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
+import com.github.zuihou.security.annotation.PreAuth;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>
@@ -49,6 +50,7 @@ import org.springframework.stereotype.Controller;
 <#if swagger2>
 @Api(value = "${entity}", tags = "${tableComment}")
 </#if>
+@PreAuth(replace = "${entity?uncap_first}:")
 <#if kotlin>
     class ${table.controllerName}<#if superControllerClass??> : ${superControllerClass}()</#if>
 <#else>

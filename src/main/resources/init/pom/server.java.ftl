@@ -17,6 +17,10 @@
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
+            <artifactId>${projectPrefix}tenant-biz</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}${serviceName}-controller</artifactId>
         </dependency>
 

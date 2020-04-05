@@ -198,8 +198,9 @@ public class ProjectGenerator {
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "logback-spring"), Paths.get(serverResourcePath, "logback-spring.xml").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "spy"), Paths.get(serverResourcePath, "spy.properties").toString());
 
-        String serviceNameDev = this.config.getProjectPrefix() + this.config.getServiceName() + "-server-dev.yml";
-        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "application-dev"), Paths.get(serverResourcePath, serviceNameDev).toString());
+        //dev 废除
+//        String serviceNameDev = this.config.getProjectPrefix() + this.config.getServiceName() + "-server-dev.yml";
+//        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "application-dev"), Paths.get(serverResourcePath, serviceNameDev).toString());
         String serviceName = this.config.getProjectPrefix() + this.config.getServiceName() + "-server.yml";
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "application"), Paths.get(serverResourcePath, serviceName).toString());
     }
@@ -217,7 +218,7 @@ public class ProjectGenerator {
         //启动类
         this.writer(objectMap, String.format(INIT_JAVA_FTL, "Application"), Paths.get(serverApplicationParentPath, service + "ServerApplication.java").toString());
         // 通用控制器
-        this.writer(objectMap, String.format(INIT_JAVA_FTL, "GeneralController"), Paths.get(serverApplicationParentPath, "general", "controller", service + "GeneralController.java").toString());
+//        this.writer(objectMap, String.format(INIT_JAVA_FTL, "GeneralController"), Paths.get(serverApplicationParentPath, "general", "controller", service + "GeneralController.java").toString());
 
         String serverConfigPath = Paths.get(serverApplicationPath, "config").toString();
         // 全局异常

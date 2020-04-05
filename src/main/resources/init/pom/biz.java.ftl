@@ -26,7 +26,7 @@
 
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>${projectPrefix}authority-api</artifactId>
+            <artifactId>${projectPrefix}oauth-api</artifactId>
             <version>${r"${"}zuihou-project.version${r"}"}</version>
         </dependency>
         <dependency>

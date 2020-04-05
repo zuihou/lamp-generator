@@ -38,7 +38,7 @@ spring:
 # window会自动在 代码所在盘 根目录下自动创建文件夹，  如： D:/data/projects/logs
 logging:
   file:
-    path: /data/projects/logs
+    path: @logging.file.path@
     name: ${r"${"}logging.file.path${r"}"}/${r"${"}spring.application.name}/root.log
 
 # 用于/actuator/info
@@ -46,5 +46,5 @@ info:
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'
-  spring-boot-version: '@spring.boot.version@'
+  spring-boot-version: '${spring.boot.version}'
   spring-cloud-version: '@spring.cloud.version@'

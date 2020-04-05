@@ -27,7 +27,7 @@ public class TestInitProject {
                 // 项目描述
                 .setDescription("商品服务")
                 // 项目的版本， 一定要跟 zuihou-admin-cloud 下的其他服务版本一致， 否则会出错哦
-                .setVersion("c.2.0-SNAPSHOT")
+                .setVersion("c.2.1-SNAPSHOT")
                 // 服务的端口号
                 .setServerPort("17080")
                 // 项目的 groupId
