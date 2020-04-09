@@ -52,10 +52,10 @@ import java.util.List;
 @Configuration
 @Slf4j
 @MapperScan(
-        basePackages = { "${packageBaseParent}", }, annotationClass = Repository.class,
+        basePackages = { "${packageBaseParent}", <#if packageBaseParent != "com.github.zuihou">"com.github.zuihou"</#if>}, annotationClass = Repository.class,
         sqlSessionFactoryRef = ${service}DatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class})
-@ConditionalOnExpression("!'DATASOURCE'.equals('${zuihou.database.multiTenantType}')")
+@ConditionalOnExpression("!'DATASOURCE'.equals('${r"${zuihou.database.multiTenantType}"}')")
 public class ${service}DatabaseAutoConfiguration extends BaseDatabaseConfiguration {
     /**
      * 每个数据源配置不同即可

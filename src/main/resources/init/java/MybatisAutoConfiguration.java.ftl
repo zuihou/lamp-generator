@@ -1,7 +1,7 @@
 package ${packageBase}.config.datasource;
 
 
-import com.github.zuihou.authority.api.UserApi;
+import com.github.zuihou.oauth.api.UserApi;
 import com.github.zuihou.database.datasource.BaseMybatisConfiguration;
 import com.github.zuihou.database.mybatis.auth.DataScopeInterceptor;
 import com.github.zuihou.database.properties.DatabaseProperties;

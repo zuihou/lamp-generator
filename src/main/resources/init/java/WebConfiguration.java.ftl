@@ -2,7 +2,7 @@ package ${packageBase}.config;
 
 import com.github.zuihou.boot.config.BaseConfig;
 import org.springframework.context.annotation.Configuration;
-import com.github.zuihou.authority.api.LogApi;
+import com.github.zuihou.oauth.api.LogApi;
 import com.github.zuihou.log.event.SysLogListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;

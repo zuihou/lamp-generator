@@ -89,8 +89,8 @@ public class TestHahaGenerator {
                         tables);
 
         // 实体父类
-        build.setSuperEntity(EntityType.TREE_ENTITY);
-//        build.setSuperEntity(EntityType.ENTITY);
+//        build.setSuperEntity(EntityType.TREE_ENTITY);
+        build.setSuperEntity(EntityType.ENTITY);
 
         build.setSuperControllerClass(SuperClass.SUPER_CLASS.getController());
         build.setSuperServiceClass(SuperClass.SUPER_CLASS.getService());

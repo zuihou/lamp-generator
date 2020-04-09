@@ -153,10 +153,7 @@ public class ProjectGenerator {
         System.err.println("------------------------------------------");
         String projectName = serviceName + "-server";
         String nacosProject = serviceName + "-server.yml";
-        String nacosProjectDev = serviceName + "-server-dev.yml";
         System.err.println(String.format("在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProject, projectName, nacosProject));
-        System.err.println("------------------------------------------");
-        System.err.println(String.format("在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProjectDev, projectName, nacosProjectDev));
 
         System.err.println("------------------------------------------");
         System.err.println("将下面的配置手动加入nacos中 zuihou-zuul-server.yml");

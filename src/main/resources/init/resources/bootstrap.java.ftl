@@ -46,5 +46,5 @@ info:
   name: '@project.name@'
   description: '@project.description@'
   version: '@project.version@'
-  spring-boot-version: '${spring.boot.version}'
+  spring-boot-version: '${r"${spring.boot.version}"}'
   spring-cloud-version: '@spring.cloud.version@'
