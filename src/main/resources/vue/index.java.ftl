@@ -400,19 +400,6 @@ export default {
         }
       }).finally(() => this.loading = false);
     },
-    cellClick(row) {
-      let flag = false;
-      this.selection.forEach((item)=>{
-        if(item.id === row.id) {
-          flag = true;
-          this.$refs.table.toggleRowSelection(row);
-        }
-      })
-
-      if(!flag){
-        this.$refs.table.toggleRowSelection(row, true);
-      }
-    },
     sortChange(val) {
       this.queryParams.sort = val.prop;
       this.queryParams.order = val.order;

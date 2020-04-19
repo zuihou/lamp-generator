@@ -14,6 +14,7 @@
 | 开发&运营后台 | https://gitee.com/zuihou111/zuihou-admin-ui | https://github.com/zuihou/zuihou-admin-ui | 给公司内部开发&运营&运维等人员使用 |
 | 代码生成器 | 无 | https://github.com/zuihou/zuihou-generator | 给开发人员使用 |
 
+# 最新、最全的文档，请看：   https://www.kancloud.cn/zuihou/zuihou-admin-cloud/1474820
 
 # 使用规则
 - 暂时只支持生成MySQL表，Oracle需要微调代码，有需要的可以留言提交上来

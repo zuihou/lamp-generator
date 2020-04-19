@@ -17,10 +17,6 @@
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>${projectPrefix}tenant-biz</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}${serviceName}-controller</artifactId>
         </dependency>
 
@@ -44,8 +40,6 @@
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-j2cache-starter</artifactId>
         </dependency>
-
-
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-cloud-starter</artifactId>
@@ -53,35 +47,6 @@
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-zipkin-client-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.alibaba.cloud</groupId>
-            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
-            <exclusions>
-                <exclusion>
-                    <artifactId>fastjson</artifactId>
-                    <groupId>com.alibaba</groupId>
-                </exclusion>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-hystrix</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>com.google.guava</groupId>
-                    <artifactId>guava</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
         <dependency>
