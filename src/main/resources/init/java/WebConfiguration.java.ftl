@@ -19,7 +19,7 @@ public class ${service}WebConfiguration extends BaseConfig {
     /**
     * zuihou.log.enabled = true 并且 zuihou.log.type=DB时实例该类
     *
-    * @param optLogService
+    * @param logApi
     * @return
     */
     @Bean

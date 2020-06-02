@@ -4,6 +4,8 @@ zuihou:
     ip: ${r"${"}NACOS_IP:@nacos.ip@${r"}"}
     port: ${r"${"}NACOS_PORT:@nacos.port@${r"}"}
     namespace: ${r"${"}NACOS_ID:@nacos.namespace@${r"}"}
+    username: ${r"${"}NACOS_ID:@nacos.username@${r"}"}
+    password: ${r"${"}NACOS_ID:@nacos.password@${r"}"}
 
 spring:
   main:
@@ -28,7 +30,11 @@ spring:
           - dataId: rabbitmq.yml
             refresh: false
         enabled: true
+        username: ${r"${"}zuihou.nacos.username${r"}"}
+        password: ${r"${"}zuihou.nacos.password${r"}"}
       discovery:
+        username: ${r"${"}zuihou.nacos.username${r"}"}
+        password: ${r"${"}zuihou.nacos.password${r"}"}
         server-addr: ${r"${"}zuihou.nacos.ip}:${r"${"}zuihou.nacos.port${r"}"}
         namespace: ${r"${"}zuihou.nacos.namespace${r"}"}
         metadata: # 元数据，用于权限服务实时获取各个服务的所有接口
