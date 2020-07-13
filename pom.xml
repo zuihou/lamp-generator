@@ -24,7 +24,7 @@
         </repository>
     </repositories>
     <properties>
-        <zuihou-commons.version>2.4</zuihou-commons.version>
+        <zuihou-commons.version>2.4.0</zuihou-commons.version>
         <mybatisplus.version>3.3.2</mybatisplus.version>
         <lombok.version>1.18.12</lombok.version>
         <mysql.version>8.0.19</mysql.version>
