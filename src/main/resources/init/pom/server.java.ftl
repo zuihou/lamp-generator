@@ -17,11 +17,6 @@
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>${projectPrefix}tenant-datasource</artifactId>
-            <version>${r"${"}zuihou-project.version${r"}"}</version>
-        </dependency>
-        <dependency>
-            <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}${serviceName}-controller</artifactId>
         </dependency>
 

@@ -1,6 +1,6 @@
 package ${package.ServiceImpl};
 
-import com.baomidou.dynamic.datasource.annotation.DS;
+
 import ${package.Mapper}.${table.mapperName};
 import ${package.Entity}.${entity};
 import ${package.Service}.${table.serviceName};
@@ -31,7 +31,7 @@ import org.springframework.stereotype.Service;
 open class ${table.serviceImplName} : ${superServiceImplClass}<${table.mapperName}, ${entity}>(), ${table.serviceName} {
 }
 <#else>
-@DS("#thread.tenant")
+
 <#if superServiceImplClass??>
 public class ${table.serviceImplName} extends ${superServiceImplClass}<${table.mapperName}, ${entity}> implements ${table.serviceName} {
 <#else>
