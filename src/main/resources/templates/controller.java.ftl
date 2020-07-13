@@ -46,7 +46,7 @@ import org.springframework.stereotype.Controller;
 <#else>
 @Controller
 </#if>
-@RequestMapping("<#if package.ModuleName??>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
+@RequestMapping("<#if package.ModuleName?? && package.ModuleName!=''>/${package.ModuleName}</#if>/<#if controllerMappingHyphenStyle??>${controllerMappingHyphen}<#else>${table.entityPath}</#if>")
 <#if swagger2>
 @Api(value = "${entity}", tags = "${tableComment}")
 </#if>

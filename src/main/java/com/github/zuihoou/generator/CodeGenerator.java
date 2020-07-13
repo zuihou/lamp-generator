@@ -1,13 +1,26 @@
 package com.github.zuihoou.generator;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.generator.config.querys.*;
+import com.baomidou.mybatisplus.generator.config.ConstVal;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.FileOutConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.PackageConfig;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.TemplateConfig;
+import com.baomidou.mybatisplus.generator.config.querys.DB2Query;
+import com.baomidou.mybatisplus.generator.config.querys.DMQuery;
+import com.baomidou.mybatisplus.generator.config.querys.H2Query;
+import com.baomidou.mybatisplus.generator.config.querys.MariadbQuery;
+import com.baomidou.mybatisplus.generator.config.querys.PostgreSqlQuery;
+import com.baomidou.mybatisplus.generator.config.querys.SqlServerQuery;
+import com.baomidou.mybatisplus.generator.config.querys.SqliteQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.github.zuihoou.generator.config.CodeGeneratorConfig;
@@ -81,6 +94,18 @@ public class CodeGenerator {
 //        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
 
         mpg.execute();
+
+        System.err.println("----------------------------------------------------------------");
+        System.err.println("代码已经生成完毕，若您生成的代码不在com.github.zuihou包下，请在nacos中的mysql.yml配置文件中调整以下2个参数：");
+        System.err.println("mybatis-plus.typeAliasesPackage");
+        System.err.println("mybatis-plus.typeEnumsPackage");
+        System.err.println("如：typeAliasesPackage: com.github.zuihou.*.entity;com.github.zuihou.database.mybatis.typehandler,com.alijiujiu.platform.*.entity");
+        System.err.println("如：typeEnumsPackage: com.github.zuihou.*.enumeration,com.alijiujiu.platform.*.enumeration");
+        System.err.println("----------------------------------------------------------------");
+        System.err.println(StrUtil.format("若新建的服务有枚举类型的字段，请在zuihou-oauth-server/pom.xml 中加入{}{}-entity 模块",
+                config.getProjectPrefix(), config.getServiceName()));
+        System.err.println("并在 OauthGeneralController 类的'static {  }' 处添加枚举类型");
+        System.err.println("如： ENUM_MAP.put(ProductType2Enum.class.getSimpleName(), BaseEnum.getMap(ProductType2Enum.values()));");
     }
 
     /**
@@ -167,9 +192,11 @@ public class CodeGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityTableFieldAnnotationEnable(true);
         strategy.setEntityLombokModel(true);
-        strategy.setEntityBuilderModel(true);
+        strategy.setChainModel(true);
         strategy.setInclude(pc.getTableInclude());
         strategy.setExclude(pc.getTableExclude());
+        strategy.setLikeTable(pc.getLikeTable());
+        strategy.setNotLikeTable(pc.getNotLikeTable());
         strategy.setTablePrefix(pc.getTablePrefix());
         strategy.setFieldPrefix(pc.getFieldPrefix());
         strategy.setEntityColumnConstant(GenerateType.IGNORE.neq(pc.getFileCreateConfig().getGenerateConstant()));

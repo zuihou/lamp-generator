@@ -22,6 +22,7 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import com.github.zuihou.common.constant.DictionaryType;
 import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 </#if>
 <#if cfg.filedTypes??>

@@ -4,6 +4,7 @@ zuihou:
       ${serviceName}:
         title: ${description}服务
         base-package: ${packageBase}.controller
+
 server:
   port: ${serverPort}
 

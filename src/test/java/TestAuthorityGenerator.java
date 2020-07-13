@@ -24,16 +24,17 @@ public class TestAuthorityGenerator {
     public static void main(String[] args) {
 //        CodeGeneratorConfig build = buildDefaultsEntity();
 //        CodeGeneratorConfig build = buildAuthSuperEntity();
-        CodeGeneratorConfig build = buildAuthEntity();
+//        CodeGeneratorConfig build = buildAuthEntity();
 //        CodeGeneratorConfig build = buildCommonEntity();
 //        CodeGeneratorConfig build = buildCommonSuperEntity();
 //        CodeGeneratorConfig build = buildCoreEntity();
+        CodeGeneratorConfig build = buildOrderEntity();
 
         build.setUsername("root");
         build.setPassword("root");
         System.out.println("输出路径：");
-        System.out.println(System.getProperty("user.dir") + "/zuihou-authority");
-        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-authority");
+        System.out.println(System.getProperty("user.dir") + "/zuihou-order");
+        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-order");
 
         // null 表示 使用下面的 生成策略
         FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
@@ -153,6 +154,17 @@ public class TestAuthorityGenerator {
                 build("authority", "", "zuihou", "c_core_", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("core");
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+        return build;
+    }
+    public static CodeGeneratorConfig buildOrderEntity() {
+        List<String> tables = Arrays.asList(
+                "m_order"
+        );
+        CodeGeneratorConfig build = CodeGeneratorConfig.
+                build("order", "", "zuihou", "m_", tables);
+        build.setSuperEntity(EntityType.ENTITY);
+        build.setChildPackageName("");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;
     }

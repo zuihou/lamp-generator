@@ -6,9 +6,20 @@ import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
-import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.FileOutConfig;
+import com.baomidou.mybatisplus.generator.config.GlobalConfig;
+import com.baomidou.mybatisplus.generator.config.PackageConfig;
+import com.baomidou.mybatisplus.generator.config.StrategyConfig;
+import com.baomidou.mybatisplus.generator.config.TemplateConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.baomidou.mybatisplus.generator.config.querys.*;
+import com.baomidou.mybatisplus.generator.config.querys.DB2Query;
+import com.baomidou.mybatisplus.generator.config.querys.DMQuery;
+import com.baomidou.mybatisplus.generator.config.querys.H2Query;
+import com.baomidou.mybatisplus.generator.config.querys.MariadbQuery;
+import com.baomidou.mybatisplus.generator.config.querys.PostgreSqlQuery;
+import com.baomidou.mybatisplus.generator.config.querys.SqlServerQuery;
+import com.baomidou.mybatisplus.generator.config.querys.SqliteQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.github.zuihoou.generator.config.CodeGeneratorConfig;
@@ -89,6 +100,10 @@ public class VueGenerator {
         mpg.setTemplateEngine(new FreemarkerTemplateEngineExt(config));
 
         mpg.execute();
+
+
+        System.err.println("前端代码生成完毕， 请在以上日志中查看生成文件的路径");
+        System.err.println("并将src/lang/lang.*.js中的配置按照文件提示，复制到en.js和zh.js, 否则页面无法显示中文标题");
     }
 
     /**
@@ -175,9 +190,11 @@ public class VueGenerator {
         strategy.setColumnNaming(NamingStrategy.underline_to_camel);
         strategy.setEntityTableFieldAnnotationEnable(true);
         strategy.setEntityLombokModel(true);
-        strategy.setEntityBuilderModel(true);
+        strategy.setChainModel(true);
         strategy.setInclude(pc.getTableInclude());
         strategy.setExclude(pc.getTableExclude());
+        strategy.setLikeTable(pc.getLikeTable());
+        strategy.setNotLikeTable(pc.getNotLikeTable());
         strategy.setTablePrefix(pc.getTablePrefix());
         strategy.setFieldPrefix(pc.getFieldPrefix());
         strategy.setEntityColumnConstant(GenerateType.IGNORE.neq(pc.getFileCreateConfig().getGenerateConstant()));

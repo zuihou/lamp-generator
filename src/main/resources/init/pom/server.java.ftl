@@ -17,13 +17,14 @@
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
+            <artifactId>${projectPrefix}tenant-datasource</artifactId>
+            <version>${r"${"}zuihou-project.version${r"}"}</version>
+        </dependency>
+        <dependency>
+            <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}${serviceName}-controller</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-scan-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>com.github.zuihou</groupId>
             <artifactId>zuihou-swagger2-starter</artifactId>

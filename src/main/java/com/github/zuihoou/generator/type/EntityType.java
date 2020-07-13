@@ -14,15 +14,19 @@ import lombok.Getter;
 public enum EntityType {
     /**
      * 只有id
+     * <p>
+     * "tenant_code" 字段会自动忽略
      */
     SUPER_ENTITY("com.github.zuihou.base.entity.SuperEntity", new String[]{"id", "tenant_code", "create_time", "create_user"}),
     /**
      * 有创建人创建时间等
+     * "tenant_code" 字段会自动忽略
      */
     ENTITY("com.github.zuihou.base.entity.Entity", new String[]{"id", "tenant_code", "create_time", "create_user", "update_time", "update_user"}),
 
     /**
      * 树形实体
+     * "tenant_code" 字段会自动忽略
      */
     TREE_ENTITY("com.github.zuihou.base.entity.TreeEntity", new String[]{"id", "tenant_code", "create_time", "create_user", "update_time", "update_user", "label", "parent_id", "sort_value"}),
 

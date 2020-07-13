@@ -243,7 +243,7 @@ public class FileOutConfigExt extends FileOutConfig {
             fileName = "Tree" + DOT_VUE;
         } else if (VueGenerator.LANG_PATH.equalsIgnoreCase(modularSuffix)) {
             innerModularSuffix = StringUtils.firstCharToLower(modularSuffix);
-            fileName = "lang" + DOT_JS;
+            fileName = "lang." + tableInfo.getEntityName() + DOT_JS;
         }
 
         basePath = Paths.get(innerBasePath, innerModularSuffix, fileName).toString();

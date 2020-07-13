@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import com.github.zuihou.common.constant.DictionaryType;
 </#if>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>
@@ -115,6 +116,7 @@ public class ${entity}PageDTO implements Serializable {
     @Range(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
         </#if>
     </#if>
+    <#assign myPropertyName="${field.propertyName}"/>
     <#-- 自动注入注解 -->
     <#if field.customMap.annotation??>
     ${field.customMap.annotation}
@@ -123,7 +125,6 @@ public class ${entity}PageDTO implements Serializable {
             <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
         </#if>
     </#if>
-    <#assign myPropertyName="${field.propertyName}"/>
     private ${myPropertyType} ${myPropertyName};
 </#if>
 </#list>

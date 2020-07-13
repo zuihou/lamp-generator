@@ -44,7 +44,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
      * 匹配： @InjectionField(api="orgApi", method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
      * 匹配： @InjectionField(feign=OrgApi.class, method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
      */
-    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(](api|feign)? *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)(, *beanClass *= *[a-zA-Z0-9._]+)?[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
+    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(](api|feign)? *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)(, *beanClass *= *[a-zA-Z0-9._]+)?(, *dictType *= *[a-zA-Z0-9._]+)?[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
 
     /**
      * 枚举类 正则
@@ -166,16 +166,17 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
 
     public static void main(String[] args) {
-        String comment = "@InjectionField(api=\"xxxx\", method=\"bbbbb\", beanClass=1) RemoteData<Long, Org>";
+//        String comment = "@InjectionField(api=\"xxxx\", method=\"bbbbb\", beanClass=1) RemoteData<Long, Org>";
+        String comment = "@InjectionField(api=\"xxxx\", method=\"bbbbb\", beanClass=1, dictType = DictionaryType.NATION) RemoteData<Long, Org>";
 //        String comment = "@InjectionField(feign=FreemarkerTemplateEngineExt.class, method=\"bbbbb\"   beanClass=  Xxx.class) RemoteData<Long, Org>";
         Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment);
         if (matcher.find()) {
             String annotation = trim(matcher.group(1)); //@InjectionField(api="xxxx", method="bbbbb")
             String api = trim(matcher.group(3)); //xxxx
             String method = trim(matcher.group(4));  //bbbbb
-            String type = trim(matcher.group(6)); //RemoteData<Long, Org>
+            String type = trim(matcher.group(7)); //RemoteData<Long, Org>
             // 5 <Long, Org>
-            String typePackage = trim(matcher.group(8)); //Org
+            String typePackage = trim(matcher.group(9)); //Org
             System.out.println(111);
         }
     }
@@ -199,8 +200,8 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
             String annotation = trim(matcher.group(1));
             String api = trim(matcher.group(3));
             String method = trim(matcher.group(4));
-            String type = trim(matcher.group(6));
-            String typePackage = trim(matcher.group(8));
+            String type = trim(matcher.group(7));
+            String typePackage = trim(matcher.group(9));
 
             if (StrUtil.isNotEmpty(type) && StrUtil.contains(typePackage, ".")) {
                 String data = StrUtil.subAfter(typePackage, ".", true);

@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
+import com.github.zuihou.common.constant.DictionaryType;
 </#if>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>

@@ -1,4 +1,6 @@
 import cn.hutool.core.lang.Console;
+import com.baomidou.mybatisplus.core.enums.SqlLike;
+import com.baomidou.mybatisplus.generator.config.po.LikeTable;
 import com.github.zuihoou.generator.VueGenerator;
 import com.github.zuihoou.generator.config.CodeGeneratorConfig;
 import com.github.zuihoou.generator.config.FileCreateConfig;
@@ -8,7 +10,12 @@ import com.github.zuihoou.generator.type.EntityType;
 import com.github.zuihoou.generator.type.GenerateType;
 import com.github.zuihoou.generator.type.HtmlType;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static com.github.zuihoou.generator.model.GenTableColumn.NO;
 import static com.github.zuihoou.generator.model.GenTableColumn.YES;
@@ -31,6 +38,7 @@ public class TestVueGenerator {
 
         CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
 //        CodeGeneratorConfig build = buildTreeEntity(fileCreateConfig);
+
         //mysql 账号密码
         build.setUsername("root");
         build.setPassword("root");
@@ -101,25 +109,26 @@ public class TestVueGenerator {
      * src/api/Xxx.js
      * src/views/zuihou/base/xxx/Index.vue
      * src/views/zuihou/base/xxx/Edit.vue
-     * src/lang/lang.js (该文件中的代码分别复制到 en.js 和 zh.js， 然后删除自己！)
+     * src/lang/lang.*.js (该文件中的代码分别复制到 en.js 和 zh.js， 然后删除自己！)
      *
      * @return
      */
     public static CodeGeneratorConfig buildListEntity(FileCreateConfig fileCreateConfig) {
         // 配置需要生成的表
         List<String> tables = Arrays.asList(
-                "m_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                buildVue("haha",  // 服务名 必填
+                buildVue("mall",  // 服务名 必填
                         "m_",            // 表前缀
                         tables);
+
+        build.setLikeTable(new LikeTable("m\\_", SqlLike.RIGHT));
 
         //父类是Entity
         build.setSuperEntity(EntityType.ENTITY);
 
         //生成的前端页面位于 src/{vue.getViewsPath()}/base 目录下
-        build.setChildPackageName("base");
+        build.setChildPackageName("mall");
 
         // 数据库信息
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
@@ -148,7 +157,7 @@ public class TestVueGenerator {
                 "m_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                buildVue("haha",  // 服务名 必填
+                buildVue("mall",  // 服务名 必填
                         "m_",  // 表前缀
                         tables);
 
@@ -156,7 +165,7 @@ public class TestVueGenerator {
         build.setSuperEntity(EntityType.TREE_ENTITY);
 
         //生成的前端页面位于 src/{vue.getViewsPath()}/base 目录下
-        build.setChildPackageName("base");
+        build.setChildPackageName("mall");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
 
         fileCreateConfig.setGenerateApi(GenerateType.OVERRIDE);

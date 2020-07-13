@@ -16,8 +16,11 @@ public class TestInitProject {
         config
                 // zuihou-admin-cloud 项目的 绝对路径！
                 .setProjectRootPath(System.getProperty("user.dir"))
-                // 需要新建的 服务名      该例会生成 zuihou-haha 服务
-                .setServiceName("haha")
+                // 项目的前缀
+                .setProjectPrefix("alijiujiu-")
+
+                // 需要新建的 服务名      该例会生成 zuihou-mall 服务
+                .setServiceName("mall")
 
                 // 子模块的设置请参考 消息服务 （msgs 服务下的 sms 模块即 视为子模块）
 //                .setChildModuleName("hehe")
@@ -25,16 +28,17 @@ public class TestInitProject {
                 // 生成代码的注释 @author zuihou
                 .setAuthor("zuihou")
                 // 项目描述
-                .setDescription("商品服务")
+                .setDescription("商城")
                 // 项目的版本， 一定要跟 zuihou-admin-cloud 下的其他服务版本一致， 否则会出错哦
-                .setVersion("c.2.1-SNAPSHOT")
+                .setVersion("c.2.4-SNAPSHOT")
                 // 服务的端口号
-                .setServerPort("17080")
+                .setServerPort("17081")
                 // 项目的 groupId
                 .setGroupId("com.github.zuihou")
+
         ;
         // 项目的业务代码 存放的包路径
-        config.setPackageBase("cn.gitee.haha." + config.getChildModuleName());
+        config.setPackageBase("com.alijiujiu.platform." + config.getChildModuleName());
 
         System.out.println("项目初始化根路径：" + config.getProjectRootPath());
         ProjectGenerator pg = new ProjectGenerator(config);

@@ -164,15 +164,12 @@ public class ProjectGenerator {
         System.err.println("------------------------------------------");
         System.err.println("将下面的配置手动加入nacos中 zuihou-gateway-server.yml");
         System.err.println(String.format("        - id: %s\n" +
-                "          uri: lb://%s-server\n" +
-                "          predicates:\n" +
-                "            - Path=/%s/**\n" +
-                "          filters:\n" +
-                "            - StripPrefix=1\n" +
-                "            - name: Hystrix\n" +
-                "              args:\n" +
-                "                name: default\n" +
-                "                fallbackUri: 'forward:/fallback'", config.getServiceName(), serviceName, config.getServiceName()));
+                        "          uri: lb://%s-server\n" +
+                        "          predicates:\n" +
+                        "            - Path=/%s/**\n" +
+                        "          filters:\n" +
+                        "            - StripPrefix=1\n"
+                , config.getServiceName(), serviceName, config.getServiceName()));
 
     }
 
@@ -225,6 +222,7 @@ public class ProjectGenerator {
         //数据源
         this.writer(objectMap, String.format(INIT_JAVA_FTL, "DatabaseAutoConfiguration"), Paths.get(serverConfigPath, "datasource", service + "DatabaseAutoConfiguration.java").toString());
         this.writer(objectMap, String.format(INIT_JAVA_FTL, "MybatisAutoConfiguration"), Paths.get(serverConfigPath, "datasource", service + "MybatisAutoConfiguration.java").toString());
+        this.writer(objectMap, String.format(INIT_JAVA_FTL, "TenantDatasourceConfiguration"), Paths.get(serverConfigPath, "mq", service + "TenantDatasourceConfiguration.java").toString());
     }
 
     private String mkServer(String servicePath, String serviceName) {

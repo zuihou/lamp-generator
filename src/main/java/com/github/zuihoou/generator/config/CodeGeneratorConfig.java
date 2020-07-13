@@ -3,6 +3,7 @@ package com.github.zuihoou.generator.config;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.generator.config.po.LikeTable;
 import com.github.zuihoou.generator.model.GenTableColumn;
 import com.github.zuihoou.generator.type.EntityFiledType;
 import com.github.zuihoou.generator.type.EntityType;
@@ -13,7 +14,11 @@ import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
 
 import java.io.File;
-import java.util.*;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * 代码生成配置
@@ -132,10 +137,23 @@ public class CodeGeneratorConfig {
      */
     private String[] tableInclude = {"c_user"};
     /**
-     * 基础的xml路径
+     * 排除那些表
      */
-//    private String xmlPath = "";
     private String[] tableExclude = {};
+
+    /**
+     * 包含表名
+     *
+     * @since 3.3.0
+     */
+    private LikeTable likeTable;
+    /**
+     * 不包含表名
+     *
+     * @since 3.3.0
+     */
+    private LikeTable notLikeTable;
+
     /**
      * 驱动连接的URL
      */

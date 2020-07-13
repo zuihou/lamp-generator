@@ -1,6 +1,5 @@
 package ${enumCustom.package.importPackage};
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.github.zuihou.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
@@ -8,6 +7,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.Getter;
+
+import java.util.stream.Stream;
 
 <#assign tableComment="${table.comment!}"/>
 <#if table.comment!?length gt 0>
@@ -28,7 +29,6 @@ import lombok.Getter;
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel(value = "${enumCustom.enumName}", description = "${enumCustom.comment}-枚举")
-@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ${enumCustom.enumName} implements BaseEnum {
 
     <#list enumCustom.list?keys as key>
@@ -50,28 +50,19 @@ public enum ${enumCustom.enumName} implements BaseEnum {
 <#break>
 </#list>
 
+    /**
+     * 跟就当前枚举的name匹配
+     */
     public static ${enumCustom.enumName} match(String val, ${enumCustom.enumName} def) {
-        for (${enumCustom.enumName} enm : ${enumCustom.enumName}.values()) {
-            if (enm.name().equalsIgnoreCase(val)) {
-                return enm;
-            }
-        }
-        return def;
+        return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static ${enumCustom.enumName} get(String val) {
         return match(val, null);
     }
 
-    public boolean eq(String val) {
-        return this.name().equalsIgnoreCase(val);
-    }
-
     public boolean eq(${enumCustom.enumName} val) {
-        if (val == null) {
-            return false;
-        }
-        return eq(val.name());
+        return val == null ? false : eq(val.name());
     }
 
     @Override
