@@ -5,6 +5,20 @@
 
 参考：[mybatis-plus](https://github.com/baomidou/mybatis-plus "zuihou")
 
+
+## 如果觉得对您有任何一点帮助，请点右上角 "Star" 支持一下吧，谢谢！
+
+## 详细文档: https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+
+    ps: gitee捐献 或者 二维码打赏（本页最下方）： 45元及以上 并 备注邮箱，可得开发文档一份（支持后续更新）
+    打赏或者捐献后直接加群：1039545140 并备注打赏时填写的邮箱，可以持续的获取最新的文档。 
+
+## 收费版
+本项目分为开源版和收费版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 收费版源码在私有gitlab托管，购买后开通账号。
+
+收费版和开源版区别请看：[收费版](收费版.md)
+
+
 # 项目地址
 | 项目 | gitee | github | 备注 |
 |---|---|---|---|
