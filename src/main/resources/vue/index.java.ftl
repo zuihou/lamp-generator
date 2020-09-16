@@ -70,7 +70,7 @@
     <el-table :data="tableData.records" :key="tableKey" @cell-click="cellClick"
               @filter-change="filterChange" @selection-change="onSelectChange" @sort-change="sortChange"
               border fit row-key="id" ref="table" style="width: 100%;" v-loading="loading">
-      <el-table-column align="center" type="selection" width="40px" :reserve-selection="true"/>
+      <el-table-column align="center" type="selection" width="40px" column-key="selectionId"  :reserve-selection="true"/>
       <#list table.fields as field>
       <#assign fType = "${field.type}"/>
       <#if field.type?contains("(")>
@@ -374,6 +374,7 @@ export default {
       this.$refs.edit.set${entity}({ enums: this.enums, dicts: this.dicts});
     },
     copy(row) {
+      row.id = null;
       this.$refs.edit.set${entity}({row, enums: this.enums, dicts: this.dicts});
       this.dialog.type = "copy";
       this.dialog.isVisible = true;
@@ -420,7 +421,7 @@ export default {
       this.search()
     },
     cellClick (row, column) {
-      if (column['columnKey'] === "operation") {
+      if (column['columnKey'] !== "selectionId") {
         return;
       }
       let flag = false;

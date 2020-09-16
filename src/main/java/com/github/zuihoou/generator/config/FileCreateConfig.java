@@ -136,6 +136,10 @@ public class FileCreateConfig implements IFileCreate {
             if (filePath.contains(File.separator + "api" + File.separator)) {
                 return isCreate(generateApi, file);
             }
+            // lang.js
+            if (filePath.contains(File.separator + "lang" + File.separator)) {
+                return isCreate(generateApi, file);
+            }
             //edit.vue
             if (filePath.endsWith("Edit" + FileOutConfigExt.DOT_VUE)) {
                 return isCreate(generateEdit, file);
@@ -203,6 +207,10 @@ public class FileCreateConfig implements IFileCreate {
 
             // api.js
             if (filePath.contains(File.separator + "api" + File.separator)) {
+                return isCreate(generateApi, file);
+            }
+            // lang.js
+            if (filePath.contains(File.separator + "lang" + File.separator)) {
                 return isCreate(generateApi, file);
             }
             //edit.vue

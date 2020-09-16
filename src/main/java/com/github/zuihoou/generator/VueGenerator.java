@@ -173,7 +173,7 @@ public class VueGenerator {
 //        pc.setModuleName(config.getChildPackageName());
         pc.setParent(config.getPackageBase());
         pc.setMapper("dao");
-        if (StringUtils.isNotEmpty(config.getChildPackageName())) {
+        if (StringUtils.isNotBlank(config.getChildPackageName())) {
             pc.setMapper(pc.getMapper() + StringPool.DOT + config.getChildPackageName());
             pc.setEntity(pc.getEntity() + StringPool.DOT + config.getChildPackageName());
             pc.setService(pc.getService() + StringPool.DOT + config.getChildPackageName());

@@ -151,7 +151,7 @@ public class FileOutConfigExt extends FileOutConfig {
                     .append(config.getChildModuleName())
                     .append(File.separator)
                     .append("base");
-            if (StringUtils.isNotEmpty(config.getChildPackageName())) {
+            if (StringUtils.isNotBlank(config.getChildPackageName())) {
                 basePathSb.append(File.separator).append(config.getChildPackageName());
             }
 
@@ -197,11 +197,11 @@ public class FileOutConfigExt extends FileOutConfig {
         } else if (ConstVal.MAPPER.equals(innerModularSuffix)) {
             innerModularSuffix = "dao";
         } else {
-            innerModularSuffix = StringUtils.firstCharToLower(modularSuffix);
+            innerModularSuffix = StringUtils.firstToLowerCase(modularSuffix);
         }
 
         basePath = basePath + File.separator + innerModularSuffix;
-        if (StringUtils.isNotEmpty(config.getChildPackageName())) {
+        if (StringUtils.isNotBlank(config.getChildPackageName())) {
             basePath = basePath + File.separator + config.getChildPackageName();
         }
         if (ConstVal.SERVICE_IMPL.equals(modularSuffix)) {
@@ -233,7 +233,7 @@ public class FileOutConfigExt extends FileOutConfig {
         String fileName = tableInfo.getEntityName() + DOT_VUE;
 
         if (VueGenerator.API_PATH.equalsIgnoreCase(this.modularSuffix)) {
-            innerModularSuffix = StringUtils.firstCharToLower(modularSuffix);
+            innerModularSuffix = StringUtils.firstToLowerCase(modularSuffix);
             fileName = tableInfo.getEntityName() + DOT_JS;
         } else if (VueGenerator.PAGE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
             fileName = "Index" + DOT_VUE;
@@ -242,7 +242,7 @@ public class FileOutConfigExt extends FileOutConfig {
         } else if (VueGenerator.TREE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
             fileName = "Tree" + DOT_VUE;
         } else if (VueGenerator.LANG_PATH.equalsIgnoreCase(modularSuffix)) {
-            innerModularSuffix = StringUtils.firstCharToLower(modularSuffix);
+            innerModularSuffix = StringUtils.firstToLowerCase(modularSuffix);
             fileName = "lang." + tableInfo.getEntityName() + DOT_JS;
         }
 
