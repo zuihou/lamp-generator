@@ -222,7 +222,6 @@ public class ProjectGenerator {
         //数据源
         this.writer(objectMap, String.format(INIT_JAVA_FTL, "DatabaseAutoConfiguration"), Paths.get(serverConfigPath, "datasource", service + "DatabaseAutoConfiguration.java").toString());
         this.writer(objectMap, String.format(INIT_JAVA_FTL, "MybatisAutoConfiguration"), Paths.get(serverConfigPath, "datasource", service + "MybatisAutoConfiguration.java").toString());
-        this.writer(objectMap, String.format(INIT_JAVA_FTL, "TenantDatasourceConfiguration"), Paths.get(serverConfigPath, "mq", service + "TenantDatasourceConfiguration.java").toString());
     }
 
     private String mkServer(String servicePath, String serviceName) {
