@@ -244,7 +244,7 @@ export default {
       vm.dicts = val['dicts'];
       vm.enums = val['enums'];
       if (val['row']) {
-        vm.${entity?uncap_first} = { ...val['row'] };
+        vm.${entity?uncap_first} = { ...vm.${entity?uncap_first}, ...val['row'] };
 
         <#list table.fields as field>
         <#assign myPropertyName="${field.propertyName}"/>
