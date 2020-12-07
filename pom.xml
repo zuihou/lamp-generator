@@ -15,7 +15,7 @@
 
     <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
-    <description>为 lamp-cloud + lamp-boot + lamp-web 项目量身打造的代码生成器</description>
+    <description>为 lamp-cloud + lamp-boot + lamp-web 项目量身打造的代码生成器, 其他项目不适用</description>
 
     <repositories>
         <repository>
