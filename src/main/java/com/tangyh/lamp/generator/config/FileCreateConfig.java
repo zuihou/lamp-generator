@@ -1,10 +1,10 @@
-package com.github.zuihoou.generator.config;
+package com.tangyh.lamp.generator.config;
 
 import com.baomidou.mybatisplus.generator.config.IFileCreate;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.rules.FileType;
-import com.github.zuihoou.generator.ext.FileOutConfigExt;
-import com.github.zuihoou.generator.type.GenerateType;
+import com.tangyh.lamp.generator.ext.FileOutConfigExt;
+import com.tangyh.lamp.generator.type.GenerateType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -141,15 +141,15 @@ public class FileCreateConfig implements IFileCreate {
                 return isCreate(generateApi, file);
             }
             //edit.vue
-            if (filePath.endsWith("Edit" + FileOutConfigExt.DOT_VUE)) {
+            if (filePath.endsWith("edit" + FileOutConfigExt.DOT_VUE)) {
                 return isCreate(generateEdit, file);
             }
             //Index.vue
-            if (filePath.endsWith("Index" + FileOutConfigExt.DOT_VUE)) {
+            if (filePath.endsWith("index" + FileOutConfigExt.DOT_VUE)) {
                 return isCreate(generatePageIndex, file);
             }
             //Tree.vue
-            if (filePath.endsWith("Tree" + FileOutConfigExt.DOT_VUE)) {
+            if (filePath.endsWith("tree" + FileOutConfigExt.DOT_VUE)) {
                 return isCreate(generateTreeIndex, file);
             }
 
@@ -214,15 +214,15 @@ public class FileCreateConfig implements IFileCreate {
                 return isCreate(generateApi, file);
             }
             //edit.vue
-            if (filePath.endsWith("Edit" + FileOutConfigExt.DOT_VUE)) {
+            if (filePath.endsWith("edit" + FileOutConfigExt.DOT_VUE)) {
                 return isCreate(generateEdit, file);
             }
             //Index.vue
-            if (filePath.endsWith("Index" + FileOutConfigExt.DOT_VUE)) {
+            if (filePath.endsWith("index" + FileOutConfigExt.DOT_VUE)) {
                 return isCreate(generatePageIndex, file);
             }
             //Tree.vue
-            if (filePath.endsWith("Tree" + FileOutConfigExt.DOT_VUE)) {
+            if (filePath.endsWith("tree" + FileOutConfigExt.DOT_VUE)) {
                 return isCreate(generateTreeIndex, file);
             }
 

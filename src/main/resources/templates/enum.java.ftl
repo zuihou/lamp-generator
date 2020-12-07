@@ -1,6 +1,6 @@
 package ${enumCustom.package.importPackage};
 
-import com.github.zuihou.base.BaseEnum;
+import com.tangyh.basic.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -51,10 +51,10 @@ public enum ${enumCustom.enumName} implements BaseEnum {
 </#list>
 
     /**
-     * 跟就当前枚举的name匹配
+     * 根据当前枚举的name匹配
      */
     public static ${enumCustom.enumName} match(String val, ${enumCustom.enumName} def) {
-        return Stream.of(values()).parallel().filter((item) -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
+        return Stream.of(values()).parallel().filter(item -> item.name().equalsIgnoreCase(val)).findAny().orElse(def);
     }
 
     public static ${enumCustom.enumName} get(String val) {
@@ -62,7 +62,7 @@ public enum ${enumCustom.enumName} implements BaseEnum {
     }
 
     public boolean eq(${enumCustom.enumName} val) {
-        return val == null ? false : eq(val.name());
+        return val != null && eq(val.name());
     }
 
     @Override

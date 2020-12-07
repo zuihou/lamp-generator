@@ -6,7 +6,7 @@
         <artifactId>${projectPrefix}${serviceName}</artifactId>
         <groupId>${groupId}</groupId>
         <version>${version}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -17,32 +17,38 @@
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
+            <artifactId>${projectPrefix}tenant-datasource</artifactId>
+            <version>${r"${"}lamp-project.version${r"}"}</version>
+        </dependency>
+        <dependency>
+            <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}${serviceName}-controller</artifactId>
+            <version>${r"${"}lamp-project.version${r"}"}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-swagger2-starter</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-swagger2-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-validator-starter</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-validator-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-xss-starter</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-xss-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-j2cache-starter</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-cache-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-cloud-starter</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-cloud-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-zipkin-client-starter</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-zipkin-client-starter</artifactId>
         </dependency>
 
         <dependency>
@@ -111,7 +117,7 @@
                 <version>${r"${"}dockerfile-maven-plugin.version${r"}"}</version>
                 <configuration>
                     <repository>${r"${"}docker.image.prefix${r"}"}/${r"${"}project.artifactId${r"}"}</repository>
-                    <tag>${r"${"}zuihou-project.version${r"}"}</tag>
+                    <tag>${r"${"}lamp-project.version${r"}"}</tag>
                     <buildArgs>
                         <JAR_FILE>target/${r"${"}project.build.finalName${r"}"}.jar</JAR_FILE>
                     </buildArgs>

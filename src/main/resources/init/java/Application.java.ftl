@@ -1,7 +1,7 @@
 package ${packageBaseParent};
 
-import com.github.zuihou.security.annotation.EnableLoginArgResolver;
-import com.github.zuihou.validator.annotation.EnableFormValidator;
+import com.tangyh.basic.security.annotation.EnableLoginArgResolver;
+import com.tangyh.basic.validator.annotation.EnableFormValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,13 +10,13 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
-<#if packageBaseParent != "com.github.zuihou">
 import org.springframework.context.annotation.ComponentScan;
-</#if>
 import org.springframework.core.env.Environment;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+
+import static com.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
 
 /**
  * ${description}启动类
@@ -27,12 +27,8 @@ import java.net.UnknownHostException;
 @SpringBootApplication
 @EnableDiscoveryClient
 @Configuration
-<#if packageBaseParent != "com.github.zuihou">
-@EnableFeignClients(value = { "${packageBaseParent}", "com.github.zuihou" })
-@ComponentScan(basePackages = {"${packageBaseParent}", "com.github.zuihou"})
-<#else>
-@EnableFeignClients(value = { "${packageBaseParent}" })
-</#if>
+@EnableFeignClients(value = { "${packageBaseParent}", UTIL_PACKAGE })
+@ComponentScan(basePackages = { "${packageBaseParent}", UTIL_PACKAGE })
 @EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 @Slf4j
 @EnableLoginArgResolver

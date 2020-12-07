@@ -1,4 +1,4 @@
-package ${cfg.PageDTO};
+package ${cfg.PageQuery};
 
 import java.time.LocalDateTime;
 <#list table.importPackages as pkg>
@@ -8,10 +8,6 @@ import ${pkg};
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 </#if>
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
 <#if entityLombokModel>
 import lombok.Data;
 import lombok.Builder;
@@ -20,7 +16,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import com.github.zuihou.common.constant.DictionaryType;
+import com.tangyh.lamp.common.constant.DictionaryType;
 </#if>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>
@@ -51,9 +47,9 @@ import java.io.Serializable;
 @Builder
 </#if>
 <#if swagger2>
-@ApiModel(value = "${entity}PageDTO", description = "${table.comment!?replace("\r\n"," ")?replace("\r"," ")?replace("\n"," ")}")
+@ApiModel(value = "${entity}PageQuery", description = "${table.comment!?replace("\r\n"," ")?replace("\r"," ")?replace("\n"," ")}")
 </#if>
-public class ${entity}PageDTO implements Serializable {
+public class ${entity}PageQuery implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -83,39 +79,6 @@ public class ${entity}PageDTO implements Serializable {
             <#assign isEnumType="2"/>
         </#if>
     </#list>
-    <#if field.customMap.Null == "NO" >
-        <#if (field.columnType!"") == "STRING" && isEnumType == "1">
-    @NotEmpty(message = "${fieldComment}不能为空")
-        <#else>
-    @NotNull(message = "${fieldComment}不能为空")
-        </#if>
-    </#if>
-    <#if (field.columnType!"") == "STRING" && isEnumType == "1">
-        <#assign max = 255/>
-        <#if field.type?starts_with("varchar") || field.type?starts_with("char")>
-            <#if field.type?contains("(")>
-                <#assign max = field.type?substring(field.type?index_of("(") + 1, field.type?index_of(")"))/>
-            </#if>
-    @Length(max = ${max}, message = "${fieldComment}长度不能超过${max}")
-        <#elseif field.type?starts_with("text")>
-            <#assign max = 65535/>
-    @Length(max = ${max?string["0"]}, message = "${fieldComment}长度不能超过${max}")
-        <#elseif field.type?starts_with("mediumtext")>
-            <#assign max = 16777215/>
-    @Length(max = ${max?string["0"]}, message = "${fieldComment}长度不能超过${max}")
-        <#elseif field.type?starts_with("longtext")>
-        </#if>
-    <#else>
-        <#if field.propertyType?starts_with("Short")>
-    @Range(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
-        </#if>
-        <#if field.propertyType?starts_with("Byte")>
-    @Range(min = Byte.MIN_VALUE, max = Byte.MAX_VALUE, message = "${fieldComment}长度不能超过"+Byte.MAX_VALUE)
-        </#if>
-        <#if field.propertyType?starts_with("Short")>
-    @Range(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
-        </#if>
-    </#if>
     <#assign myPropertyName="${field.propertyName}"/>
     <#-- 自动注入注解 -->
     <#if field.customMap.annotation??>
@@ -131,8 +94,6 @@ public class ${entity}PageDTO implements Serializable {
 
 <#if superEntityClass?? && superEntityClass=="TreeEntity">
     @ApiModelProperty(value = "名称")
-    @NotEmpty(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
     protected String label;
 
     @ApiModelProperty(value = "父ID")

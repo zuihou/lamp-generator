@@ -42,25 +42,25 @@
       <el-button @click="reset" class="filter-item" plain type="warning">
         {{ $t("table.reset") }}
       </el-button>
-      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['${entity?uncap_first}:add']">
+      <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:add']">
         {{ $t("table.add") }}
       </el-button>
-      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['${entity?uncap_first}:delete', '${entity?uncap_first}:export',
-        '${entity?uncap_first}:import']">
+      <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['${cfg.serviceName}:${entity?uncap_first}:delete', '${cfg.serviceName}:${entity?uncap_first}:export',
+        '${cfg.serviceName}:${entity?uncap_first}:import']">
         <el-button>
           {{ $t("table.more") }}<i class="el-icon-arrow-down el-icon--right" />
         </el-button>
         <el-dropdown-menu slot="dropdown">
-          <el-dropdown-item @click.native="batchDelete" v-has-permission="['${entity?uncap_first}:delete']">
+          <el-dropdown-item @click.native="batchDelete" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:delete']">
             {{ $t("table.delete") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcel" v-has-permission="['${entity?uncap_first}:export']">
+          <el-dropdown-item @click.native="exportExcel" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:export']">
             {{ $t("table.export") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['${entity?uncap_first}:export']">
+          <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:export']">
             {{ $t("table.exportPreview") }}
           </el-dropdown-item>
-          <el-dropdown-item @click.native="importExcel" v-has-permission="['${entity?uncap_first}:import']">
+          <el-dropdown-item @click.native="importExcel" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:import']">
             {{ $t("table.import") }}
           </el-dropdown-item>
         </el-dropdown-menu>
@@ -126,16 +126,9 @@
           <#elseif field.customMap.isEnum?? && field.customMap.isEnum == "1">
             <span>{{ scope.row.${myPropertyName} ? scope.row.${myPropertyName}['desc'] : ''}}</span>
           <#elseif field.customMap.annotation??>
-            <#if field.propertyName?ends_with("Id")>
-              <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
             <span>
-              {{ scope.row.${myPropertyName}['data'] && scope.row.${myPropertyName}['data']['name'] ? scope.row.${myPropertyName}['data']['name'] : scope.row.${myPropertyName}.key }}
+              {{ scope.row.${myPropertyName} && scope.row.${myPropertyName}.data ? scope.row.${myPropertyName}.data : '' }}
             </span>
-            <#else >
-            <span>
-              {{ scope.row.${myPropertyName}['data'] ? scope.row.${myPropertyName}.data : scope.row.${myPropertyName}.key }}
-            </span>
-            </#if>
           <#else>
           <span>{{ scope.row.${myPropertyName} }}</span>
           </#if>
@@ -156,13 +149,13 @@
       <el-table-column
         :label="$t('table.operation')" align="center" column-key="operation" class-name="small-padding fixed-width" width="100px">
         <template slot-scope="{ row }">
-          <i @click="copy(row)" class="el-icon-copy-document table-operation" :title="$t('common.delete')"
-             style="color: #2db7f5;" v-hasPermission="['${entity?uncap_first}:add']"/>
-          <i @click="edit(row)" class="el-icon-edit table-operation" :title="$t('common.delete')"
-             style="color: #2db7f5;" v-hasPermission="['${entity?uncap_first}:update']"/>
+          <i @click="copy(row)" class="el-icon-copy-document table-operation" :title="$t('common.add')"
+             style="color: #2db7f5;" v-hasPermission="['${cfg.serviceName}:${entity?uncap_first}:add']"/>
+          <i @click="edit(row)" class="el-icon-edit table-operation" :title="$t('common.update')"
+             style="color: #2db7f5;" v-hasPermission="['${cfg.serviceName}:${entity?uncap_first}:edit']"/>
           <i @click="singleDelete(row)" class="el-icon-delete table-operation" :title="$t('common.delete')"
-             style="color: #f50;" v-hasPermission="['${entity?uncap_first}:delete']"/>
-          <el-link class="no-perm" v-has-no-permission="['${entity?uncap_first}:update', '${entity?uncap_first}:copy', '${entity?uncap_first}:delete']">
+             style="color: #f50;" v-hasPermission="['${cfg.serviceName}:${entity?uncap_first}:delete']"/>
+          <el-link class="no-perm" v-has-no-permission="['${cfg.serviceName}:${entity?uncap_first}:edit', '${cfg.serviceName}:${entity?uncap_first}:add', '${cfg.serviceName}:${entity?uncap_first}:delete']">
             {{ $t("tips.noPermission") }}
           </el-link>
         </template>
@@ -186,14 +179,14 @@
 <script>
 import Pagination from "@/components/Pagination";
 import elDragDialog from '@/directive/el-drag-dialog'
-import ${entity}Edit from "./Edit";
+import ${entity}Edit from "./edit";
 import ${entity?uncap_first}Api from "@/api/${entity}.js";
-import ${entity}Import from "@/components/zuihou/Import"
+import ${entity}Import from "@/components/lamp/Import"
 import {convertEnum} from '@/utils/utils'
 import {downloadFile, loadEnums, initDicts, initQueryParams} from '@/utils/commons'
 
 export default {
-  name: "${entity}Manage",
+  name: "${entity}Index",
   directives: { elDragDialog },
   components: { Pagination, ${entity}Edit, ${entity}Import},
   filters: {
@@ -296,10 +289,10 @@ export default {
     },
     exportExcelPreview() {
       if (this.queryParams.timeRange) {
-        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
       }
-      this.queryParams.map.fileName = '导出数据';
+      this.queryParams.extra.fileName = '导出数据';
       ${entity?uncap_first}Api.preview(this.queryParams).then(response => {
         const res = response.data;
         this.preview.isVisible = true;
@@ -308,10 +301,10 @@ export default {
     },
     exportExcel() {
       if (this.queryParams.timeRange) {
-        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
       }
-      this.queryParams.map.fileName = '导出数据';
+      this.queryParams.extra.fileName = '导出数据';
       ${entity?uncap_first}Api.export(this.queryParams).then(response => {
         downloadFile(response);
       });
@@ -387,8 +380,8 @@ export default {
     fetch(params = {}) {
       this.loading = true;
       if (this.queryParams.timeRange) {
-        this.queryParams.map.createTime_st = this.queryParams.timeRange[0];
-        this.queryParams.map.createTime_ed = this.queryParams.timeRange[1];
+        this.queryParams.extra.createTime_st = this.queryParams.timeRange[0];
+        this.queryParams.extra.createTime_ed = this.queryParams.timeRange[1];
       }
 
       this.queryParams.current = params.current ? params.current : this.queryParams.current;

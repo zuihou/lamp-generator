@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator.type;
+package com.tangyh.lamp.generator.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum SuperClass {
 
-    SUPER_CLASS("com.github.zuihou.base.controller.SuperController", "com.github.zuihou.base.service.SuperService",
-            "com.github.zuihou.base.service.SuperServiceImpl", "com.github.zuihou.base.mapper.SuperMapper"),
-    SUPER_CACHE_CLASS("com.github.zuihou.base.controller.SuperCacheController", "com.github.zuihou.base.service.SuperCacheService",
-            "com.github.zuihou.base.service.SuperCacheServiceImpl", "com.github.zuihou.base.mapper.SuperMapper"),
+    SUPER_CLASS("com.tangyh.basic.base.controller.SuperController", "com.tangyh.basic.base.service.SuperService",
+            "com.tangyh.basic.base.service.SuperServiceImpl", "com.tangyh.basic.base.mapper.SuperMapper"),
+    SUPER_CACHE_CLASS("com.tangyh.basic.base.controller.SuperCacheController", "com.tangyh.basic.base.service.SuperCacheService",
+            "com.tangyh.basic.base.service.SuperCacheServiceImpl", "com.tangyh.basic.base.mapper.SuperMapper"),
     NONE("", "", "", "");
 
     private String controller;

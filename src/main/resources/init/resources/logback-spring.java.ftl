@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
 
-    <include resource="com/github/zuihou/log/logback/zuihou-defaults.xml"/>
+    <include resource="com/tangyh/basic/log/logback/defaults.xml"/>
 
     <springProfile name="test,docker,prod">
         <logger name="${packageBase}.controller" additivity="true" level="${r"${"}log.level.controller${r"}"}">

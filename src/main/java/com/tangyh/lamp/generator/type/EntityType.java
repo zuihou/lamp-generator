@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator.type;
+package com.tangyh.lamp.generator.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,18 +17,18 @@ public enum EntityType {
      * <p>
      * "tenant_code" 字段会自动忽略
      */
-    SUPER_ENTITY("com.github.zuihou.base.entity.SuperEntity", new String[]{"id", "tenant_code", "create_time", "create_user"}),
+    SUPER_ENTITY("com.tangyh.basic.base.entity.SuperEntity", new String[]{"id", "tenant_code", "create_time", "created_by"}),
     /**
      * 有创建人创建时间等
      * "tenant_code" 字段会自动忽略
      */
-    ENTITY("com.github.zuihou.base.entity.Entity", new String[]{"id", "tenant_code", "create_time", "create_user", "update_time", "update_user"}),
+    ENTITY("com.tangyh.basic.base.entity.Entity", new String[]{"id", "tenant_code", "create_time", "created_by", "update_time", "updated_by"}),
 
     /**
      * 树形实体
      * "tenant_code" 字段会自动忽略
      */
-    TREE_ENTITY("com.github.zuihou.base.entity.TreeEntity", new String[]{"id", "tenant_code", "create_time", "create_user", "update_time", "update_user", "label", "parent_id", "sort_value"}),
+    TREE_ENTITY("com.tangyh.basic.base.entity.TreeEntity", new String[]{"id", "tenant_code", "create_time", "created_by", "update_time", "updated_by", "label", "parent_id", "sort_value"}),
 
     /**
      * 不继承任何实体

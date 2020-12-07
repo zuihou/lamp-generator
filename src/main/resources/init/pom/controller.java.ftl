@@ -6,7 +6,7 @@
         <artifactId>${projectPrefix}${serviceName}</artifactId>
         <groupId>${groupId}</groupId>
         <version>${version}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -26,16 +26,14 @@
             <#else>
             <artifactId>${projectPrefix}${serviceName}-biz</artifactId>
             </#if>
+            <version>${r"${"}lamp-project.version${r"}"}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-security-starter</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-security-starter</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-log-starter</artifactId>
-        </dependency>
+
     </dependencies>
 
 

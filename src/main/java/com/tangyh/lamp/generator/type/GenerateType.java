@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator.type;
+package com.tangyh.lamp.generator.type;
 
 /**
  * 生成策略

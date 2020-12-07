@@ -1,15 +1,15 @@
-package com.github.zuihoou.generator.ext;
+package com.tangyh.lamp.generator.ext;
 
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
 import com.baomidou.mybatisplus.generator.config.FileOutConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.github.zuihoou.generator.CodeGenerator;
-import com.github.zuihoou.generator.VueGenerator;
-import com.github.zuihoou.generator.config.CodeGeneratorConfig;
-import com.github.zuihoou.generator.config.FileCreateConfig;
-import com.github.zuihoou.generator.type.GenerateType;
+import com.tangyh.lamp.generator.CodeGenerator;
+import com.tangyh.lamp.generator.VueGenerator;
+import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import com.tangyh.lamp.generator.config.FileCreateConfig;
+import com.tangyh.lamp.generator.type.GenerateType;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -47,7 +47,7 @@ public class FileOutConfigExt extends FileOutConfig {
                 this.generateType = fileCreateConfig.getGenerateDto();
                 break;
             case CodeGenerator.PAGE_DTO_PATH:
-                this.setTemplatePath("/templates/pageDto.java.ftl");
+                this.setTemplatePath("/templates/pageQuery.java.ftl");
                 this.projectSuffix = config.getEntitySuffix();
                 this.generateType = fileCreateConfig.getGenerateDto();
                 break;
@@ -236,11 +236,11 @@ public class FileOutConfigExt extends FileOutConfig {
             innerModularSuffix = StringUtils.firstToLowerCase(modularSuffix);
             fileName = tableInfo.getEntityName() + DOT_JS;
         } else if (VueGenerator.PAGE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
-            fileName = "Index" + DOT_VUE;
+            fileName = "index" + DOT_VUE;
         } else if (VueGenerator.EDIT_PATH.equalsIgnoreCase(modularSuffix)) {
-            fileName = "Edit" + DOT_VUE;
+            fileName = "edit" + DOT_VUE;
         } else if (VueGenerator.TREE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
-            fileName = "Tree" + DOT_VUE;
+            fileName = "tree" + DOT_VUE;
         } else if (VueGenerator.LANG_PATH.equalsIgnoreCase(modularSuffix)) {
             innerModularSuffix = StringUtils.firstToLowerCase(modularSuffix);
             fileName = "lang." + tableInfo.getEntityName() + DOT_JS;

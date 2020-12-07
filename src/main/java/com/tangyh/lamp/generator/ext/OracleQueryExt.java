@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator.ext;
+package com.tangyh.lamp.generator.ext;
 
 import com.baomidou.mybatisplus.generator.config.querys.OracleQuery;
 

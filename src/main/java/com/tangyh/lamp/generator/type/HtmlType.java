@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator.type;
+package com.tangyh.lamp.generator.type;
 
 public class HtmlType {
     public static final String INPUT = "input";

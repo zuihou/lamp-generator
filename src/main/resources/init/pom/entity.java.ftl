@@ -6,7 +6,7 @@
         <artifactId>${projectPrefix}${serviceName}</artifactId>
         <groupId>${groupId}</groupId>
         <version>${version}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -16,25 +16,13 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-common</artifactId>
-            <version>${r"${"}zuihou-project.version${r"}"}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-injection-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-annotation</artifactId>
+            <groupId>com.tangyh.lamp</groupId>
+            <artifactId>lamp-common</artifactId>
+            <version>${r"${"}lamp-project.version${r"}"}</version>
         </dependency>
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-annotation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>cn.afterturn</groupId>
-            <artifactId>easypoi-base</artifactId>
         </dependency>
     </dependencies>
 

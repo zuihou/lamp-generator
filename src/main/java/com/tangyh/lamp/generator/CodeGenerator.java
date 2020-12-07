@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator;
+package com.tangyh.lamp.generator;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
@@ -23,12 +23,12 @@ import com.baomidou.mybatisplus.generator.config.querys.SqlServerQuery;
 import com.baomidou.mybatisplus.generator.config.querys.SqliteQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.github.zuihoou.generator.config.CodeGeneratorConfig;
-import com.github.zuihoou.generator.ext.FileOutConfigExt;
-import com.github.zuihoou.generator.ext.FreemarkerTemplateEngineExt;
-import com.github.zuihoou.generator.ext.MySqlQueryExt;
-import com.github.zuihoou.generator.ext.OracleQueryExt;
-import com.github.zuihoou.generator.type.GenerateType;
+import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import com.tangyh.lamp.generator.ext.FileOutConfigExt;
+import com.tangyh.lamp.generator.ext.FreemarkerTemplateEngineExt;
+import com.tangyh.lamp.generator.ext.MySqlQueryExt;
+import com.tangyh.lamp.generator.ext.OracleQueryExt;
+import com.tangyh.lamp.generator.type.GenerateType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -50,7 +50,7 @@ public class CodeGenerator {
     public static final String CONSTANT_PATH = "Constant";
     public static final String SAVE_DTO_PATH = "SaveDTO";
     public static final String UPDATE_DTO_PATH = "UpdateDTO";
-    public static final String PAGE_DTO_PATH = "PageDTO";
+    public static final String PAGE_DTO_PATH = "PageQuery";
 
     public static final String SRC_MAIN_JAVA = "src" + File.separator + "main" + File.separator + "java";
     public static final String SRC_MAIN_RESOURCE = "src" + File.separator + "main" + File.separator + "resources";
@@ -96,16 +96,16 @@ public class CodeGenerator {
         mpg.execute();
 
         System.err.println("----------------------------------------------------------------");
-        System.err.println("代码已经生成完毕，若您生成的代码不在com.github.zuihou包下，请在nacos中的mysql.yml配置文件中调整以下2个参数：");
+        System.err.println("代码已经生成完毕，若您生成的代码不在com.tangyh.lamp包下，请在nacos中的mysql.yml配置文件中调整以下2个参数：");
         System.err.println("mybatis-plus.typeAliasesPackage");
         System.err.println("mybatis-plus.typeEnumsPackage");
-        System.err.println("如：typeAliasesPackage: com.github.zuihou.*.entity;com.github.zuihou.database.mybatis.typehandler,com.alijiujiu.platform.*.entity");
-        System.err.println("如：typeEnumsPackage: com.github.zuihou.*.enumeration,com.alijiujiu.platform.*.enumeration");
+        System.err.println("如：typeAliasesPackage: com.tangyh.basic.database.mybatis.typehandler;com.tangyh.lamp.*.entity;追加你的实体包");
+        System.err.println("如：typeEnumsPackage: com.tangyh.lamp.*.enumeration;追加你的枚举包");
         System.err.println("----------------------------------------------------------------");
-        System.err.println(StrUtil.format("若新建的服务有枚举类型的字段，请在zuihou-oauth-server/pom.xml 中加入{}{}-entity 模块",
+        System.err.println(StrUtil.format("若新建的服务有枚举类型的字段，请在lamp-oauth-server/pom.xml 中加入{}{}-entity 模块",
                 config.getProjectPrefix(), config.getServiceName()));
         System.err.println("并在 OauthGeneralController 类的'static {  }' 处添加枚举类型");
-        System.err.println("如： ENUM_MAP.put(ProductType2Enum.class.getSimpleName(), BaseEnum.getMap(ProductType2Enum.values()));");
+        System.err.println("如： ENUM_MAP.put(ProductType2Enum.class.getSimpleName(), MapHelper.getMap(ProductType2Enum.values()));");
     }
 
     /**

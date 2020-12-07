@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator.ext;
+package com.tangyh.lamp.generator.ext;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.util.StrUtil;
@@ -13,13 +13,13 @@ import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.BeetlTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.github.zuihoou.generator.CodeGenerator;
-import com.github.zuihoou.generator.VueGenerator;
-import com.github.zuihoou.generator.config.CodeGeneratorConfig;
-import com.github.zuihoou.generator.config.FileCreateConfig;
-import com.github.zuihoou.generator.model.GenTableColumn;
-import com.github.zuihoou.generator.type.EntityFiledType;
-import com.github.zuihoou.generator.type.GenerateType;
+import com.tangyh.lamp.generator.CodeGenerator;
+import com.tangyh.lamp.generator.VueGenerator;
+import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import com.tangyh.lamp.generator.config.FileCreateConfig;
+import com.tangyh.lamp.generator.model.GenTableColumn;
+import com.tangyh.lamp.generator.type.EntityFiledType;
+import com.tangyh.lamp.generator.type.GenerateType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
@@ -224,24 +224,24 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
 
                     } else {
-                        importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                        importPackages.add("com.tangyh.lamp.common.constant.InjectionFieldConstants");
                     }
                 } else {
-                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s", api));
+                    importPackages.add(String.format("static com.tangyh.lamp.common.constant.InjectionFieldConstants.%s", api));
                 }
             }
             if (!method.contains("\"")) {
                 if (method.contains(".")) {
-                    importPackages.add("com.github.zuihou.common.constant.InjectionFieldConstants");
+                    importPackages.add("com.tangyh.lamp.common.constant.InjectionFieldConstants");
                 } else {
-                    importPackages.add(String.format("static com.github.zuihou.common.constant.InjectionFieldConstants.%s", method));
+                    importPackages.add(String.format("static com.tangyh.lamp.common.constant.InjectionFieldConstants.%s", method));
                 }
             }
             if (typePackage.contains(".")) {
                 importPackages.add(typePackage);
             }
-            importPackages.add("com.github.zuihou.injection.annonation.InjectionField");
-            importPackages.add("com.github.zuihou.model.RemoteData");
+            importPackages.add("com.tangyh.basic.annotation.injection.InjectionField");
+            importPackages.add("com.tangyh.basic.model.RemoteData");
         }
     }
 

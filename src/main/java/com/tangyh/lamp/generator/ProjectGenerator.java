@@ -1,10 +1,10 @@
-package com.github.zuihoou.generator;
+package com.tangyh.lamp.generator;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.github.zuihoou.generator.config.CodeGeneratorConfig;
+import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import lombok.extern.slf4j.Slf4j;
@@ -104,7 +104,7 @@ public class ProjectGenerator {
             //根 pom
             this.writer(objectMap, String.format(INIT_FTL, "pom"), Paths.get(servicePath, "pom.xml").toString());
 
-            // api 模块 生成在 zuihou-api 模块下
+            // api 模块 生成在 lamp-api 模块下
 //            this.generatorApiModular(serviceName, objectMap);
 
             // server 模块
@@ -118,18 +118,6 @@ public class ProjectGenerator {
             String modulerName = this.config.getProjectPrefix() + this.config.getChildModuleName();
             System.err.println("------------------------------------------");
             System.err.println(String.format("生成完毕，请将以下配置手工加入：%s/pom.xml", serviceName));
-            System.err.println(String.format(
-                    "            <dependency>\n" +
-                            "                <groupId>%s</groupId>\n" +
-                            "                <artifactId>%s-biz</artifactId>\n" +
-                            "                <version>${project.version}</version>\n" +
-                            "            </dependency>", config.getGroupId(), modulerName));
-            System.err.println(String.format(
-                    "            <dependency>\n" +
-                            "                <groupId>%s</groupId>\n" +
-                            "                <artifactId>%s-controller</artifactId>\n" +
-                            "                <version>${project.version}</version>\n" +
-                            "            </dependency>", config.getGroupId(), modulerName));
             System.err.println("");
             System.err.println(String.format(
                     "        <module>%s-biz</module>\n" +
@@ -142,12 +130,13 @@ public class ProjectGenerator {
                     "            <dependency>\n" +
                             "                <groupId>%s</groupId>\n" +
                             "                <artifactId>%s-controller</artifactId>\n" +
+                            "                <version>${lamp-project.version}</version>\n" +
                             "            </dependency>", config.getGroupId(), modulerName));
         }
 
         System.err.println("生成完毕，但请手动完成以下操作：");
         System.err.println("------------------------------------------");
-        System.err.println(String.format("将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "admin-cloud"));
+        System.err.println(String.format("将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "cloud-plus"));
         System.err.println(String.format("        <module>%s</module>", serviceName));
 
         System.err.println("------------------------------------------");
@@ -156,13 +145,13 @@ public class ProjectGenerator {
         System.err.println(String.format("在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProject, projectName, nacosProject));
 
         System.err.println("------------------------------------------");
-        System.err.println("将下面的配置手动加入nacos中 zuihou-zuul-server.yml");
+        System.err.println("将下面的配置手动加入nacos中 lamp-zuul-server.yml");
         System.err.println(String.format("    %s:\n" +
                 "      path: /%s/**\n" +
                 "      serviceId: %s-server", config.getServiceName(), config.getServiceName(), serviceName));
 
         System.err.println("------------------------------------------");
-        System.err.println("将下面的配置手动加入nacos中 zuihou-gateway-server.yml");
+        System.err.println("将下面的配置手动加入nacos中 lamp-gateway-server.yml");
         System.err.println(String.format("        - id: %s\n" +
                         "          uri: lb://%s-server\n" +
                         "          predicates:\n" +

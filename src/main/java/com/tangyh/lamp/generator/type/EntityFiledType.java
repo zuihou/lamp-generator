@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator.type;
+package com.tangyh.lamp.generator.type;
 
 
 import java.io.File;

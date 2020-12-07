@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator.model;
+package com.tangyh.lamp.generator.model;
 
 
 import lombok.AllArgsConstructor;

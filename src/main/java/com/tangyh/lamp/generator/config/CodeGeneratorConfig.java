@@ -1,13 +1,13 @@
-package com.github.zuihoou.generator.config;
+package com.tangyh.lamp.generator.config;
 
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.config.po.LikeTable;
-import com.github.zuihoou.generator.model.GenTableColumn;
-import com.github.zuihoou.generator.type.EntityFiledType;
-import com.github.zuihoou.generator.type.EntityType;
-import com.github.zuihoou.generator.type.SuperClass;
+import com.tangyh.lamp.generator.model.GenTableColumn;
+import com.tangyh.lamp.generator.type.EntityFiledType;
+import com.tangyh.lamp.generator.type.EntityType;
+import com.tangyh.lamp.generator.type.SuperClass;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -68,7 +68,7 @@ public class CodeGeneratorConfig {
     /**
      * 基础包   所有的代码都放置在这个包之下
      */
-    String packageBase = "com.github.zuihou.authority";
+    String packageBase = "com.tangyh.lamp.authority";
     /**
      * 子包名称
      * 会在api、controller、service、serviceImpl、dao、entity等包下面创建子包
@@ -81,7 +81,7 @@ public class CodeGeneratorConfig {
     /**
      * 项目统一前缀  比如：  cloud-
      */
-    private String projectPrefix = "zuihou-";
+    private String projectPrefix = "lamp-";
 
     private String apiSuffix = "-api";
     private String entitySuffix = "-entity";
@@ -95,7 +95,7 @@ public class CodeGeneratorConfig {
      * 端口号
      */
     String serverPort = "8080";
-    String groupId = "com.github.zuihou";
+    String groupId = "com.tangyh.lamp";
     String description = "服务";
 //    private String serverSuffix = "-server";
 
@@ -157,7 +157,7 @@ public class CodeGeneratorConfig {
     /**
      * 驱动连接的URL
      */
-    private String url = "jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull";
+    private String url = "jdbc:mysql://127.0.0.1:3306/lamp_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull";
     /**
      * 驱动名称
      */
@@ -185,7 +185,7 @@ public class CodeGeneratorConfig {
 
     @Data
     public static class Vue {
-        private String viewsPath = "views" + File.separator + "zuihou";
+        private String viewsPath = "views" + File.separator + "lamp";
 
         /**
          * 表名 - <字段名 - 字段信息>
@@ -211,7 +211,7 @@ public class CodeGeneratorConfig {
         config.setServiceName(serviceName).setAuthor(author).setTablePrefix(tablePrefix)
                 .setTableInclude(tableInclude.stream().toArray(String[]::new))
                 .setChildModuleName(childModuleName == null ? "" : childModuleName);
-        config.setPackageBase("com.github.zuihou." + config.getChildModuleName());
+        config.setPackageBase("com.tangyh.lamp." + config.getChildModuleName());
         return config;
     }
 
@@ -221,7 +221,7 @@ public class CodeGeneratorConfig {
         config.setServiceName(serviceName).setTablePrefix(tablePrefix)
                 .setTableInclude(tableInclude.stream().toArray(String[]::new))
                 .setChildModuleName("");
-        config.setPackageBase("com.github.zuihou." + config.getChildModuleName());
+        config.setPackageBase("com.tangyh.lamp." + config.getChildModuleName());
         return config;
     }
 

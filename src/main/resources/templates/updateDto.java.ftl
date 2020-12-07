@@ -11,7 +11,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;
-import com.github.zuihou.base.entity.SuperEntity;
+import com.tangyh.basic.base.entity.SuperEntity;
 <#if entityLombokModel>
 import lombok.Data;
 import lombok.Builder;
@@ -20,7 +20,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import com.github.zuihou.common.constant.DictionaryType;
+import com.tangyh.lamp.common.constant.DictionaryType;
 </#if>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>

@@ -6,7 +6,7 @@
         <artifactId>${projectPrefix}${serviceName}</artifactId>
         <groupId>${groupId}</groupId>
         <version>${version}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -22,28 +22,33 @@
         <dependency>
             <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}${serviceName}-entity</artifactId>
+            <version>${r"${"}lamp-project.version${r"}"}</version>
         </dependency>
 
         <dependency>
             <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}oauth-api</artifactId>
-            <version>${r"${"}zuihou-project.version${r"}"}</version>
+            <version>${r"${"}lamp-project.version${r"}"}</version>
         </dependency>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-databases</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-databases</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-dozer-starter</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-dozer-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-j2cache-starter</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-cache-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.zuihou</groupId>
-            <artifactId>zuihou-boot</artifactId>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-injection-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.tangyh.basic</groupId>
+            <artifactId>lamp-boot</artifactId>
         </dependency>
 
         <dependency>

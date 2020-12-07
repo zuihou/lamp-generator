@@ -1,4 +1,4 @@
-zuihou:
+lamp:
   swagger:
     docket:
       ${serviceName}:

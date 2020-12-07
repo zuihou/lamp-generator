@@ -22,8 +22,8 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import com.github.zuihou.common.constant.DictionaryType;
-import static com.github.zuihou.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
+import com.tangyh.lamp.common.constant.DictionaryType;
+import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
 </#if>
 <#if cfg.filedTypes??>
 <#list cfg.filedTypes as fieldType>
@@ -182,7 +182,7 @@ public class ${entity} implements Serializable {
     <#-- 自动注入注解 -->
     <#if field.customMap.annotation??>
     ${field.customMap.annotation}
-    @ExcelEntity(name = "")
+    @ExcelEntity
         <#assign myPropertyType="${field.customMap.type}"/>
         <#if field.propertyName?ends_with("Id")>
             <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>

@@ -11,24 +11,24 @@
             <el-button @click="reset" class="filter-item" plain type="warning">
               {{ $t("table.reset") }}
             </el-button>
-            <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['${entity?uncap_first}:add']">
+            <el-button @click="add" class="filter-item" plain type="danger" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:add']">
               {{ $t("table.add") }}
             </el-button>
-            <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['${entity?uncap_first}:import', '${entity?uncap_first}:delete', '${entity?uncap_first}:export']">
+            <el-dropdown class="filter-item" trigger="click" v-has-any-permission="['${cfg.serviceName}:${entity?uncap_first}:import', '${cfg.serviceName}:${entity?uncap_first}:delete', '${cfg.serviceName}:${entity?uncap_first}:export']">
               <el-button>
                 {{ $t("table.more") }}<i class="el-icon-arrow-down el-icon--right"/>
               </el-button>
               <el-dropdown-menu slot="dropdown">
-                <el-dropdown-item @click.native="batchDelete" v-has-permission="['${entity?uncap_first}:delete']">
+                <el-dropdown-item @click.native="batchDelete" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:delete']">
                   {{ $t("table.delete") }}
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="exportExcel" v-has-permission="['${entity?uncap_first}:export']">
+                <el-dropdown-item @click.native="exportExcel" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:export']">
                   {{ $t("table.export") }}
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['${entity?uncap_first}:export']">
+                <el-dropdown-item @click.native="exportExcelPreview" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:export']">
                   {{ $t("table.exportPreview") }}
                 </el-dropdown-item>
-                <el-dropdown-item @click.native="importExcel" v-has-permission="['${entity?uncap_first}:import']">
+                <el-dropdown-item @click.native="importExcel" v-has-permission="['${cfg.serviceName}:${entity?uncap_first}:import']">
                   {{ $t("table.import") }}
                 </el-dropdown-item>
               </el-dropdown-menu>
@@ -217,11 +217,11 @@
 <script>
 import ${entity?uncap_first}Api from "@/api/${entity}.js";
 import elDragDialog from '@/directive/el-drag-dialog'
-import ${entity}Import from "@/components/zuihou/Import"
+import ${entity}Import from "@/components/lamp/Import"
 import {downloadFile, loadEnums, initDicts, initQueryParams} from '@/utils/commons'
 
 export default {
-  name: "${entity}Manager",
+  name: "${entity}Tree",
   directives: { elDragDialog },
   components: { ${entity}Import },
   data() {
@@ -279,9 +279,6 @@ export default {
     init${entity}() {
       return {
         id: "",
-        label: "",
-        sortValue: 0,
-        parentId: 0,
         parentLabel: "",
         <#list table.fields as field>
           <#assign myPropertyName="${field.propertyName}"/>
@@ -322,7 +319,7 @@ export default {
     },
     exportExcelPreview() {
       const queryParams = initQueryParams();
-      queryParams.map.fileName = '导出数据';
+      queryParams.extra.fileName = '导出数据';
       ${entity?uncap_first}Api.preview(queryParams).then(response => {
         const res = response.data;
         this.preview.isVisible = true;
@@ -331,7 +328,7 @@ export default {
     },
     exportExcel() {
       const queryParams = initQueryParams();
-      queryParams.map.fileName = '导出数据';
+      queryParams.extra.fileName = '导出数据';
       ${entity?uncap_first}Api.export(queryParams).then(response => {
         downloadFile(response);
       });

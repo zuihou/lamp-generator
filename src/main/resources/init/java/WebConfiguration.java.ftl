@@ -1,11 +1,11 @@
 package ${packageBase}.config;
 
-import com.github.zuihou.boot.config.BaseConfig;
-import org.springframework.context.annotation.Configuration;
-import com.github.zuihou.oauth.api.LogApi;
-import com.github.zuihou.log.event.SysLogListener;
-import org.springframework.context.annotation.Bean;
+import com.tangyh.lamp.oauth.api.LogApi;
+import com.tangyh.basic.boot.config.BaseConfig;
+import com.tangyh.basic.log.event.SysLogListener;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 
 /**
  * ${description}-Web配置
@@ -17,14 +17,11 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 public class ${service}WebConfiguration extends BaseConfig {
 
     /**
-    * zuihou.log.enabled = true 并且 zuihou.log.type=DB时实例该类
-    *
-    * @param logApi
-    * @return
-    */
+     * lamp.log.enabled = true 并且 lamp.log.type=DB时实例该类
+     */
     @Bean
-    @ConditionalOnExpression("${r'${'}zuihou.log.enabled:true${r'}'} && 'DB'.equals('${r'${'}zuihou.log.type:LOGGER${r'}'}')")
+    @ConditionalOnExpression("${r'${'}lamp.log.enabled:true${r'}'} && 'DB'.equals('${r'${'}lamp.log.type:LOGGER${r'}'}')")
     public SysLogListener sysLogListener(LogApi logApi) {
-        return new SysLogListener((log) -> logApi.save(log));
+        return new SysLogListener(logApi::save);
     }
 }

@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>${groupId}</groupId>
-        <artifactId>${projectPrefix}admin-cloud</artifactId>
+        <artifactId>${projectPrefix}cloud-plus</artifactId>
         <version>${version}</version>
-        <relativePath>../</relativePath>
+        <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
@@ -23,24 +23,6 @@
         <module>${projectPrefix}${serviceName}-server</module>
     </modules>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>${groupId}</groupId>
-                <artifactId>${projectPrefix}${serviceName}-entity</artifactId>
-                <version>${r"${"}zuihou-project.version${r"}"}</version>
-            </dependency>
-            <dependency>
-                <groupId>${groupId}</groupId>
-                <artifactId>${projectPrefix}${serviceName}-biz</artifactId>
-                <version>${r"${"}zuihou-project.version${r"}"}</version>
-            </dependency>
-            <dependency>
-                <groupId>${groupId}</groupId>
-                <artifactId>${projectPrefix}${serviceName}-controller</artifactId>
-                <version>${r"${"}zuihou-project.version${r"}"}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
 
 </project>

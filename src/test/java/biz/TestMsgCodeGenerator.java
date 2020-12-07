@@ -1,9 +1,11 @@
-import com.github.zuihoou.generator.CodeGenerator;
-import com.github.zuihoou.generator.config.CodeGeneratorConfig;
-import com.github.zuihoou.generator.config.FileCreateConfig;
-import com.github.zuihoou.generator.type.EntityFiledType;
-import com.github.zuihoou.generator.type.EntityType;
-import com.github.zuihoou.generator.type.GenerateType;
+package biz;
+
+import com.tangyh.lamp.generator.CodeGenerator;
+import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import com.tangyh.lamp.generator.config.FileCreateConfig;
+import com.tangyh.lamp.generator.type.EntityFiledType;
+import com.tangyh.lamp.generator.type.EntityType;
+import com.tangyh.lamp.generator.type.GenerateType;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -16,20 +18,21 @@ import java.util.Set;
  * @author zuihou
  * @date 2019/05/25
  */
-public class TestMsgsGenerator {
+public class TestMsgCodeGenerator {
     /***
      * 注意，想要在这里直接运行，需要手动增加 mysql 驱动
      * @param args
      */
     public static void main(String[] args) {
-//        CodeGeneratorConfig build = buildSmsEntity();
-        CodeGeneratorConfig build = buildMsgsEntity();
+        CodeGeneratorConfig build = buildSmsEntity();
+//        CodeGeneratorConfig build = buildMsgEntity();
 
         build.setUsername("root");
         build.setPassword("root");
-        System.out.println("输出路径：");
-        System.out.println(System.getProperty("user.dir") + "/zuihou-backend/zuihou-msgs");
-        build.setProjectRootPath(System.getProperty("user.dir") + "/zuihou-backend/zuihou-msgs");
+
+        String path = "/Users/tangyh/gitee/lamp-cloud-plus/lamp-msg";
+        System.err.println("输出路径：" + path);
+        build.setProjectRootPath(path);
 
         FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
@@ -46,8 +49,8 @@ public class TestMsgsGenerator {
         //手动指定枚举类 生成的路径
         Set<EntityFiledType> filedTypes = new HashSet<>();
         filedTypes.addAll(Arrays.asList(
-                EntityFiledType.builder().name("providerType").table("sms_template")
-                        .packagePath("com.github.zuihou.sms.enumeration.ProviderType").gen(GenerateType.IGNORE).build()
+                EntityFiledType.builder().name("providerType").table("e_sms_template")
+                        .packagePath("com.tangyh.lamp.sms.enumeration.ProviderType").gen(GenerateType.IGNORE).build()
         ));
         build.setFiledTypes(filedTypes);
         CodeGenerator.run(build);
@@ -56,27 +59,28 @@ public class TestMsgsGenerator {
 
     public static CodeGeneratorConfig buildSmsEntity() {
         List<String> tables = Arrays.asList(
-//                "sms_template"
-                "sms_task"
+                "e_sms_template",
+                "e_sms_send_status",
+                "e_sms_task"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("msgs", "sms", "zuihou", "", tables);
+                build("msg", "sms", "zuihou", "e_", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("");
-        build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;
     }
 
-    private static CodeGeneratorConfig buildMsgsEntity() {
+    private static CodeGeneratorConfig buildMsgEntity() {
         List<String> tables = Arrays.asList(
-                "msgs_center_info",
-                "msgs_center_info_receive"
+                "e_msg",
+                "e_msg_receive"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("msgs", "", "zuihou", "", tables);
+                build("msg", "", "zuihou", "e_", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("");
-        build.setUrl("jdbc:mysql://127.0.0.1:3306/zuihou_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;
     }
 }

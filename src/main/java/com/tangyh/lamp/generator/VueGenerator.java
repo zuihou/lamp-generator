@@ -1,4 +1,4 @@
-package com.github.zuihoou.generator;
+package com.tangyh.lamp.generator;
 
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
@@ -22,12 +22,12 @@ import com.baomidou.mybatisplus.generator.config.querys.SqlServerQuery;
 import com.baomidou.mybatisplus.generator.config.querys.SqliteQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.github.zuihoou.generator.config.CodeGeneratorConfig;
-import com.github.zuihoou.generator.ext.FileOutConfigExt;
-import com.github.zuihoou.generator.ext.FreemarkerTemplateEngineExt;
-import com.github.zuihoou.generator.ext.MySqlQueryExt;
-import com.github.zuihoou.generator.ext.OracleQueryExt;
-import com.github.zuihoou.generator.type.GenerateType;
+import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import com.tangyh.lamp.generator.ext.FileOutConfigExt;
+import com.tangyh.lamp.generator.ext.FreemarkerTemplateEngineExt;
+import com.tangyh.lamp.generator.ext.MySqlQueryExt;
+import com.tangyh.lamp.generator.ext.OracleQueryExt;
+import com.tangyh.lamp.generator.type.GenerateType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -48,19 +48,8 @@ public class VueGenerator {
     public static final String TREE_INDEX_PATH = "TreeIndex";
     public static final String EDIT_PATH = "Edit";
     public static final String LANG_PATH = "Lang";
-//    public static final String QUERY_PATH = "Query";
-//    public static final String ENUM_PATH = "Enum";
-//    public static final String CONSTANT_PATH = "Constant";
-//    public static final String SAVE_DTO_PATH = "SaveDTO";
-//    public static final String UPDATE_DTO_PATH = "UpdateDTO";
-//    public static final String PAGE_DTO_PATH = "PageDTO";
-
-//    public static final String SRC_MAIN_JAVA = "src" + File.separator + "main" + File.separator + "java";
-//    public static final String SRC_MAIN_RESOURCE = "src" + File.separator + "main" + File.separator + "resources";
 
     public static final String SRC = "src";
-//    public static final String SRC_API = "src" + File.separator + "api";
-//    public static final String SRC_VIEWS = "src" + File.separator + "views" + File.separator + "zuihou";
 
     public static void run(final CodeGeneratorConfig config) {
         // 代码生成器
