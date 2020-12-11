@@ -66,6 +66,15 @@ public class CodeGeneratorConfig {
      */
     String childModuleName = "";
     /**
+     * 子模块是否单独生成 lamp-{childModuleName}-entity模块
+     */
+    Boolean isGenEntity = false;
+    /**
+     * 是否lamp-boot
+     */
+    Boolean isBoot = false;
+
+    /**
      * 基础包   所有的代码都放置在这个包之下
      */
     String packageBase = "com.tangyh.lamp.authority";

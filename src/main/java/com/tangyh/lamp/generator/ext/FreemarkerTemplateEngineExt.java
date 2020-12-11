@@ -23,7 +23,13 @@ import com.tangyh.lamp.generator.type.GenerateType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
@@ -101,7 +107,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
                 Map<String, GenTableColumn> fieldMap = tableFieldMap.get(t.getName());
                 if (CollUtil.isNotEmpty(fieldMap)) {
                     GenTableColumn genFiled = fieldMap.get(field.getName());
-                    if(genFiled!= null) {
+                    if (genFiled != null) {
                         customMap.put("info", genFiled);
                     }
                 }
@@ -374,10 +380,15 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         }
 
         StringBuilder basePathSb = new StringBuilder(projectRootPath);
-        basePathSb.append(config.getProjectPrefix()).append(config.getServiceName())
-                .append(config.getEntitySuffix()).append(File.separator)
-                .append(CodeGenerator.SRC_MAIN_JAVA);
-
+        if (config.getIsBoot()) {
+            basePathSb.append(config.getProjectPrefix()).append(config.getChildModuleName())
+                    .append(config.getEntitySuffix()).append(File.separator)
+                    .append(CodeGenerator.SRC_MAIN_JAVA);
+        } else {
+            basePathSb.append(config.getProjectPrefix()).append(config.getServiceName())
+                    .append(config.getEntitySuffix()).append(File.separator)
+                    .append(CodeGenerator.SRC_MAIN_JAVA);
+        }
 
         return basePathSb;
     }

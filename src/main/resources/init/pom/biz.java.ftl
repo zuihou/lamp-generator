@@ -19,17 +19,26 @@
     <description>${description}-业务模块</description>
 
     <dependencies>
+        <#if isGenEntity>
+        <dependency>
+            <groupId>${groupId}</groupId>
+            <artifactId>${projectPrefix}${childModuleName}-entity</artifactId>
+            <version>${r"${"}lamp-project.version${r"}"}</version>
+        </dependency>
+        <#else>
         <dependency>
             <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}${serviceName}-entity</artifactId>
             <version>${r"${"}lamp-project.version${r"}"}</version>
         </dependency>
-
+        </#if>
+        <#if !isBoot>
         <dependency>
             <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}oauth-api</artifactId>
             <version>${r"${"}lamp-project.version${r"}"}</version>
         </dependency>
+        </#if>
         <dependency>
             <groupId>com.tangyh.basic</groupId>
             <artifactId>lamp-databases</artifactId>
@@ -48,7 +57,7 @@
         </dependency>
         <dependency>
             <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-boot</artifactId>
+            <artifactId>lamp-boot-util</artifactId>
         </dependency>
 
         <dependency>

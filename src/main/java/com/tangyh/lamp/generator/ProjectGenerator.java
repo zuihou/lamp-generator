@@ -42,6 +42,9 @@ public class ProjectGenerator {
     private final static String[] CHILD_MODULAR_LIST = new String[]{
             BIZ, CONTROLLER
     };
+    private final static String[] CHILD_MODULAR_ENTITY_LIST = new String[]{
+            BIZ, CONTROLLER, ENTITY
+    };
 
     /**
      * 模板路径
@@ -89,6 +92,9 @@ public class ProjectGenerator {
         String[] modularList = ALL_MODULAR_LIST;
         if (isChildModule) {
             modularList = CHILD_MODULAR_LIST;
+            if (config.getIsGenEntity()) {
+                modularList = CHILD_MODULAR_ENTITY_LIST;
+            }
         }
         for (String modular : modularList) {
             //创建模块文件夹
@@ -115,6 +121,14 @@ public class ProjectGenerator {
             String serverResourcePath = Paths.get(servicePath, modularName, SRC_MAIN_RESOURCES).toString();
             this.generatorServerResources(objectMap, serverResourcePath);
         } else {
+            if(config.getIsBoot()) {
+                //根 pom
+                this.writer(objectMap, String.format(INIT_FTL, "pom"), Paths.get(servicePath, "pom.xml").toString());
+
+                System.err.println("请注意： 请手动 在lamp-boot/pom.xml里面加入<module>, 在server模块依赖新增的Controller模块");
+                return;
+            }
+
             String modulerName = this.config.getProjectPrefix() + this.config.getChildModuleName();
             System.err.println("------------------------------------------");
             System.err.println(String.format("生成完毕，请将以下配置手工加入：%s/pom.xml", serviceName));
@@ -134,9 +148,13 @@ public class ProjectGenerator {
                             "            </dependency>", config.getGroupId(), modulerName));
         }
 
+        printCloudInfo(serviceName);
+    }
+
+    private void printCloudInfo(String serviceName) {
         System.err.println("生成完毕，但请手动完成以下操作：");
         System.err.println("------------------------------------------");
-        System.err.println(String.format("将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "cloud-plus"));
+        System.err.println(String.format("将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "cloud"));
         System.err.println(String.format("        <module>%s</module>", serviceName));
 
         System.err.println("------------------------------------------");
@@ -159,7 +177,6 @@ public class ProjectGenerator {
                         "          filters:\n" +
                         "            - StripPrefix=1\n"
                 , config.getServiceName(), serviceName, config.getServiceName()));
-
     }
 
     private void generatorApiModular(String serviceName, Map<String, Object> objectMap) {
@@ -233,6 +250,8 @@ public class ProjectGenerator {
         objectMap.put("author", globalConfig.getAuthor());
         objectMap.put("serviceName", globalConfig.getServiceName());
         objectMap.put("isChildModule", isChildModule);
+        objectMap.put("isGenEntity", config.getIsGenEntity());
+        objectMap.put("isBoot", config.getIsBoot());
         objectMap.put("childModuleName", globalConfig.getChildModuleName());
         objectMap.put("packageBase", globalConfig.getPackageBase());
         objectMap.put("projectPrefix", globalConfig.getProjectPrefix());

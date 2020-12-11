@@ -10,7 +10,11 @@
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
+    <#if isChildModule>
+    <artifactId>${projectPrefix}${childModuleName}-entity</artifactId>
+    <#else>
     <artifactId>${projectPrefix}${serviceName}-entity</artifactId>
+    </#if>
     <name>${r"${"}project.artifactId${r"}"}</name>
     <description>${description}-实体模块</description>
 

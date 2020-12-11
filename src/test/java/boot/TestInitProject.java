@@ -1,3 +1,5 @@
+package boot;
+
 import com.tangyh.lamp.generator.ProjectGenerator;
 import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
 import lombok.extern.slf4j.Slf4j;
@@ -14,7 +16,6 @@ public class TestInitProject {
     public static void main(String[] args) {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
 //        String path = System.getProperty("user.dir");
-//        String path = "/Users/tangyh/gitee/lamp-cloud-plus";
         String path = "/Users/tangyh/github/lamp-boot";
         config
                 // lamp-cloud 项目的 绝对路径！
