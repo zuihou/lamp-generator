@@ -1,4 +1,4 @@
-package biz;
+package cloud;
 
 import com.tangyh.lamp.generator.CodeGenerator;
 import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
@@ -19,20 +19,22 @@ import java.util.Set;
  * @author zuihou
  * @date 2019/05/25
  */
-public class TestTenantCodeGenerator {
+public class TestCodeGenerator {
     /***
      * 注意，想要在这里直接运行，需要手动增加 mysql 驱动
      * @param args
      */
     public static void main(String[] args) {
-        CodeGeneratorConfig build = buildTenantEntity();
+        CodeGeneratorConfig build = buildDemoEntity();
+//        CodeGeneratorConfig build = buildMallEntity();
+//        CodeGeneratorConfig build = buildMallByTreeEntity();
 
         //mysql 账号密码
         build.setUsername("root");
         build.setPassword("root");
 
 //        String path = System.getProperty("user.dir");
-        String path = "/Users/tangyh/gitee/lamp-cloud-plus/lamp-tenant";
+        String path = "/Users/tangyh/gitee/lamp-cloud-plus/lamp-demo";
         System.out.println("输出路径：");
         System.out.println(path);
         build.setProjectRootPath(path);
@@ -55,6 +57,8 @@ public class TestTenantCodeGenerator {
         //手动指定枚举类 生成的路径
         Set<EntityFiledType> filedTypes = new HashSet<>();
         filedTypes.addAll(Arrays.asList(
+//                EntityFiledType.builder().name("httpMethod").table("c_common_opt_log")
+//                        .packagePath("com.tangyh.lamp.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
         ));
         build.setFiledTypes(filedTypes);
 
@@ -65,28 +69,28 @@ public class TestTenantCodeGenerator {
     }
 
 
-    public static CodeGeneratorConfig buildHeheEntity() {
+    public static CodeGeneratorConfig buildDemoEntity() {
         List<String> tables = Arrays.asList(
-                "m_product"
+                "b_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("haha", "hehe", "zuihou", "m_", tables);
+                build("demo", "", "zuihou", "b_", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("");
-        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;
     }
 
     /**
      * @return
      */
-    private static CodeGeneratorConfig buildTenantEntity() {
+    private static CodeGeneratorConfig buildMallEntity() {
         // 包含的表名
         List<String> tables = Arrays.asList(
                 "c_tenant", "c_tenant_datasource_config", "c_datasource_config"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("tenant",//  服务名
+                build("mall",//  服务名
                         "", // 子模块
                         "zuihou", // 作者
                         "c_", // 表前缀

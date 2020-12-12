@@ -1,4 +1,4 @@
-package biz;
+package cloud.biz;
 
 import com.tangyh.lamp.generator.CodeGenerator;
 import com.tangyh.lamp.generator.config.CodeGeneratorConfig;

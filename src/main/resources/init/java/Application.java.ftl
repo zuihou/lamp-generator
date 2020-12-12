@@ -44,8 +44,8 @@ public class ${service}ServerApplication {
                         "----------------------------------------------------------",
                 env.getProperty("spring.application.name"),
                 InetAddress.getLocalHost().getHostAddress(),
-                env.getProperty("server.port"),
+                env.getProperty("server.port", "8080"),
                 "127.0.0.1",
-                env.getProperty("server.port"));
+                env.getProperty("server.port", "8080"));
     }
 }
