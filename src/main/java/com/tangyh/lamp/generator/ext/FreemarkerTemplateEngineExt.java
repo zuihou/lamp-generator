@@ -380,7 +380,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         }
 
         StringBuilder basePathSb = new StringBuilder(projectRootPath);
-        if (config.getIsBoot()) {
+        if (config.getIsGenEntity()) {
             basePathSb.append(config.getProjectPrefix()).append(config.getChildModuleName())
                     .append(config.getEntitySuffix()).append(File.separator)
                     .append(CodeGenerator.SRC_MAIN_JAVA);

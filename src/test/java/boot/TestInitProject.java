@@ -5,7 +5,7 @@ import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 初始化项目 代码
+ * 生成 lamp-boot项目 新模块
  *
  * @author zuihou
  * @date 2019/05/25
@@ -15,7 +15,6 @@ public class TestInitProject {
 
     public static void main(String[] args) {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-//        String path = System.getProperty("user.dir");
         String path = "/Users/tangyh/github/lamp-boot";
         config
                 // lamp-cloud 项目的 绝对路径！
@@ -23,13 +22,15 @@ public class TestInitProject {
                 // 项目的前缀
                 .setProjectPrefix("lamp-")
 
-                // 需要新建的 服务名      该例会生成 lamp-mall 服务
+                // 需要新建的 服务名      该例会生成 lamp-mall 模块
                 .setServiceName("mall")
 
-                // 子模块的设置请参考 消息服务 （msgs 服务下的 sms 模块即 视为子模块）
-                .setChildModuleName("test")
+                // 子模块的设置请参考 消息服务 （msg 模块下的 sms 模块即 视为子模块）
+//                .setChildModuleName("mall")
+                // 子模块的设置请参考 消息服务 （msg 模块下的 sms 模块即 视为子模块）
+                .setChildModuleName("man")
 
-                .setIsGenEntity(true)
+                .setIsGenEntity(false)
                 .setIsBoot(true)
 
                 // 生成代码的注释 @author zuihou

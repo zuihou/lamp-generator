@@ -178,7 +178,7 @@ public class FileOutConfigExt extends FileOutConfig {
                     || CodeGenerator.CONSTANT_PATH.equals(modularSuffix)
                     || CodeGenerator.QUERY_PATH.equals(modularSuffix)
                     || ConstVal.ENTITY.equals(modularSuffix)) {
-                if (config.getIsBoot()) {
+                if (config.getIsGenEntity()) {
                     projectName = config.getProjectPrefix() + config.getChildModuleName() + projectSuffix + File.separator;
                 } else {
                     projectName = config.getProjectPrefix() + config.getServiceName() + projectSuffix + File.separator;

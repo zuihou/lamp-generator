@@ -75,7 +75,7 @@ public class ProjectGenerator {
     }
 
     public void build() {
-        boolean isChildModule = !this.config.getServiceName().equalsIgnoreCase(this.config.getChildModuleName());
+        boolean isChildModule = config.getIsBoot() || !this.config.getServiceName().equalsIgnoreCase(this.config.getChildModuleName()) ;
 
         // 创建项目跟文件夹
         File parentPath = new File(this.config.getProjectRootPath());
@@ -121,7 +121,7 @@ public class ProjectGenerator {
             String serverResourcePath = Paths.get(servicePath, modularName, SRC_MAIN_RESOURCES).toString();
             this.generatorServerResources(objectMap, serverResourcePath);
         } else {
-            if(config.getIsBoot()) {
+            if (config.getIsBoot()) {
                 //根 pom
                 this.writer(objectMap, String.format(INIT_FTL, "pom"), Paths.get(servicePath, "pom.xml").toString());
 

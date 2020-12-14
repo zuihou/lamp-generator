@@ -21,7 +21,7 @@ import static com.tangyh.lamp.generator.model.GenTableColumn.NO;
 import static com.tangyh.lamp.generator.model.GenTableColumn.YES;
 
 /**
- * 前端代码生成
+ * 生成 lamp-web 的前端代码
  *
  * @author zuihou
  * @date 2019/05/25
@@ -36,8 +36,8 @@ public class TestVueGenerator {
         FileCreateConfig fileCreateConfig = new FileCreateConfig(null, true);
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE, true);
 
-        CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
-//        CodeGeneratorConfig build = buildTreeEntity(fileCreateConfig);
+//        CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
+        CodeGeneratorConfig build = buildTreeEntity(fileCreateConfig);
 
         //mysql 账号密码
         build.setUsername("root");
@@ -47,7 +47,7 @@ public class TestVueGenerator {
         build.setFileCreateConfig(fileCreateConfig);
 
         // 前端代码的绝对路径
-        String vuePath = "/Users/tangyh/githubspace/zuihou-ui";
+        String vuePath = "/Users/tangyh/github/lamp-web";
         build.setProjectRootPath(vuePath);
         Console.log("代码输出路径：{}", vuePath);
 
@@ -119,7 +119,7 @@ public class TestVueGenerator {
                 "b_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                buildVue("demo",  // 服务名 必填
+                buildVue("mall",  // 服务名 必填
                         "b_",            // 表前缀
                         tables);
 
@@ -128,7 +128,7 @@ public class TestVueGenerator {
         //父类是Entity
         build.setSuperEntity(EntityType.ENTITY);
 
-        //生成的前端页面位于 src/{vue.getViewsPath()}/gateway 目录下
+        //生成的前端页面位于 src/${build.getVue().getViewsPath()}/${childPackageName} 目录下
         build.setChildPackageName("more");
 
         // 数据库信息
@@ -154,22 +154,24 @@ public class TestVueGenerator {
      * @return
      */
     public static CodeGeneratorConfig buildTreeEntity(FileCreateConfig fileCreateConfig) {
+        // 配置需要生成的表
         List<String> tables = Arrays.asList(
-                "m_product"
+                "b_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 buildVue("mall",  // 服务名 必填
-                        "m_",  // 表前缀
+                        "b_",            // 表前缀
                         tables);
 
         //父类是TreeEntity
         build.setSuperEntity(EntityType.TREE_ENTITY);
 
-        //生成的前端页面位于 src/{vue.getViewsPath()}/base 目录下
-        build.setChildPackageName("mall");
-        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+        //生成的前端页面位于 src/${build.getVue().getViewsPath()}/${childPackageName} 目录下
+        build.setChildPackageName("more");
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
 
         fileCreateConfig.setGenerateApi(GenerateType.OVERRIDE);
+
         fileCreateConfig.setGeneratePageIndex(GenerateType.IGNORE);
         fileCreateConfig.setGenerateEdit(GenerateType.IGNORE);
         fileCreateConfig.setGenerateTreeIndex(GenerateType.OVERRIDE);

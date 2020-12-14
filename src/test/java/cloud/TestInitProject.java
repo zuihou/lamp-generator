@@ -5,7 +5,7 @@ import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 初始化项目 代码
+ * 生成lamp-cloud项目的新服务或新模块
  *
  * @author zuihou
  * @date 2019/05/25
@@ -30,7 +30,7 @@ public class TestInitProject {
                 .setChildModuleName("man")
 
                 // 子模块是否需要生成entity模块
-                .setIsGenEntity(true)
+                .setIsGenEntity(false)
                 // 是否lamp-boot项目
                 .setIsBoot(false)
 
