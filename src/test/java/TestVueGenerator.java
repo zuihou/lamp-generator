@@ -1,5 +1,3 @@
-package cloud;
-
 import cn.hutool.core.lang.Console;
 import com.tangyh.lamp.generator.VueGenerator;
 import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
