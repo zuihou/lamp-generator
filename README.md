@@ -50,6 +50,11 @@
 `lamp-generator`是基于 `mybatis-plus-generator` 自定义的代码生成器，专门为 [lamp-cloud](https://github.com/zuihou/lamp-cloud "lamp-cloud") 和 [lamp-cloud](https://github.com/zuihou/lamp-boot "lamp-boot") 项目量身定做的代码生成器。
 自定义的代码规范、可读性差了一些，但还能凑合着用。因为主角是：[lamp-cloud](https://github.com/zuihou/lamp-cloud "lamp-cloud")
 
+# 快速上手
+- 入门到精通，参考文档： https://www.kancloud.cn/zuihou/zuihou-admin-cloud
+- 发现bug和建议，请提交issue： https://github.com/zuihou/lamp-cloud/issues
+- 常见问题，请参考Discussions： https://github.com/zuihou/lamp-cloud/discussions
+
 ## 使用规则
 
     - 暂时只支持生成MySQL表，Oracle需要微调代码，有需要的可以留言提交上来
