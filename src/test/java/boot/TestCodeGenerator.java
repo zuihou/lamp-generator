@@ -33,7 +33,7 @@ public class TestCodeGenerator {
         System.out.println("输出路径：" + path);
         build.setProjectRootPath(path);
         // 项目前缀
-        build.setProjectPrefix("lamp-");
+        build.setProjectPrefix("lamp");
         // 指定全部代码的生成策略
         GenerateType generate = GenerateType.OVERRIDE;
 //        generate = null;

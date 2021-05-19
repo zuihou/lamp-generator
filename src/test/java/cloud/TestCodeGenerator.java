@@ -28,10 +28,10 @@ public class TestCodeGenerator {
         build.setPassword("root");
         build.setIsBoot(false);
 
-        String path = "/Users/tangyh/github/lamp-cloud/lamp-test";
+        String path = "/Users/tangyh/github/lamp-examples/lamp-noneMultipleDataSources";
         System.out.println("输出路径：" + path);
         build.setProjectRootPath(path);
-        build.setProjectPrefix("lamp-");
+        build.setProjectPrefix("lamp");
         // 指定全部代码的生成策略
         GenerateType generate = GenerateType.OVERRIDE;
 //        generate = null;
@@ -64,12 +64,14 @@ public class TestCodeGenerator {
 
     public static CodeGeneratorConfig buildTestEntity() {
         List<String> tables = Arrays.asList(
-                "b_product"
+                "b_order"
+//                "b_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("test", "", "zuihou", "b_", tables);
+                build("noneMultipleDataSources", "", "zuihou", "b_", tables);
         build.setSuperEntity(EntityType.ENTITY);
-        build.setChildPackageName("");
+        build.setChildPackageName("slave");
+//        build.setChildPackageName("master");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;
     }
@@ -79,7 +81,7 @@ public class TestCodeGenerator {
                 "b_order"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("test", "man", "zuihou", "b_", tables);
+                build("noneMultipleDataSources", "man", "zuihou", "b_", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");

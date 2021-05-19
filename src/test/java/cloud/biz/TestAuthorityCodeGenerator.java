@@ -88,16 +88,16 @@ public class TestAuthorityCodeGenerator {
 //                , "c_application"
 //                , "c_resource"
 //                , "c_role"
-//                 "c_user"
-                "c_menu"
+                 "c_user"
+//                "c_menu"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou", "c_", tables);
 //                build("authority", "", "zuihou", "c_", tables);
-//        build.setSuperEntity(EntityType.ENTITY);
-        build.setSuperEntity(EntityType.TREE_ENTITY);
+        build.setSuperEntity(EntityType.ENTITY);
+//        build.setSuperEntity(EntityType.TREE_ENTITY);
         build.setChildPackageName("auth");
-        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_none?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;
     }
 
@@ -117,17 +117,17 @@ public class TestAuthorityCodeGenerator {
 
     private static CodeGeneratorConfig buildCommonEntity() {
         List<String> tables = Arrays.asList(
-//                "c_area"
+                "c_area"
 //                "c_parameter"
-                 "c_dictionary"
+//                 "c_dictionary"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou", "c_", tables);
 
-//        build.setSuperEntity(EntityType.TREE_ENTITY);
-        build.setSuperEntity(EntityType.ENTITY);
+        build.setSuperEntity(EntityType.TREE_ENTITY);
+//        build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("common");
-        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_none?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;
     }
 
@@ -145,15 +145,15 @@ public class TestAuthorityCodeGenerator {
 
     public static CodeGeneratorConfig buildCoreEntity() {
         List<String> tables = Arrays.asList(
-                "c_org"
-//                "c_station"
+//                "c_org"
+                "c_station"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 build("authority", "", "zuihou", "c_", tables);
-        build.setSuperEntity(EntityType.TREE_ENTITY);
-//        build.setSuperEntity(EntityType.ENTITY);
+//        build.setSuperEntity(EntityType.TREE_ENTITY);
+        build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("core");
-        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
+        build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_none?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;
     }
 }

@@ -28,6 +28,7 @@ import com.tangyh.lamp.generator.ext.FreemarkerTemplateEngineExt;
 import com.tangyh.lamp.generator.ext.MySqlQueryExt;
 import com.tangyh.lamp.generator.ext.OracleQueryExt;
 import com.tangyh.lamp.generator.type.GenerateType;
+import com.tangyh.lamp.generator.type.VueVersion;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -44,10 +45,13 @@ import java.util.Map;
 public class VueGenerator {
 
     public static final String API_PATH = "Api";
+    public static final String API_MODEL_PATH = "ApiModel";
     public static final String PAGE_INDEX_PATH = "PageIndex";
     public static final String TREE_INDEX_PATH = "TreeIndex";
+    public static final String DATA_PATH = "Data";
     public static final String EDIT_PATH = "Edit";
     public static final String LANG_PATH = "Lang";
+    public static final String LANG_EN_PATH = "Lang_en";
 
     public static final String SRC = "src";
 
@@ -90,9 +94,13 @@ public class VueGenerator {
 
         mpg.execute();
 
-
-        System.err.println("前端代码生成完毕， 请在以上日志中查看生成文件的路径");
-        System.err.println("并将src/lang/lang.*.js中的配置按照文件提示，复制到en.js和zh.js, 否则页面无法显示中文标题");
+        if (VueVersion.webplus.equals(config.getVue().getVersion())) {
+            System.err.println("前端代码生成完毕， 请在以上日志中查看生成文件的路径");
+            System.err.println("请使用vscode对生成的代码进行格式化！！！否则 ide 可能会报语法警告！！！");
+        } else {
+            System.err.println("前端代码生成完毕， 请在以上日志中查看生成文件的路径");
+            System.err.println("并将src/lang/lang.*.js中的配置按照文件提示，复制到en.js和zh.js, 否则页面无法显示中文标题");
+        }
     }
 
     /**
@@ -227,8 +235,15 @@ public class VueGenerator {
         Map<String, Object> packageMap = new HashMap<>();
 
         packageMap.put("serviceName", config.getServiceName());
+        packageMap.put("projectPrefix", config.getProjectPrefix());
         packageMap.put("childPackageName", childPackageName);
-
+        packageMap.put("fieldTypeMapping", config.getFieldTypeMapping());
+        packageMap.put("tableFieldMap", config.getVue().getTableFieldMap());
+        packageMap.put("isGenerateExportApi", config.getIsGenerateExportApi());
+        packageMap.put("pageMode", "Page");
+        if (!GenerateType.IGNORE.eq(config.getFileCreateConfig().getGenerateTreeIndex())) {
+            packageMap.put("pageMode", "Tree");
+        }
         return packageMap;
     }
 
@@ -249,6 +264,12 @@ public class VueGenerator {
         focList.add(new FileOutConfigExt(basePath, EDIT_PATH, config));
         focList.add(new FileOutConfigExt(basePath, LANG_PATH, config));
         focList.add(new FileOutConfigExt(basePath, TREE_INDEX_PATH, config));
+
+        if (VueVersion.webplus.equals(config.getVue().getVersion())) {
+            focList.add(new FileOutConfigExt(basePath, API_MODEL_PATH, config));
+            focList.add(new FileOutConfigExt(basePath, LANG_EN_PATH, config));
+            focList.add(new FileOutConfigExt(basePath, DATA_PATH, config));
+        }
 
         return focList;
     }

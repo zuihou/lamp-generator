@@ -3,79 +3,29 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>${projectPrefix}${serviceName}</artifactId>
+        <artifactId>${projectPrefix}-${serviceName}</artifactId>
         <groupId>${groupId}</groupId>
         <version>${version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>${projectPrefix}${serviceName}-server</artifactId>
+    <artifactId>${projectPrefix}-${serviceName}-server</artifactId>
     <name>${r"${"}project.artifactId${r"}"}</name>
     <description>${description}-启动模块</description>
 
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>${projectPrefix}${serviceName}-controller</artifactId>
+            <artifactId>${projectPrefix}-${serviceName}-controller</artifactId>
             <version>${r"${"}lamp-project.version${r"}"}</version>
         </dependency>
 
         <dependency>
             <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-swagger2-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-validator-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-xss-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-cache-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-cloud-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-zipkin-client-starter</artifactId>
+            <artifactId>lamp-all</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.apache.tomcat.embed</groupId>
-                    <artifactId>tomcat-embed-websocket</artifactId>
-                </exclusion>
-                <exclusion>
-                    <groupId>org.springframework.boot</groupId>
-                    <artifactId>spring-boot-starter-tomcat</artifactId>
-                </exclusion>
-            </exclusions>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-undertow</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-aop</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
         <dependency>
             <groupId>cn.afterturn</groupId>
             <artifactId>easypoi-spring-boot-starter</artifactId>

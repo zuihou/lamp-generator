@@ -20,7 +20,7 @@ public class TestInitProject {
                 // lamp-cloud 项目的 绝对路径！
                 .setProjectRootPath(path)
                 // 项目的前缀
-                .setProjectPrefix("lamp-")
+                .setProjectPrefix("lamp")
 
                 // 需要新建的 服务名      该例会生成 lamp-mall 模块
                 .setServiceName("mall")

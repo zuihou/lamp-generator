@@ -75,7 +75,7 @@ public class ProjectGenerator {
     }
 
     public void build() {
-        boolean isChildModule = config.getIsBoot() || !this.config.getServiceName().equalsIgnoreCase(this.config.getChildModuleName()) ;
+        boolean isChildModule = config.getIsBoot() || !this.config.getServiceName().equalsIgnoreCase(this.config.getChildModuleName());
 
         // 创建项目跟文件夹
         File parentPath = new File(this.config.getProjectRootPath());
@@ -84,7 +84,7 @@ public class ProjectGenerator {
         }
 
         //创建服务文件夹
-        String serviceName = this.config.getProjectPrefix() + this.config.getServiceName();
+        String serviceName = this.config.getProjectPrefix() + "-" + this.config.getServiceName();
         log.info("服务名：{}", serviceName);
         String servicePath = Paths.get(this.config.getProjectRootPath(), serviceName).toString();
         Map<String, Object> objectMap = this.getObjectMap(this.config);
@@ -121,7 +121,7 @@ public class ProjectGenerator {
             String serverResourcePath = Paths.get(servicePath, modularName, SRC_MAIN_RESOURCES).toString();
             this.generatorServerResources(objectMap, serverResourcePath);
         } else {
-            if (config.getIsBoot()) {
+            if(config.getIsBoot()) {
                 //根 pom
                 this.writer(objectMap, String.format(INIT_FTL, "pom"), Paths.get(servicePath, "pom.xml").toString());
 
@@ -129,7 +129,7 @@ public class ProjectGenerator {
                 return;
             }
 
-            String modulerName = this.config.getProjectPrefix() + this.config.getChildModuleName();
+            String modulerName = this.config.getProjectPrefix() + "-" + this.config.getChildModuleName();
             System.err.println("------------------------------------------");
             System.err.println(String.format("生成完毕，请将以下配置手工加入：%s/pom.xml", serviceName));
             System.err.println("");
@@ -149,12 +149,13 @@ public class ProjectGenerator {
         }
 
         printCloudInfo(serviceName);
+
     }
 
     private void printCloudInfo(String serviceName) {
         System.err.println("生成完毕，但请手动完成以下操作：");
         System.err.println("------------------------------------------");
-        System.err.println(String.format("将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "cloud"));
+        System.err.println(String.format("将以下配置手工加入：%s/pom.xml", this.config.getProjectPrefix() + "-cloud-plus"));
         System.err.println(String.format("        <module>%s</module>", serviceName));
 
         System.err.println("------------------------------------------");
@@ -180,7 +181,7 @@ public class ProjectGenerator {
     }
 
     private void generatorApiModular(String serviceName, Map<String, Object> objectMap) {
-        String apiName = this.config.getProjectPrefix() + "api";
+        String apiName = this.config.getProjectPrefix() + "-api";
         String apiModularName = serviceName + "-api";
         log.info("已经生成模块：{}", apiModularName);
         String apiPath = Paths.get(this.config.getProjectRootPath(), apiName, apiModularName).toString();
@@ -195,13 +196,11 @@ public class ProjectGenerator {
     private void generatorServerResources(Map<String, Object> objectMap, String serverResourcePath) {
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "banner"), Paths.get(serverResourcePath, "banner.txt").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "bootstrap"), Paths.get(serverResourcePath, "bootstrap.yml").toString());
+        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "bootstrap-dev"), Paths.get(serverResourcePath, "bootstrap-dev.yml").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "logback-spring"), Paths.get(serverResourcePath, "logback-spring.xml").toString());
+        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "logback-spring-dev"), Paths.get(serverResourcePath, "logback-spring-dev.xml").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "spy"), Paths.get(serverResourcePath, "spy.properties").toString());
-
-        //dev 废除
-//        String serviceNameDev = this.config.getProjectPrefix() + this.config.getServiceName() + "-server-dev.yml";
-//        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "application-dev"), Paths.get(serverResourcePath, serviceNameDev).toString());
-        String serviceName = this.config.getProjectPrefix() + this.config.getServiceName() + "-server.yml";
+        String serviceName = this.config.getProjectPrefix() + "-" + this.config.getServiceName() + "-server.yml";
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "application"), Paths.get(serverResourcePath, serviceName).toString());
     }
 
@@ -294,7 +293,7 @@ public class ProjectGenerator {
     private String mkModular(String servicePath, String serviceName, String modular, boolean isChildModule) {
         String modularName = serviceName + "-" + modular;
         if (isChildModule) {
-            String childModuleName = this.config.getProjectPrefix() + this.config.getChildModuleName();
+            String childModuleName = this.config.getProjectPrefix() + "-" + this.config.getChildModuleName();
             modularName = childModuleName + "-" + modular;
         }
         log.info("已经生成模块：{}", modularName);

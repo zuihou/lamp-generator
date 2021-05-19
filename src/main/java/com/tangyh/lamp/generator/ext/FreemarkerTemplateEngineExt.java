@@ -45,12 +45,12 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
     /**
      * 注入字段 正则
-     * 匹配： @InjectionField(api="", method="") RemoteData<Long, Org>
-     * 匹配： @InjectionField(api="", method="" beanClass=Xxx.class)
-     * 匹配： @InjectionField(api="orgApi", method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
-     * 匹配： @InjectionField(feign=OrgApi.class, method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
+     * 匹配： @Echo(api="", method="") RemoteData<Long, Org>
+     * 匹配： @Echo(api="", method="" beanClass=Xxx.class)
+     * 匹配： @Echo(api="orgApi", method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
+     * 匹配： @Echo(feign=OrgApi.class, method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
      */
-    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]InjectionField[(](api|feign)? *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)(, *beanClass *= *[a-zA-Z0-9._]+)?(, *dictType *= *[a-zA-Z0-9._]+)?[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
+    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]Echo[(](api|feign)? *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)(, *beanClass *= *[a-zA-Z0-9._]+)?(, *dictType *= *[a-zA-Z0-9._]+)?[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
 
     /**
      * 枚举类 正则
@@ -172,12 +172,12 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
 
     public static void main(String[] args) {
-//        String comment = "@InjectionField(api=\"xxxx\", method=\"bbbbb\", beanClass=1) RemoteData<Long, Org>";
-        String comment = "@InjectionField(api=\"xxxx\", method=\"bbbbb\", beanClass=1, dictType = DictionaryType.NATION) RemoteData<Long, Org>";
-//        String comment = "@InjectionField(feign=FreemarkerTemplateEngineExt.class, method=\"bbbbb\"   beanClass=  Xxx.class) RemoteData<Long, Org>";
+//        String comment = "@Echo(api=\"xxxx\", method=\"bbbbb\", beanClass=1) RemoteData<Long, Org>";
+        String comment = "@Echo(api=\"xxxx\", method=\"bbbbb\", beanClass=1, dictType = DictionaryType.NATION) RemoteData<Long, Org>";
+//        String comment = "@Echo(feign=FreemarkerTemplateEngineExt.class, method=\"bbbbb\"   beanClass=  Xxx.class) RemoteData<Long, Org>";
         Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment);
         if (matcher.find()) {
-            String annotation = trim(matcher.group(1)); //@InjectionField(api="xxxx", method="bbbbb")
+            String annotation = trim(matcher.group(1)); //@Echo(api="xxxx", method="bbbbb")
             String api = trim(matcher.group(3)); //xxxx
             String method = trim(matcher.group(4));  //bbbbb
             String type = trim(matcher.group(7)); //RemoteData<Long, Org>
@@ -230,23 +230,23 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
 
                     } else {
-                        importPackages.add("com.tangyh.lamp.common.constant.InjectionFieldConstants");
+                        importPackages.add("com.tangyh.lamp.common.constant.EchoConstants");
                     }
                 } else {
-                    importPackages.add(String.format("static com.tangyh.lamp.common.constant.InjectionFieldConstants.%s", api));
+                    importPackages.add(String.format("static com.tangyh.lamp.common.constant.EchoConstants.%s", api));
                 }
             }
             if (!method.contains("\"")) {
                 if (method.contains(".")) {
-                    importPackages.add("com.tangyh.lamp.common.constant.InjectionFieldConstants");
+                    importPackages.add("com.tangyh.lamp.common.constant.EchoConstants");
                 } else {
-                    importPackages.add(String.format("static com.tangyh.lamp.common.constant.InjectionFieldConstants.%s", method));
+                    importPackages.add(String.format("static com.tangyh.lamp.common.constant.EchoConstants.%s", method));
                 }
             }
             if (typePackage.contains(".")) {
                 importPackages.add(typePackage);
             }
-            importPackages.add("com.tangyh.basic.annotation.injection.InjectionField");
+            importPackages.add("com.tangyh.basic.annotation.echo.Echo");
             importPackages.add("com.tangyh.basic.model.RemoteData");
         }
     }
@@ -381,11 +381,11 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
         StringBuilder basePathSb = new StringBuilder(projectRootPath);
         if (config.getIsGenEntity()) {
-            basePathSb.append(config.getProjectPrefix()).append(config.getChildModuleName())
+            basePathSb.append(config.getProjectPrefix()).append("-").append(config.getChildModuleName())
                     .append(config.getEntitySuffix()).append(File.separator)
                     .append(CodeGenerator.SRC_MAIN_JAVA);
         } else {
-            basePathSb.append(config.getProjectPrefix()).append(config.getServiceName())
+            basePathSb.append(config.getProjectPrefix()).append("-").append(config.getServiceName())
                     .append(config.getEntitySuffix()).append(File.separator)
                     .append(CodeGenerator.SRC_MAIN_JAVA);
         }

@@ -9,8 +9,7 @@ import io.swagger.annotations.ApiModelProperty;
 </#if>
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
+import javax.validation.constraints.Size;
 <#if entityLombokModel>
 import lombok.Data;
 import lombok.Builder;
@@ -95,35 +94,34 @@ public class ${entity}SaveDTO implements Serializable {
             <#if field.type?contains("(")>
                 <#assign max = field.type?substring(field.type?index_of("(") + 1, field.type?index_of(")"))/>
             </#if>
-    @Length(max = ${max}, message = "${fieldComment}长度不能超过${max}")
+    @Size(max = ${max}, message = "${fieldComment}长度不能超过${max}")
         <#elseif field.type?starts_with("text")>
             <#assign max = 65535/>
-    @Length(max = ${max?string["0"]}, message = "${fieldComment}长度不能超过${max}")
+    @Size(max = ${max?string["0"]}, message = "${fieldComment}长度不能超过${max}")
         <#elseif field.type?starts_with("mediumtext")>
             <#assign max = 16777215/>
-    @Length(max = ${max?string["0"]}, message = "${fieldComment}长度不能超过${max}")
+    @Size(max = ${max?string["0"]}, message = "${fieldComment}长度不能超过${max}")
         <#elseif field.type?starts_with("longtext")>
         </#if>
     <#else>
         <#if field.propertyType?starts_with("Short")>
-    @Range(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
+    @Size(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
         </#if>
         <#if field.propertyType?starts_with("Byte")>
-    @Range(min = Byte.MIN_VALUE, max = Byte.MAX_VALUE, message = "${fieldComment}长度不能超过"+Byte.MAX_VALUE)
+    @Size(min = Byte.MIN_VALUE, max = Byte.MAX_VALUE, message = "${fieldComment}长度不能超过"+Byte.MAX_VALUE)
         </#if>
         <#if field.propertyType?starts_with("Short")>
-    @Range(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
+    @Size(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
         </#if>
     </#if>
     <#assign myPropertyName="${field.propertyName}"/>
     <#-- 自动注入注解 -->
-    <#if field.customMap.annotation??>
-    ${field.customMap.annotation}
-        <#assign myPropertyType="${field.customMap.type}"/>
-        <#if field.propertyName?ends_with("Id")>
-            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
-        </#if>
-    </#if>
+<#--    <#if field.customMap.annotation??>-->
+<#--        <#assign myPropertyType="${field.customMap.type}"/>-->
+<#--        <#if field.propertyName?ends_with("Id")>-->
+<#--            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>-->
+<#--        </#if>-->
+<#--    </#if>-->
     private ${myPropertyType} ${myPropertyName};
 </#if>
 </#list>
@@ -131,7 +129,7 @@ public class ${entity}SaveDTO implements Serializable {
 <#if superEntityClass?? && superEntityClass=="TreeEntity">
     @ApiModelProperty(value = "名称")
     @NotEmpty(message = "名称不能为空")
-    @Length(max = 255, message = "名称长度不能超过255")
+    @Size(max = 255, message = "名称长度不能超过255")
     protected String label;
 
     @ApiModelProperty(value = "父ID")

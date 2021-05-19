@@ -1,5 +1,6 @@
 package com.tangyh.lamp.generator.ext;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
@@ -10,6 +11,7 @@ import com.tangyh.lamp.generator.VueGenerator;
 import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
 import com.tangyh.lamp.generator.config.FileCreateConfig;
 import com.tangyh.lamp.generator.type.GenerateType;
+import com.tangyh.lamp.generator.type.VueVersion;
 
 import java.io.File;
 import java.nio.file.Paths;
@@ -23,6 +25,7 @@ import java.nio.file.Paths;
 public class FileOutConfigExt extends FileOutConfig {
     public static final String DOT_VUE = ".vue";
     public static final String DOT_JS = ".js";
+    public static final String DOT_TS = ".ts";
     String innerBasePath;
 
     String projectSuffix;
@@ -97,29 +100,54 @@ public class FileOutConfigExt extends FileOutConfig {
                 this.generateType = fileCreateConfig.getGenerateController();
                 break;
             case VueGenerator.API_PATH:
-                this.setTemplatePath("/vue/api.java.ftl");
+                this.setTemplatePath("/" + config.getVue().getVersion().name() + "/api.java.ftl");
                 this.projectSuffix = config.getApiSuffix();
-                this.generateType = fileCreateConfig.getGenerateApi();
+                this.generateType = GenerateType.OVERRIDE;
                 break;
             case VueGenerator.PAGE_INDEX_PATH:
-                this.setTemplatePath("/vue/index.java.ftl");
+                this.setTemplatePath("/" + config.getVue().getVersion().name() + "/index.java.ftl");
+                if (VueVersion.webplus.equals(config.getVue().getVersion()) && !GenerateType.IGNORE.eq(config.getFileCreateConfig().getGenerateTreeIndex())) {
+                    this.setTemplatePath("/" + config.getVue().getVersion().name() + "/tree/index.java.ftl");
+                }
                 this.projectSuffix = config.getApiSuffix();
                 this.generateType = fileCreateConfig.getGeneratePageIndex();
                 break;
             case VueGenerator.TREE_INDEX_PATH:
-                this.setTemplatePath("/vue/tree.java.ftl");
+                if (VueVersion.webplus.equals(config.getVue().getVersion())) {
+                    this.setTemplatePath("/" + config.getVue().getVersion().name() + "/tree/tree.java.ftl");
+                } else {
+                    this.setTemplatePath("/" + config.getVue().getVersion().name() + "/tree.java.ftl");
+                }
                 this.projectSuffix = config.getApiSuffix();
                 this.generateType = fileCreateConfig.getGenerateTreeIndex();
                 break;
             case VueGenerator.EDIT_PATH:
-                this.setTemplatePath("/vue/edit.java.ftl");
+                this.setTemplatePath("/" + config.getVue().getVersion().name() + "/edit.java.ftl");
+                if (VueVersion.webplus.equals(config.getVue().getVersion()) && !GenerateType.IGNORE.eq(config.getFileCreateConfig().getGenerateTreeIndex())) {
+                    this.setTemplatePath("/" + config.getVue().getVersion().name() + "/tree/edit.java.ftl");
+                }
                 this.projectSuffix = config.getApiSuffix();
-                this.generateType = fileCreateConfig.getGenerateEdit();
+                this.generateType = GenerateType.OVERRIDE;
                 break;
             case VueGenerator.LANG_PATH:
-                this.setTemplatePath("/vue/lang.java.ftl");
+                this.setTemplatePath("/" + config.getVue().getVersion().name() + "/lang.java.ftl");
                 this.projectSuffix = config.getApiSuffix();
-                this.generateType = fileCreateConfig.getGenerateApi();
+                this.generateType = GenerateType.OVERRIDE;
+                break;
+            case VueGenerator.LANG_EN_PATH:
+                this.setTemplatePath("/" + config.getVue().getVersion().name() + "/langEn.java.ftl");
+                this.projectSuffix = config.getApiSuffix();
+                this.generateType = GenerateType.OVERRIDE;
+                break;
+            case VueGenerator.DATA_PATH:
+                this.setTemplatePath("/" + config.getVue().getVersion().name() + "/data.java.ftl");
+                this.projectSuffix = config.getApiSuffix();
+                this.generateType = GenerateType.OVERRIDE;
+                break;
+            case VueGenerator.API_MODEL_PATH:
+                this.setTemplatePath("/" + config.getVue().getVersion().name() + "/apiModel.java.ftl");
+                this.projectSuffix = config.getApiSuffix();
+                this.generateType = GenerateType.OVERRIDE;
                 break;
             default:
                 break;
@@ -140,7 +168,7 @@ public class FileOutConfigExt extends FileOutConfig {
 
             StringBuilder basePathSb = new StringBuilder(projectRootPath);
             if (config.isEnableMicroService()) {
-                basePathSb.append(config.getProjectPrefix());
+                basePathSb.append(config.getProjectPrefix()).append("-");
                 basePathSb.append(config.getChildModuleName());
                 basePathSb.append(projectSuffix)
                         .append(File.separator);
@@ -179,12 +207,12 @@ public class FileOutConfigExt extends FileOutConfig {
                     || CodeGenerator.QUERY_PATH.equals(modularSuffix)
                     || ConstVal.ENTITY.equals(modularSuffix)) {
                 if (config.getIsGenEntity()) {
-                    projectName = config.getProjectPrefix() + config.getChildModuleName() + projectSuffix + File.separator;
+                    projectName = config.getProjectPrefix() + "-" + config.getChildModuleName() + projectSuffix + File.separator;
                 } else {
-                    projectName = config.getProjectPrefix() + config.getServiceName() + projectSuffix + File.separator;
+                    projectName = config.getProjectPrefix() + "-" + config.getServiceName() + projectSuffix + File.separator;
                 }
             } else {
-                projectName = config.getProjectPrefix() + config.getChildModuleName() + projectSuffix + File.separator;
+                projectName = config.getProjectPrefix() + "-" + config.getChildModuleName() + projectSuffix + File.separator;
             }
         }
         String basePath = String.format(innerBasePath, projectName);
@@ -201,7 +229,7 @@ public class FileOutConfigExt extends FileOutConfig {
         } else if (ConstVal.MAPPER.equals(innerModularSuffix)) {
             innerModularSuffix = "dao";
         } else {
-            innerModularSuffix = StringUtils.firstToLowerCase(modularSuffix);
+            innerModularSuffix = StrUtil.lowerFirst(modularSuffix);
         }
 
         basePath = basePath + File.separator + innerModularSuffix;
@@ -228,28 +256,55 @@ public class FileOutConfigExt extends FileOutConfig {
         return basePath;
     }
 
+
     private String outputVueFile(TableInfo tableInfo) {
         String basePath = "";
 
         CodeGeneratorConfig.Vue vue = config.getVue();
-        String innerModularSuffix = Paths.get(vue.getViewsPath(), config.getChildPackageName(), tableInfo.getEntityName().toLowerCase()).toString();
+
+        String innerModularSuffix = Paths.get(vue.getViewsPath(), config.getChildPackageName(), StrUtil.lowerFirst(tableInfo.getEntityName())).toString();
 
         String fileName = tableInfo.getEntityName() + DOT_VUE;
 
-        if (VueGenerator.API_PATH.equalsIgnoreCase(this.modularSuffix)) {
-            innerModularSuffix = StringUtils.firstToLowerCase(modularSuffix);
-            fileName = tableInfo.getEntityName() + DOT_JS;
-        } else if (VueGenerator.PAGE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
-            fileName = "index" + DOT_VUE;
-        } else if (VueGenerator.EDIT_PATH.equalsIgnoreCase(modularSuffix)) {
-            fileName = "edit" + DOT_VUE;
-        } else if (VueGenerator.TREE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
-            fileName = "tree" + DOT_VUE;
-        } else if (VueGenerator.LANG_PATH.equalsIgnoreCase(modularSuffix)) {
-            innerModularSuffix = StringUtils.firstToLowerCase(modularSuffix);
-            fileName = "lang." + tableInfo.getEntityName() + DOT_JS;
-        }
+        if (VueVersion.webplus.equals(vue.getVersion())) {
+            String projectPrefix = config.getProjectPrefix();
+            if (VueGenerator.API_PATH.equalsIgnoreCase(this.modularSuffix)) {
+                innerModularSuffix = Paths.get("api", projectPrefix, config.getChildPackageName()).toString();
+                fileName = StrUtil.lowerFirst(tableInfo.getEntityName()) + DOT_TS;
+            } else if (VueGenerator.API_MODEL_PATH.equalsIgnoreCase(this.modularSuffix)) {
+                innerModularSuffix = Paths.get("api", projectPrefix, config.getChildPackageName(), "model").toString();
+                fileName = StrUtil.lowerFirst(tableInfo.getEntityName()) + "Model" + DOT_TS;
+            } else if (VueGenerator.PAGE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
+                fileName = "index" + DOT_VUE;
+            } else if (VueGenerator.EDIT_PATH.equalsIgnoreCase(modularSuffix)) {
+                fileName = "Edit" + DOT_VUE;
+            } else if (VueGenerator.TREE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
+                fileName = "Tree" + DOT_VUE;
+            } else if (VueGenerator.LANG_PATH.equalsIgnoreCase(modularSuffix)) {
+                innerModularSuffix = Paths.get("locales", "lang", "zh_CN", projectPrefix, config.getChildPackageName()).toString();
+                fileName = StrUtil.lowerFirst(tableInfo.getEntityName()) + DOT_TS;
+            } else if (VueGenerator.LANG_EN_PATH.equalsIgnoreCase(modularSuffix)) {
+                innerModularSuffix = Paths.get("locales", "lang", "en", projectPrefix, config.getChildPackageName()).toString();
+                fileName = StrUtil.lowerFirst(tableInfo.getEntityName()) + DOT_TS;
+            } else if (VueGenerator.DATA_PATH.equalsIgnoreCase(modularSuffix)) {
+                fileName = StrUtil.lowerFirst(tableInfo.getEntityName()) + ".data" + DOT_TS;
+            }
 
+        } else {
+            if (VueGenerator.API_PATH.equalsIgnoreCase(this.modularSuffix)) {
+                innerModularSuffix = StrUtil.lowerFirst(modularSuffix);
+                fileName = tableInfo.getEntityName() + DOT_JS;
+            } else if (VueGenerator.PAGE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
+                fileName = "index" + DOT_VUE;
+            } else if (VueGenerator.EDIT_PATH.equalsIgnoreCase(modularSuffix)) {
+                fileName = "edit" + DOT_VUE;
+            } else if (VueGenerator.TREE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
+                fileName = "tree" + DOT_VUE;
+            } else if (VueGenerator.LANG_PATH.equalsIgnoreCase(modularSuffix)) {
+                innerModularSuffix = StrUtil.lowerFirst(modularSuffix);
+                fileName = "lang." + tableInfo.getEntityName() + DOT_JS;
+            }
+        }
         basePath = Paths.get(innerBasePath, innerModularSuffix, fileName).toString();
 
         if (GenerateType.ADD.eq(generateType) && FileCreateConfig.isExists(basePath)) {

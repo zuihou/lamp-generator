@@ -13,9 +13,12 @@ import java.util.stream.Collectors;
 <#if superControllerClassPackage??>
 import ${superControllerClassPackage};
 </#if>
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.tangyh.basic.echo.core.EchoService;
 import com.tangyh.basic.base.R;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import com.tangyh.basic.annotation.security.PreAuth;
@@ -60,6 +63,14 @@ public class ${table.controllerName} extends ${superControllerClass}<${table.ser
 public class ${table.controllerName} {
     </#if>
 
+    @Autowired
+    private EchoService echoService;
+
+    @Override
+    public void handlerResult(IPage<${entity}> page) {
+        // 想让返回值实现自动回显，请将此行代码打开
+        // echoService.action(page);
+    }
 <#if superControllerClass??>
     /**
      * Excel导入后的操作

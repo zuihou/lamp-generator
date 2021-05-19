@@ -11,9 +11,10 @@ import io.swagger.annotations.ApiModelProperty;
 </#if>
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import org.hibernate.validator.constraints.Length;
-import org.hibernate.validator.constraints.Range;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.Map;
 <#if entityLombokModel>
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -24,6 +25,7 @@ import lombok.ToString;
 import lombok.experimental.Accessors;
 import com.tangyh.lamp.common.constant.DictionaryType;
 import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
+import com.tangyh.basic.model.EchoVO;
 </#if>
 <#if cfg.filedTypes??>
 <#list cfg.filedTypes as fieldType>
@@ -74,16 +76,17 @@ import static com.baomidou.mybatisplus.annotation.SqlCondition.LIKE;
 <#if superEntityClass?? && superEntityClass=="TreeEntity">
     <#assign hasCustomAnno="1"/>
 </#if>
-public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if><#list table.commonFields as field><#if field.keyFlag><<#if hasCustomAnno == "1">${entity}, </#if>${field.propertyType}></#if></#list> {
+public class ${entity} extends ${superEntityClass}<#if activeRecord><${entity}></#if><#list table.commonFields as field><#if field.keyFlag><<#if hasCustomAnno == "1">${entity}, </#if>${field.propertyType}></#if></#list> implements EchoVO {
 <#elseif activeRecord>
 @AllArgsConstructor
-public class ${entity} extends Model<${entity}> {
+public class ${entity} extends Model<${entity}> implements EchoVO {
 <#else>
-public class ${entity} implements Serializable {
+public class ${entity} implements Serializable, EchoVO {
 </#if>
 
     private static final long serialVersionUID = 1L;
-
+    @TableField(exist = false)
+    private Map<String, Object> echoMap = new HashMap<>();
 <#setting number_format="0">
 <#-- ----------  BEGIN 字段循环遍历  ---------->
 <#list table.fields as field>
@@ -125,25 +128,25 @@ public class ${entity} implements Serializable {
             <#if field.type?contains("(")>
                 <#assign max = field.type?substring(field.type?index_of("(") + 1, field.type?index_of(")"))/>
             </#if>
-    @Length(max = ${max}, message = "${fieldComment}长度不能超过${max}")
+    @Size(max = ${max}, message = "${fieldComment}长度不能超过${max}")
         <#elseif field.type?starts_with("text")>
         <#assign max = 65535/>
-    @Length(max = ${max}, message = "${fieldComment}长度不能超过${max}")
+    @Size(max = ${max}, message = "${fieldComment}长度不能超过${max}")
         <#elseif field.type?starts_with("mediumtext")>
         <#assign max = 16777215/>
-    @Length(max = ${max}, message = "${fieldComment}长度不能超过${max}")
+    @Size(max = ${max}, message = "${fieldComment}长度不能超过${max}")
         <#elseif field.type?starts_with("longtext")>
 
         </#if>
     <#else>
         <#if field.propertyType?starts_with("Short")>
-    @Range(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
+    @Size(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
         </#if>
         <#if field.propertyType?starts_with("Byte")>
-    @Range(min = Byte.MIN_VALUE, max = Byte.MAX_VALUE, message = "${fieldComment}长度不能超过"+Byte.MAX_VALUE)
+    @Size(min = Byte.MIN_VALUE, max = Byte.MAX_VALUE, message = "${fieldComment}长度不能超过"+Byte.MAX_VALUE)
         </#if>
         <#if field.propertyType?starts_with("Short")>
-    @Range(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
+    @Size(min = Short.MIN_VALUE, max = Short.MAX_VALUE, message = "${fieldComment}长度不能超过"+Short.MAX_VALUE)
         </#if>
     </#if>
     <#if field.keyFlag>
@@ -182,11 +185,10 @@ public class ${entity} implements Serializable {
     <#-- 自动注入注解 -->
     <#if field.customMap.annotation??>
     ${field.customMap.annotation}
-    @ExcelEntity
-        <#assign myPropertyType="${field.customMap.type}"/>
-        <#if field.propertyName?ends_with("Id")>
-            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
-        </#if>
+<#--        <#assign myPropertyType="${field.customMap.type}"/>-->
+<#--        <#if field.propertyName?ends_with("Id")>-->
+<#--            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>-->
+<#--        </#if>-->
     </#if>
     @Excel(name = "${fieldComment}"<#if myPropertyType!?contains("Local")>, format = DEFAULT_DATE_TIME_FORMAT, width = 20</#if><#if myPropertyType!?contains("Boolean")>, replace = {"是_true", "否_false", "_null"}</#if><#if isEnumType=="2">, replace = {<#list field.customMap.enumCustom.list?keys as key>"${field.customMap.enumCustom.list[key][0]}_${key?upper_case}", </#list> "_null"}</#if>)
     private ${myPropertyType} ${myPropertyName};
@@ -222,7 +224,7 @@ public class ${entity} implements Serializable {
 <#-- 如果有父类，自定义无全参构造方法 -->
     @Builder
     public ${entity}(<#list table.commonFields as cf><#if cf.propertyName!="tenantCode">${cf.propertyType} ${cf.propertyName}, </#if></#list>
-                    <#list table.fields as field><#assign myPropertyType="${field.propertyType}"/><#if field.customMap.annotation??><#assign myPropertyType="${field.customMap.type}"/></#if><#list cfg.filedTypes as fieldType><#if fieldType.name == field.propertyName && table.name==fieldType.table && field.propertyType=="String"><#assign myPropertyType="${fieldType.type}"/></#if></#list><#if field_has_next>${((field_index + 1) % 6 ==0)?string('\r\n                    ', '')}${myPropertyType} ${field.propertyName}, <#else>${myPropertyType} ${field.propertyName}</#if></#list>) {
+                    <#list table.fields as field><#assign myPropertyType="${field.propertyType}"/><#list cfg.filedTypes as fieldType><#if fieldType.name == field.propertyName && table.name==fieldType.table && field.propertyType=="String"><#assign myPropertyType="${fieldType.type}"/></#if></#list><#if field_has_next>${((field_index + 1) % 6 ==0)?string('\r\n                    ', '')}${myPropertyType} ${field.propertyName}, <#else>${myPropertyType} ${field.propertyName}</#if></#list>) {
     <#list table.commonFields as cf>
         <#if cf.propertyName!="tenantCode">
         this.${cf.propertyName} = ${cf.propertyName};
@@ -231,9 +233,9 @@ public class ${entity} implements Serializable {
     <#list table.fields as field>
         <#assign myPropertyName="${field.propertyName}"/>
         <#-- 自动注入注解 -->
-        <#if field.customMap.annotation?? && field.propertyName?ends_with("Id")>
-            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
-        </#if>
+<#--        <#if field.customMap.annotation?? && field.propertyName?ends_with("Id")>-->
+<#--            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>-->
+<#--        </#if>-->
         this.${myPropertyName} = ${field.propertyName};
     </#list>
     }

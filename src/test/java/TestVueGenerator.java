@@ -7,7 +7,9 @@ import com.tangyh.lamp.generator.type.EntityFiledType;
 import com.tangyh.lamp.generator.type.EntityType;
 import com.tangyh.lamp.generator.type.GenerateType;
 import com.tangyh.lamp.generator.type.HtmlType;
+import com.tangyh.lamp.generator.type.VueVersion;
 
+import java.io.File;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -31,7 +33,7 @@ public class TestVueGenerator {
      */
     public static void main(String[] args) {
         // 生成前端页面，一定要设置成true
-        FileCreateConfig fileCreateConfig = new FileCreateConfig(null, true);
+        FileCreateConfig fileCreateConfig = new FileCreateConfig(null, true, VueVersion.vue);
 //        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE, true);
 
 //        CodeGeneratorConfig build = buildListEntity(fileCreateConfig);
@@ -40,7 +42,7 @@ public class TestVueGenerator {
         //mysql 账号密码
         build.setUsername("root");
         build.setPassword("root");
-
+        build.setProjectPrefix("lamp");
         // 文件生成策略
         build.setFileCreateConfig(fileCreateConfig);
 
@@ -56,7 +58,7 @@ public class TestVueGenerator {
         build.setFiledTypes(filedTypes);
 
         // 自定义前端页面字段的显示演示， 不填写时，默认生成全字段
-//        buildVue(build);
+        buildVue(build);
 
         //生成代码
         VueGenerator.run(build);
@@ -72,7 +74,8 @@ public class TestVueGenerator {
     private static void buildVue(CodeGeneratorConfig build) {
         CodeGeneratorConfig.Vue vue = new CodeGeneratorConfig.Vue();
         // 生成的代码位于前端项目 src 下的什么路径？  默认是:  src/views/lamp
-//        vue.setViewsPath("views" + File.separator + "lamp");
+        vue.setViewsPath("views" + File.separator + build.getProjectPrefix());
+        vue.setVersion(VueVersion.vue);
 
         // 程序自动根据 表设计情况 为每个字段选择合适显示规则， 若不满足，则在此添加字段后修改即可
         Map<String, Map<String, GenTableColumn>> map = new HashMap<>();
@@ -95,7 +98,8 @@ public class TestVueGenerator {
         //表名
         map.put("m_product", keyField);
 
-        vue.setTableFieldMap(map);
+        // 设置字段样式
+//        vue.setTableFieldMap(map);
         build.setVue(vue);
     }
 
@@ -117,7 +121,7 @@ public class TestVueGenerator {
                 "b_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                buildVue("mall",  // 服务名 必填
+                buildVue("demo",  // 服务名 必填
                         "b_",            // 表前缀
                         tables);
 
@@ -132,9 +136,7 @@ public class TestVueGenerator {
         // 数据库信息
         build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
 
-        fileCreateConfig.setGenerateApi(GenerateType.OVERRIDE);
         fileCreateConfig.setGeneratePageIndex(GenerateType.OVERRIDE);
-        fileCreateConfig.setGenerateEdit(GenerateType.OVERRIDE);
 
         fileCreateConfig.setGenerateTreeIndex(GenerateType.IGNORE);
         return build;
@@ -157,7 +159,7 @@ public class TestVueGenerator {
                 "b_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                buildVue("mall",  // 服务名 必填
+                buildVue("demo",  // 服务名 必填
                         "b_",            // 表前缀
                         tables);
 
@@ -168,10 +170,8 @@ public class TestVueGenerator {
         build.setChildPackageName("more");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
 
-        fileCreateConfig.setGenerateApi(GenerateType.OVERRIDE);
 
         fileCreateConfig.setGeneratePageIndex(GenerateType.IGNORE);
-        fileCreateConfig.setGenerateEdit(GenerateType.IGNORE);
         fileCreateConfig.setGenerateTreeIndex(GenerateType.OVERRIDE);
 
         return build;

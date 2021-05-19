@@ -2,7 +2,7 @@ lamp:
   nacos:
     ip: ${r"${"}NACOS_IP:@nacos.ip@${r"}"}
     port: ${r"${"}NACOS_PORT:@nacos.port@${r"}"}
-    namespace: ${r"${"}NACOS_ID:@nacos.namespace@${r"}"}
+    namespace: ${r"${"}NACOS_NAMESPACE:@nacos.namespace@${r"}"}
     username: ${r"${"}NACOS_ID:@nacos.username@${r"}"}
     password: ${r"${"}NACOS_ID:@nacos.password@${r"}"}
 
@@ -38,11 +38,13 @@ spring:
         namespace: ${r"${"}lamp.nacos.namespace${r"}"}
         metadata: # 元数据，用于权限服务实时获取各个服务的所有接口
           management.context-path: ${r"${"}server.servlet.context-path:${r"}"}${r"${"}spring.mvc.servlet.path:${r"}"}${r"${"}management.endpoints.web.base-path:${r"}"}
+          grayversion: ${author}
 
 logging:
   file:
-    path: @logging.file.path@
+    path: '@logging.file.path@'
     name: ${r"${"}logging.file.path${r"}"}/${r"${"}spring.application.name}/root.log
+  config: classpath:logback-spring.xml
 
 # 用于/actuator/info
 info:

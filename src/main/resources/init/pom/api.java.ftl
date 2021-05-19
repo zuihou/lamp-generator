@@ -4,20 +4,20 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
         <groupId>${groupId}</groupId>
-        <artifactId>${projectPrefix}${serviceName}</artifactId>
+        <artifactId>${projectPrefix}-${serviceName}</artifactId>
         <version>${version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>${projectPrefix}${serviceName}-api</artifactId>
+    <artifactId>${projectPrefix}-${serviceName}-api</artifactId>
     <name>${r"${"}project.artifactId${r"}"}</name>
     <description>${description}-Api模块</description>
 
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
-            <artifactId>${projectPrefix}${serviceName}-entity</artifactId>
+            <artifactId>${projectPrefix}-${serviceName}-entity</artifactId>
             <version>${r"${"}lamp-project.version${r"}"}</version>
         </dependency>
 

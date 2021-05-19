@@ -5,34 +5,31 @@
     <parent>
         <groupId>${groupId}</groupId>
         <#if !isBoot>
-        <artifactId>${projectPrefix}cloud</artifactId>
+        <artifactId>${projectPrefix}-cloud-plus</artifactId>
         <#else >
-        <artifactId>${projectPrefix}boot</artifactId>
+        <artifactId>${projectPrefix}-boot-plus</artifactId>
         </#if>
         <version>${version}</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>${projectPrefix}${serviceName}</artifactId>
+    <artifactId>${projectPrefix}-${serviceName}</artifactId>
     <name>${r"${"}project.artifactId${r"}"}</name>
     <description>${description}服务</description>
     <packaging>pom</packaging>
 
     <modules>
         <#if !isBoot>
-        <module>${projectPrefix}${serviceName}-api</module>
-        <module>${projectPrefix}${serviceName}-server</module>
-        <module>${projectPrefix}${serviceName}-entity</module>
-        <module>${projectPrefix}${serviceName}-biz</module>
-        <module>${projectPrefix}${serviceName}-controller</module>
+        <module>${projectPrefix}-${serviceName}-api</module>
+        <module>${projectPrefix}-${serviceName}-server</module>
+        <module>${projectPrefix}-${serviceName}-entity</module>
+        <module>${projectPrefix}-${serviceName}-biz</module>
+        <module>${projectPrefix}-${serviceName}-controller</module>
         <#else >
-        <module>${projectPrefix}${childModuleName}-entity</module>
-        <module>${projectPrefix}${childModuleName}-biz</module>
-        <module>${projectPrefix}${childModuleName}-controller</module>
+        <module>${projectPrefix}-${childModuleName}-entity</module>
+        <module>${projectPrefix}-${childModuleName}-biz</module>
+        <module>${projectPrefix}-${childModuleName}-controller</module>
         </#if>
     </modules>
-
-
-
 </project>

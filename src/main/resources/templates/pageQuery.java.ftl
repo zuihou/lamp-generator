@@ -81,13 +81,13 @@ public class ${entity}PageQuery implements Serializable {
     </#list>
     <#assign myPropertyName="${field.propertyName}"/>
     <#-- 自动注入注解 -->
-    <#if field.customMap.annotation??>
-    ${field.customMap.annotation}
-        <#assign myPropertyType="${field.customMap.type}"/>
-        <#if field.propertyName?ends_with("Id")>
-            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
-        </#if>
-    </#if>
+<#--    <#if field.customMap.annotation??>-->
+<#--    ${field.customMap.annotation}-->
+<#--        <#assign myPropertyType="${field.customMap.type}"/>-->
+<#--        <#if field.propertyName?ends_with("Id")>-->
+<#--            <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>-->
+<#--        </#if>-->
+<#--    </#if>-->
     private ${myPropertyType} ${myPropertyName};
 </#if>
 </#list>

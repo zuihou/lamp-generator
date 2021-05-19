@@ -5,6 +5,7 @@ import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.tangyh.lamp.generator.ext.FileOutConfigExt;
 import com.tangyh.lamp.generator.type.GenerateType;
+import com.tangyh.lamp.generator.type.VueVersion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -39,12 +40,12 @@ public class FileCreateConfig implements IFileCreate {
     private GenerateType generateDto = GenerateType.IGNORE;
     private GenerateType generateQuery = GenerateType.IGNORE;
 
-    private GenerateType generateApi = GenerateType.IGNORE;
+//    private GenerateType generateApi = GenerateType.IGNORE;
     private GenerateType generatePageIndex = GenerateType.IGNORE;
     private GenerateType generateTreeIndex = GenerateType.IGNORE;
-    private GenerateType generateEdit = GenerateType.IGNORE;
+//    private GenerateType generateEdit = GenerateType.IGNORE;
     private Boolean isVue = false;
-
+    VueVersion vueVersion;
     /**
      * 指定了generate后， 会覆盖 controller、service、dao等生成策略
      *
@@ -64,12 +65,13 @@ public class FileCreateConfig implements IFileCreate {
         }
         this.generateConstant = GenerateType.IGNORE;
         this.generateQuery = GenerateType.IGNORE;
-        this.generateApi = GenerateType.IGNORE;
+//        this.generateApi = GenerateType.IGNORE;
     }
 
-    public FileCreateConfig(GenerateType generate, boolean isVue) {
+    public FileCreateConfig(GenerateType generate, boolean isVue, VueVersion vueVersion) {
         this.generate = generate;
         this.isVue = isVue;
+        this.vueVersion = vueVersion;
         if (isVue) {
             this.generateEntity = GenerateType.IGNORE;
             this.generateDao = GenerateType.IGNORE;
@@ -85,14 +87,14 @@ public class FileCreateConfig implements IFileCreate {
                 this.generateTreeIndex = GenerateType.IGNORE;
             } else if (GenerateType.OVERRIDE.eq(this.generateTreeIndex)) {
                 this.generatePageIndex = GenerateType.IGNORE;
-                this.generateEdit = GenerateType.IGNORE;
+//                this.generateEdit = GenerateType.IGNORE;
             }
 
             if (generate != null) {
-                this.generateApi = generate;
+//                this.generateApi = generate;
                 this.generatePageIndex = generate;
                 this.generateTreeIndex = GenerateType.IGNORE;
-                this.generateEdit = generate;
+//                this.generateEdit = generate;
             }
         } else {
             this.generateConstant = GenerateType.IGNORE;
@@ -134,18 +136,21 @@ public class FileCreateConfig implements IFileCreate {
 
             // api.js
             if (filePath.contains(File.separator + "api" + File.separator)) {
-                return isCreate(generateApi, file);
+                return isCreate(GenerateType.OVERRIDE, file);
             }
             // lang.js
             if (filePath.contains(File.separator + "lang" + File.separator)) {
-                return isCreate(generateApi, file);
+                return isCreate(GenerateType.OVERRIDE, file);
             }
             //edit.vue
             if (filePath.endsWith("edit" + FileOutConfigExt.DOT_VUE)) {
-                return isCreate(generateEdit, file);
+                return isCreate(GenerateType.OVERRIDE, file);
             }
             //Index.vue
             if (filePath.endsWith("index" + FileOutConfigExt.DOT_VUE)) {
+                if (VueVersion.webplus.equals(vueVersion) && !GenerateType.IGNORE.eq(generateTreeIndex)) {
+                    return isCreate(generateTreeIndex, file);
+                }
                 return isCreate(generatePageIndex, file);
             }
             //Tree.vue
@@ -207,18 +212,21 @@ public class FileCreateConfig implements IFileCreate {
 
             // api.js
             if (filePath.contains(File.separator + "api" + File.separator)) {
-                return isCreate(generateApi, file);
+                return isCreate(GenerateType.OVERRIDE, file);
             }
             // lang.js
             if (filePath.contains(File.separator + "lang" + File.separator)) {
-                return isCreate(generateApi, file);
+                return isCreate(GenerateType.OVERRIDE, file);
             }
             //edit.vue
             if (filePath.endsWith("edit" + FileOutConfigExt.DOT_VUE)) {
-                return isCreate(generateEdit, file);
+                return isCreate(GenerateType.OVERRIDE, file);
             }
             //Index.vue
             if (filePath.endsWith("index" + FileOutConfigExt.DOT_VUE)) {
+                if (VueVersion.webplus.equals(vueVersion) && !GenerateType.IGNORE.eq(generateTreeIndex)) {
+                    return isCreate(generateTreeIndex, file);
+                }
                 return isCreate(generatePageIndex, file);
             }
             //Tree.vue

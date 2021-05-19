@@ -8,6 +8,7 @@ import com.tangyh.lamp.generator.model.GenTableColumn;
 import com.tangyh.lamp.generator.type.EntityFiledType;
 import com.tangyh.lamp.generator.type.EntityType;
 import com.tangyh.lamp.generator.type.SuperClass;
+import com.tangyh.lamp.generator.type.VueVersion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -25,7 +26,7 @@ import java.util.Set;
  * <p>
  * 微服务项目默认会创建4个项目，
  * cloud-authority-api、cloud-authority-rest、cloud-authority-entity、cloud-authority-repository
- * 匹配符为：${projectPrefix}${serviceName}-${apiSuffix}
+ * 匹配符为：${projectPrefix}-${serviceName}-${apiSuffix}
  * <p>
  * 然后在每个项目的src/main/java下创建包：
  * ${packageBase}.api.${childModuleName}
@@ -37,7 +38,7 @@ import java.util.Set;
  * ${packageBase}.service.${childModuleName}
  * ${packageBase}.service.${childModuleName}.impl
  * ${packageBase}.dao.${childModuleName}
- * ${projectPrefix}${serviceName}-${serviceSuffix}项目的src/main/resource下创建包：
+ * ${projectPrefix}-${serviceName}-${serviceSuffix}项目的src/main/resource下创建包：
  * mapper_${serviceName}.base.${childModuleName}
  *
  * @author zuihou
@@ -90,7 +91,7 @@ public class CodeGeneratorConfig {
     /**
      * 项目统一前缀  比如：  cloud-
      */
-    private String projectPrefix = "lamp-";
+    private String projectPrefix = "lamp";
 
     private String apiSuffix = "-api";
     private String entitySuffix = "-entity";
@@ -107,6 +108,21 @@ public class CodeGeneratorConfig {
     String groupId = "com.tangyh.lamp";
     String description = "服务";
 //    private String serverSuffix = "-server";
+    /**
+     * 前端字段类型映射
+     *
+     * @author zuihou
+     * @date 2021/5/9 10:33 下午
+     * @create [2021/5/9 10:33 下午 ] [zuihou] [初始创建]
+     */
+    Map<String, String> fieldTypeMapping = new HashMap<>();
+    /**
+     * 是否生成导入导出 API
+     * @author tangyh
+     * @date 2021/5/10 11:26 上午
+     * @create [2021/5/10 11:26 上午 ] [tangyh] [初始创建]
+     */
+    Boolean isGenerateExportApi = false;
 
     public String getPackageBaseParent() {
         return StrUtil.subPre(this.packageBase, this.packageBase.lastIndexOf("."));
@@ -195,7 +211,7 @@ public class CodeGeneratorConfig {
     @Data
     public static class Vue {
         private String viewsPath = "views" + File.separator + "lamp";
-
+        private VueVersion version = VueVersion.vue;
         /**
          * 表名 - <字段名 - 字段信息>
          */

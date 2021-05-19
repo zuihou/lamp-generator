@@ -3,7 +3,7 @@
          xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>${projectPrefix}${serviceName}</artifactId>
+        <artifactId>${projectPrefix}-${serviceName}</artifactId>
         <groupId>${groupId}</groupId>
         <version>${version}</version>
         <relativePath>../pom.xml</relativePath>
@@ -11,9 +11,9 @@
 
     <modelVersion>4.0.0</modelVersion>
     <#if isChildModule>
-    <artifactId>${projectPrefix}${childModuleName}-entity</artifactId>
+        <artifactId>${projectPrefix}-${childModuleName}-entity</artifactId>
     <#else>
-    <artifactId>${projectPrefix}${serviceName}-entity</artifactId>
+        <artifactId>${projectPrefix}-${serviceName}-entity</artifactId>
     </#if>
     <name>${r"${"}project.artifactId${r"}"}</name>
     <description>${description}-实体模块</description>

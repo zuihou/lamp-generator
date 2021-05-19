@@ -67,28 +67,28 @@ public class GenTableColumn {
      *
      * @since 2.0 支持
      */
-    private String isInsert;
+    private String isInsert = YES;
 
     /**
      * 是否编辑字段（1是） 为空时自动计算
      *
      * @since 2.0 支持
      */
-    private String isEdit;
+    private String isEdit = YES;
 
     /**
      * 是否列表字段（1是）为空时自动计算
      *
      * @since 2.0 支持
      */
-    private String isList;
+    private String isList = YES;
 
     /**
      * 是否查询字段（1是） 为空时自动计算
      *
      * @since 2.0 支持
      */
-    private String isQuery;
+    private String isQuery = NO;
 
     /**
      * 查询方式（EQ等于、NE不等于、GT大于、LT小于、LIKE模糊、BETWEEN范围）  暂时不支持
@@ -135,6 +135,20 @@ public class GenTableColumn {
         this.isList = isList;
         this.isQuery = isQuery;
         this.htmlType = htmlType;
+    }
+
+    public GenTableColumn(String isEdit, String isList, String isQuery, String htmlType) {
+        this.isInsert = isEdit;
+        this.isEdit = isEdit;
+        this.isList = isList;
+        this.isQuery = isQuery;
+        this.htmlType = htmlType;
+    }
+    public GenTableColumn(String isEdit, String isList, String isQuery) {
+        this.isInsert = isEdit;
+        this.isEdit = isEdit;
+        this.isList = isList;
+        this.isQuery = isQuery;
     }
 
 }

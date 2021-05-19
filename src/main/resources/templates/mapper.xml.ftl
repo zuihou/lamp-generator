@@ -68,9 +68,9 @@
 
     <#assign myPropertyName="${field.propertyName}"/>
     <#-- 自动注入注解 -->
-    <#if field.customMap.annotation?? && field.propertyName?ends_with("Id")>
-        <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>
-    </#if>
+<#--    <#if field.customMap.annotation?? && field.propertyName?ends_with("Id")>-->
+<#--        <#assign myPropertyName="${field.propertyName!?substring(0,field.propertyName?index_of('Id'))}"/>-->
+<#--    </#if>-->
     <#if field.type?starts_with("int")>
         <result column="${field.name}" jdbcType="INTEGER" property="${myPropertyName}"/>
     <#elseif field.type?starts_with("datetime")>

@@ -2,7 +2,7 @@
 
 [![AUR](https://img.shields.io/badge/license-Apache%20License%202.0-blue.svg)](https://github.com/zuihou/lamp-cloud/blob/master/LICENSE)
 [![](https://img.shields.io/badge/作者-zuihou-orange.svg)](https://github.com/zuihou)
-[![](https://img.shields.io/badge/版本-3.1.1-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
+[![](https://img.shields.io/badge/版本-3.2.1-brightgreen.svg)](https://github.com/zuihou/lamp-cloud)
 [![GitHub stars](https://img.shields.io/github/stars/zuihou/lamp-cloud.svg?style=social&label=Stars)](https://github.com/zuihou/lamp-cloud/stargazers)
 [![star](https://gitee.com/zuihou111/lamp-cloud/badge/star.svg?theme=white)](https://gitee.com/zuihou111/lamp-cloud/stargazers)
 [![GitHub forks](https://img.shields.io/github/forks/zuihou/lamp-cloud.svg?style=social&label=Fork)](https://github.com/zuihou/lamp-cloud/network/members)
@@ -139,10 +139,12 @@
 # 会员版
 本项目分为开源版、会员版，github和gitee上能搜索到的为开源版本，遵循Apache协议。 会员版源码在私有gitlab托管，购买后开通账号。
 
-会员版和会员版区别请看：[会员版](会员版.md)
+会员版和会员版区别请看：[会员版](https://www.kancloud.cn/zuihou/zuihou-admin-cloud/2074547)
 
 # lamp 会员版项目演示地址 
-- 地址： http://tangyh.top:10000/lamp-web/
+- lamp-web-plus 地址： http://tangyh.top:3100
+- lamp-web 地址： http://tangyh.top:10000/lamp-web/
+- lamp-web-beautiful 地址： http://tangyh.top:180
 - 以下内置账号仅限于内置的0000租户 
 - 平台管理员： lamp_pt/lamp (内置给公司内部运营人员使用)
 - 超级管理员： lamp/lamp    

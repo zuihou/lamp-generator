@@ -36,7 +36,7 @@ public class TestTenantCodeGenerator {
         System.out.println("输出路径：");
         System.out.println(path);
         build.setProjectRootPath(path);
-        build.setProjectPrefix("lamp-");
+        build.setProjectPrefix("lamp");
         // 指定全部代码的生成策略
         GenerateType generate = GenerateType.OVERRIDE;
         generate = null;
