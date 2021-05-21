@@ -410,7 +410,7 @@ export default {
                     cancelButtonText: this.$t("common.cancel"),
                     type: "warning"
         }).then(() => {
-          ${entity?uncap_first}Api.delete({ids: checked}).then(response => {
+          ${entity?uncap_first}Api.delete(checked).then(response => {
             const res = response.data;
             if (res.isSuccess) {
               this.$message({

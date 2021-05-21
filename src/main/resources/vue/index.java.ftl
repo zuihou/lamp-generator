@@ -350,7 +350,7 @@ export default {
       this.$refs.table.clearSelection();
     },
     delete(ids) {
-      ${entity?uncap_first}Api.delete({ ids: ids }).then(response => {
+      ${entity?uncap_first}Api.delete(ids).then(response => {
         const res = response.data;
         if (res.isSuccess) {
           this.$message({
