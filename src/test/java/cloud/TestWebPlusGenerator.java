@@ -173,12 +173,13 @@ public class TestWebPlusGenerator {
         // 配置需要生成的表
         List<String> tables = Arrays.asList(
 //                "c_role",
-//                "c_dictionary",
+////                "c_dictionary",
 //                "c_parameter",
 //                "c_opt_log",
 //                "c_login_log",
 //                "c_application"
-                "c_area"
+//                "c_area"
+                "c_menu"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
                 buildVue("authority",  // 服务名 必填
@@ -188,7 +189,8 @@ public class TestWebPlusGenerator {
 //        build.setLikeTable(new LikeTable("b\\_", SqlLike.RIGHT));
 
         //父类是Entity
-        build.setSuperEntity(EntityType.ENTITY);
+//        build.setSuperEntity(EntityType.ENTITY);
+        build.setSuperEntity(EntityType.TREE_ENTITY);
 
         //生成的前端页面位于 src/${build.getVue().getViewsPath()}/${childPackageName} 目录下
         build.setChildPackageName("system");
@@ -196,11 +198,13 @@ public class TestWebPlusGenerator {
         // 数据库信息
         build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_base_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
 
-//        fileCreateConfig.setGeneratePageIndex(GenerateType.OVERRIDE);
-//        fileCreateConfig.setGenerateTreeIndex(GenerateType.IGNORE);
-
-        fileCreateConfig.setGeneratePageIndex(GenerateType.IGNORE);
-        fileCreateConfig.setGenerateTreeIndex(GenerateType.OVERRIDE);
+        if (EntityType.TREE_ENTITY.eq(build.getSuperEntity())) {
+            fileCreateConfig.setGeneratePageIndex(GenerateType.IGNORE);
+            fileCreateConfig.setGenerateTreeIndex(GenerateType.OVERRIDE);
+        } else {
+            fileCreateConfig.setGeneratePageIndex(GenerateType.OVERRIDE);
+            fileCreateConfig.setGenerateTreeIndex(GenerateType.IGNORE);
+        }
 
         // 是否生成导入导出功能以及相关的接口
         build.setIsGenerateExportApi(false);

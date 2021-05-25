@@ -24,7 +24,7 @@ public class TestInitProject {
 
                 // 需要新建的 服务名      该例会生成 lamp-test 服务
                 // 不能有中横线(-) ,最好不要有大写
-                .setServiceName("noneMultipleDataSources")
+                .setServiceName("seata")
 
                 // 首次新建服务时，设置为空字符串
                 // 然后想新建子模块时，可以设置成子模块名  如：msg 服务下的 sms 模块即 视为子模块
@@ -40,9 +40,9 @@ public class TestInitProject {
                 // 项目描述
                 .setDescription("None模式多数据源示例")
                 // 项目的版本， 一定要跟 lamp-cloud 下的其他服务版本一致， 否则会出错哦
-                .setVersion("3.2.1-SNAPSHOT")
+                .setVersion("3.2.1")
                 // 服务的端口号
-                .setServerPort("12080")
+                .setServerPort("12081")
                 // 项目的 groupId
                 .setGroupId("com.tangyh.lamp")
         ;

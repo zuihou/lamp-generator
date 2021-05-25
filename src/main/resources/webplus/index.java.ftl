@@ -1,27 +1,29 @@
 <template>
-  <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
+  <PageWrapper dense contentFullHeight fixedHeight>
     <BasicTable @register="registerTable">
       <template #toolbar>
 <#if cfg.isGenerateExportApi>
-        <a-button type="primary" @click="handleImport">导入</a-button>
-        <a-button type="primary" @click="handleExport">导出</a-button>
+        <a-button type="primary" @click="handleImport">{{ t('common.title.import') }}</a-button>
+        <a-button type="primary" @click="handleExport">{{ t('common.title.export') }}</a-button>
 </#if>
-        <a-button type="primary" @click="handleBatchDelete">删除</a-button>
-        <a-button type="primary" @click="handleAdd">新增</a-button>
+        <a-button type="primary" @click="handleBatchDelete">{{
+          t('common.title.delete')
+        }}</a-button>
+        <a-button type="primary" @click="handleAdd">{{ t('common.title.add') }}</a-button>
       </template>
       <template #action="{ record }">
         <TableAction
           :actions="[
             {
-              label: '编辑',
+              label: t('common.title.edit'),
               onClick: handleEdit.bind(null, record),
             },
             {
-              label: '复制',
+              label: t('common.title.copy'),
               onClick: handleCopy.bind(null, record),
             },
             {
-              label: '删除',
+              label: t('common.title.delete'),
               color: 'error',
               popConfirm: {
                 title: t('common.tips.confirmDelete'),
@@ -61,7 +63,7 @@
   import { useModal } from '/@/components/Modal';
   import { ImpExcelModel, PreviewExcelModel } from '/@/components/Poi';
   </#if>
-  import { handleSearchInfoByCreateTime } from '/@/utils/${cfg.projectPrefix}/common';
+  import { <#if cfg.isGenerateExportApi>handleSearchInfoByCreateTime, </#if>handleFetchParams } from '/@/utils/${cfg.projectPrefix}/common';
   import { ActionEnum } from '/@/enums/commonEnum';
   <#if cfg.isGenerateExportApi>
   import { page, remove, importFile, exportFile, exportPreview } from '/@/api/${cfg.projectPrefix}/${cfg.childPackageName}/${entity?uncap_first}';
@@ -100,7 +102,7 @@
           labelWidth: 120,
           schemas: searchFormSchema,
         },
-        handleSearchInfoFn: handleSearchInfoByCreateTime,
+        beforeFetch: handleFetchParams,
         useSearchForm: true,
         showTableSetting: true,
         bordered: true,

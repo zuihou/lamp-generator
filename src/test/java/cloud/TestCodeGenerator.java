@@ -28,7 +28,7 @@ public class TestCodeGenerator {
         build.setPassword("root");
         build.setIsBoot(false);
 
-        String path = "/Users/tangyh/github/lamp-examples/lamp-noneMultipleDataSources";
+        String path = "/Users/tangyh/github/lamp-examples/lamp-seata";
         System.out.println("输出路径：" + path);
         build.setProjectRootPath(path);
         build.setProjectPrefix("lamp");
@@ -68,9 +68,9 @@ public class TestCodeGenerator {
 //                "b_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("noneMultipleDataSources", "", "zuihou", "b_", tables);
+                build("seata", "", "zuihou", "b_", tables);
         build.setSuperEntity(EntityType.ENTITY);
-        build.setChildPackageName("slave");
+//        build.setChildPackageName("slave");
 //        build.setChildPackageName("master");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");
         return build;

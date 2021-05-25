@@ -1,8 +1,8 @@
 <template>
   <div class="bg-white m-4 mr-2 overflow-hidden">
     <div class="m-4">
-      <a-button @click="handleAdd()" class="mr-2"> 新增根节点 </a-button>
-      <a-button @click="handleBatchDelete()" class="mr-2"> 删除 </a-button>
+      <a-button @click="handleAdd()" class="mr-2">{{ t('common.title.addRoot') }}</a-button>
+      <a-button @click="handleBatchDelete()" class="mr-2">{{ t('common.title.delete') }}</a-button>
     </div>
     <BasicTree
       :title="t('${cfg.projectPrefix}.${cfg.childPackageName}.${entity?uncap_first}.table.title')"
@@ -102,7 +102,7 @@
       function getRightMenuList(node: any): ContextMenuItem[] {
         return [
           {
-            label: '新增',
+            label: t('common.title.addChildren'),
             handler: (e) => {
               e.stopPropagation();
               emit('add', findNodeByKey(unref(node.$attrs).id, treeData.value));
@@ -110,7 +110,7 @@
             icon: 'bi:plus',
           },
           {
-            label: '删除',
+            label: t('common.title.delete'),
             handler: (e) => {
               e.stopPropagation();
               batchDelete([node.id]);

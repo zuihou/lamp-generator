@@ -4,7 +4,7 @@ import moment from 'moment';
     <#break>
   </#if>
 </#list>
-import { BasicColumn, FormSchema } from '/@/components/Table';
+import { <#if cfg.pageMode != "Tree">BasicColumn, </#if>FormSchema } from '/@/components/Table';
 import { useI18n } from '/@/hooks/web/useI18n';
 <#list table.fields as field>
 <#assign myPropertyType="${field.propertyType}"/>
@@ -20,7 +20,7 @@ import { findEnumLists } from '/@/api/${cfg.projectPrefix}/common/general';
 </#list>
 <#list table.fields as field>
   <#if field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
-import { findDicts } from '/@/api/${cfg.projectPrefix}/common/general';
+import { findDictList } from '/@/api/${cfg.projectPrefix}/common/general';
     <#break>
   </#if>
 </#list>
@@ -138,11 +138,9 @@ export const searchFormSchema: FormSchema[] = [
     },
 <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
     componentProps: {
-      api: findDicts,
+      api: findDictList,
       params: ['${dictType}'],
       resultField: '${dictType}',
-      labelField: 'name',
-      valueField: 'code',
     },
 <#else></#if>
     colProps: { span: 5 },
@@ -166,6 +164,13 @@ export const editFormSchema: FormSchema[] = [
     component: 'Input',
     show: false,
   },
+<#if superEntityClass?? && superEntityClass=="TreeEntity">
+  {
+    label: t('${cfg.projectPrefix}.${cfg.childPackageName}.${entity?uncap_first}.label'),
+    field: 'label',
+    component: 'Input',
+  },
+</#if>
 <#list table.fields as field>
 <#assign myPropertyName="${field.propertyName}"/>
 <#assign myPropertyType="${field.propertyType}"/>
@@ -240,11 +245,9 @@ export const editFormSchema: FormSchema[] = [
     },
 <#elseif field.customMap?? && field.customMap.info?? && field.customMap.info.dictType??>
     componentProps: {
-      api: findDicts,
+      api: findDictList,
       params: ['${dictType}'],
       resultField: '${dictType}',
-      labelField: 'name',
-      valueField: 'code',
     },
 <#else></#if>
   },
@@ -252,20 +255,14 @@ export const editFormSchema: FormSchema[] = [
 </#list>
 <#if superEntityClass?? && superEntityClass=="TreeEntity">
   {
-    field: t('${cfg.projectPrefix}.${cfg.childPackageName}.${entity?uncap_first}.label'),
-    label: 'label',
-    component: 'Input',
-  },
-  {
     label: t('${cfg.projectPrefix}.${cfg.childPackageName}.${entity?uncap_first}.sortValue'),
     field: 'sortValue',
-    width: 40,
+    component: 'InputNumber',
   },
 </#if>
 ];
 
 // 前端自定义表单验证规则
-export const customFormSchemaRules = (type): Partial<FormSchemaExt>[] => {
-  console.log(type);
+export const customFormSchemaRules = (_): Partial<FormSchemaExt>[] => {
   return [];
 };

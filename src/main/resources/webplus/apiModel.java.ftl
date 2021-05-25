@@ -77,11 +77,6 @@ export interface ${entity} {
     </#list>
   ${myPropertyName}: ${cfg.fieldTypeMapping[myPropertyType]};
 </#list>
-<#if superEntityClass?? && superEntityClass=="TreeEntity">
-  label: string;
-  parentId: string;
-  sortValue: number;
-</#if>
 <#list table.commonFields as field>
     <#assign myPropertyName="${field.propertyName}"/>
     <#assign myPropertyType="${field.propertyType}"/>
@@ -92,10 +87,5 @@ export interface ${entity} {
     </#list>
   ${myPropertyName}: ${cfg.fieldTypeMapping[myPropertyType]};
 </#list>
-<#if superEntityClass?? && superEntityClass=="TreeEntity">
-  label: string;
-  parentId: string;
-  sortValue: number;
-</#if>
   echoMap: Recordable;
 }
