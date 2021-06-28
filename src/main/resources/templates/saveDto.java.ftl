@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import com.tangyh.lamp.common.constant.DictionaryType;
+import ${cfg.groupId}.common.constant.DictionaryType;
 </#if>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>
@@ -83,9 +83,9 @@ public class ${entity}SaveDTO implements Serializable {
     </#list>
     <#if field.customMap.Null == "NO" >
         <#if (field.columnType!"") == "STRING" && isEnumType == "1">
-    @NotEmpty(message = "${fieldComment}不能为空")
+    @NotEmpty(message = "请填写${fieldComment}")
         <#else>
-    @NotNull(message = "${fieldComment}不能为空")
+    @NotNull(message = "请填写${fieldComment}")
         </#if>
     </#if>
     <#if (field.columnType!"") == "STRING" && isEnumType == "1">
@@ -128,7 +128,7 @@ public class ${entity}SaveDTO implements Serializable {
 
 <#if superEntityClass?? && superEntityClass=="TreeEntity">
     @ApiModelProperty(value = "名称")
-    @NotEmpty(message = "名称不能为空")
+    @NotEmpty(message = "请填写名称")
     @Size(max = 255, message = "名称长度不能超过255")
     protected String label;
 

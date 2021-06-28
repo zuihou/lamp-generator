@@ -121,7 +121,7 @@
       // 弹出复制页面
       function handleCopy(record: Recordable, e) {
         e.stopPropagation();
-        openModal(true, {
+        openDrawer(true, {
           record,
           type: ActionEnum.COPY,
         });

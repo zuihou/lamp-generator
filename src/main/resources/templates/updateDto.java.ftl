@@ -10,7 +10,7 @@ import io.swagger.annotations.ApiModelProperty;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import com.tangyh.basic.base.entity.SuperEntity;
+import ${cfg.utilPackage}.base.entity.SuperEntity;
 <#if entityLombokModel>
 import lombok.Data;
 import lombok.Builder;
@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import com.tangyh.lamp.common.constant.DictionaryType;
+import ${cfg.groupId}.common.constant.DictionaryType;
 </#if>
 <#list cfg.filedTypes as fieldType>
     <#list table.fields as field>
@@ -59,7 +59,7 @@ public class ${entity}UpdateDTO implements Serializable {
 <#list table.commonFields as field>
     <#if field.keyFlag>
     @ApiModelProperty(value = "主键")
-    @NotNull(message = "id不能为空", groups = SuperEntity.Update.class)
+    @NotNull(message = "请填写主键", groups = SuperEntity.Update.class)
     private ${field.propertyType} ${field.propertyName};
     </#if>
 </#list>
@@ -95,9 +95,9 @@ public class ${entity}UpdateDTO implements Serializable {
     </#if>
     <#if field.customMap.Null == "NO" >
         <#if (field.columnType!"") == "STRING" && isEnumType == "1">
-    @NotEmpty(message = "${fieldComment}不能为空")
+    @NotEmpty(message = "请填写${fieldComment}")
         <#else>
-    @NotNull(message = "${fieldComment}不能为空")
+    @NotNull(message = "请填写${fieldComment}")
         </#if>
     </#if>
     <#if (field.columnType!"") == "STRING" && isEnumType == "1">
@@ -143,7 +143,7 @@ public class ${entity}UpdateDTO implements Serializable {
 </#list>
 <#if superEntityClass?? && superEntityClass=="TreeEntity">
     @ApiModelProperty(value = "名称")
-    @NotEmpty(message = "名称不能为空")
+    @NotEmpty(message = "请填写名称")
     @Size(max = 255, message = "名称长度不能超过255")
     protected String label;
 

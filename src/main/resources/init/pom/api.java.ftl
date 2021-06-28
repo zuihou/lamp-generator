@@ -18,7 +18,7 @@
         <dependency>
             <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}-${serviceName}-entity</artifactId>
-            <version>${r"${"}lamp-project.version${r"}"}</version>
+            <version>${r"${"}${projectPrefix}-project.version${r"}"}</version>
         </dependency>
 
         <dependency>

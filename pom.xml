@@ -11,7 +11,7 @@
 
     <groupId>com.tangyh.lamp</groupId>
     <artifactId>lamp-generator</artifactId>
-    <version>3.2.2-SNAPSHOT</version>
+    <version>3.2.3-SNAPSHOT</version>
 
     <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
@@ -24,7 +24,7 @@
         </repository>
     </repositories>
     <properties>
-        <lamp-util.version>3.2.2</lamp-util.version>
+        <lamp-util.version>3.2.3</lamp-util.version>
         <mybatisplus.version>3.4.1</mybatisplus.version>
         <lombok.version>1.18.18</lombok.version>
         <commons.lang3.version>3.10</commons.lang3.version>

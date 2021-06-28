@@ -26,12 +26,12 @@
             <#else>
             <artifactId>${projectPrefix}-${serviceName}-biz</artifactId>
             </#if>
-            <version>${r"${"}lamp-project.version${r"}"}</version>
+            <version>${r"${"}${projectPrefix}-project.version${r"}"}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-security-starter</artifactId>
+            <groupId>${utilPackage}</groupId>
+            <artifactId>${projectPrefix}-security-starter</artifactId>
         </dependency>
     </dependencies>
 </project>

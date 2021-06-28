@@ -9,6 +9,7 @@
       toolbar
       checkable
       search
+      checkStrictly
       :actionList="actionList"
       :beforeRightClick="getRightMenuList"
       :clickRowToExpand="true"
@@ -79,7 +80,8 @@
             return h(PlusOutlined, {
               class: 'ml-2',
               onClick: (e) => {
-                e.stopPropagation();
+                e?.stopPropagation();
+                e?.preventDefault();
                 emit('add', findNodeByKey(node.id, treeData.value));
               },
             });
@@ -90,7 +92,8 @@
             return h(DeleteOutlined, {
               class: 'ml-2',
               onClick: (e) => {
-                e.stopPropagation();
+                e?.stopPropagation();
+                e?.preventDefault();
                 batchDelete([node.id]);
               },
             });
@@ -103,17 +106,15 @@
         return [
           {
             label: t('common.title.addChildren'),
-            handler: (e) => {
-              e.stopPropagation();
+            handler: () => {
               emit('add', findNodeByKey(unref(node.$attrs).id, treeData.value));
             },
             icon: 'bi:plus',
           },
           {
             label: t('common.title.delete'),
-            handler: (e) => {
-              e.stopPropagation();
-              batchDelete([node.id]);
+            handler: () => {
+              batchDelete([unref(node.$attrs).id]);
             },
             icon: 'bx:bxs-folder-open',
           },
@@ -140,12 +141,15 @@
 
       // 点击组织数外面的 批量删除
       function handleBatchDelete() {
-        const ids = getTree().getCheckedKeys() as string[];
-        if (!ids || ids.length <= 0) {
+        const { checked } = getTree().getCheckedKeys() as {
+          checked: string[];
+          halfChecked: string[];
+        };
+        if (!checked || checked.length <= 0) {
           createMessage.warning(t('common.tips.pleaseSelectTheData'));
           return;
         }
-        batchDelete(ids);
+        batchDelete(checked);
       }
 
       return {

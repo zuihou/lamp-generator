@@ -19,36 +19,34 @@ import java.util.Set;
  * @date 2019/05/25
  */
 public class TestAuthorityCodeGenerator {
-    /***
-     * 注意，想要在这里直接运行，需要手动增加 mysql 驱动
-     * @param args
-     */
     public static void main(String[] args) {
-//        CodeGeneratorConfig build = buildDefaultsEntity();
-//        CodeGeneratorConfig build = buildAuthSuperEntity();
-//        CodeGeneratorConfig build = buildAuthEntity();
-        CodeGeneratorConfig build = buildCommonEntity();
-//        CodeGeneratorConfig build = buildCommonSuperEntity();
-//        CodeGeneratorConfig build = buildCoreEntity();
-//        CodeGeneratorConfig build = buildOrderEntity();
+        CodeGeneratorConfig build = buildAuthEntity();
+        // 项目、配置文件的前缀
+        build.setProjectPrefix("lamp");
+        // lamp-cloud 或者 lamp-boot 项目的 包
+        build.setGroupId("com.tangyh.lamp");
+        // lamp-util 项目的 包
+        build.setUtilPackage("com.tangyh.basic");
+//        CodeGeneratorConfig build = buildManEntity();
+
+        //mysql 账号密码
         build.setUsername("root");
         build.setPassword("root");
+        build.setIsBoot(false);
 
-        String path = "/Users/tangyh/gitee/lamp-cloud-plus/lamp-authority";
-        System.err.println("输出路径：" + path);
+        String path = "/Users/tangyh/gitlab/lamp-cloud-plus/lamp-authority";
+        System.out.println("输出路径：" + path);
         build.setProjectRootPath(path);
 
-        // null 表示 使用下面的 生成策略
-        FileCreateConfig fileCreateConfig = new FileCreateConfig(null);
-        // 不为null 表示忽略下面的 生成策略
-//        FileCreateConfig fileCreateConfig = new FileCreateConfig(GenerateType.OVERRIDE);
-
-        //实体类的生成策略 为覆盖
+        // 指定全部代码的生成策略
+        GenerateType generate = GenerateType.OVERRIDE;
+//        generate = null;
+        // 构造器传入null，下面设置的策略（setGenerate*）才会生效， 构造器传入不为null时，下面设置的策略（setGenerate*）无效，将全部使用构造器传入的策略
+        FileCreateConfig fileCreateConfig = new FileCreateConfig(generate);
         fileCreateConfig.setGenerateEntity(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateEnum(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateDto(GenerateType.OVERRIDE);
         fileCreateConfig.setGenerateXml(GenerateType.OVERRIDE);
-        //dao 的生成策略为 忽略
         fileCreateConfig.setGenerateDao(GenerateType.IGNORE);
         fileCreateConfig.setGenerateServiceImpl(GenerateType.IGNORE);
         fileCreateConfig.setGenerateService(GenerateType.IGNORE);
@@ -58,14 +56,14 @@ public class TestAuthorityCodeGenerator {
         //手动指定枚举类 生成的路径
         Set<EntityFiledType> filedTypes = new HashSet<>();
         filedTypes.addAll(Arrays.asList(
-                EntityFiledType.builder().name("httpMethod").table("c_opt_log")
-                        .packagePath("com.tangyh.lamp.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
-                , EntityFiledType.builder().name("httpMethod").table("c_resource")
-                        .packagePath("com.tangyh.lamp.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
-                , EntityFiledType.builder().name("dsType").table("c_role")
-                        .packagePath("com.tangyh.basic.database.mybatis.auth.DataScopeType").gen(GenerateType.IGNORE).build()
+//                EntityFiledType.builder().name("httpMethod").table("c_common_opt_log")
+//                        .packagePath("com.tangyh.lamp.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
         ));
         build.setFiledTypes(filedTypes);
+
+        build.setPackageBase(build.getGroupId() + "." + build.getChildModuleName());
+
+        // 运行
         CodeGenerator.run(build);
     }
 

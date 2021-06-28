@@ -23,9 +23,9 @@ import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 import lombok.experimental.Accessors;
-import com.tangyh.lamp.common.constant.DictionaryType;
-import static com.tangyh.basic.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
-import com.tangyh.basic.model.EchoVO;
+import ${cfg.groupId}.common.constant.DictionaryType;
+import static ${cfg.utilPackage}.utils.DateUtils.DEFAULT_DATE_TIME_FORMAT;
+import ${cfg.utilPackage}.model.EchoVO;
 </#if>
 <#if cfg.filedTypes??>
 <#list cfg.filedTypes as fieldType>
@@ -117,9 +117,9 @@ public class ${entity} implements Serializable, EchoVO {
     </#list>
     <#if field.customMap.Null == "NO" >
         <#if (field.columnType!"") == "STRING" && isEnumType == "1">
-    @NotEmpty(message = "${fieldComment}不能为空")
+    @NotEmpty(message = "请填写${fieldComment}")
         <#else>
-    @NotNull(message = "${fieldComment}不能为空")
+    @NotNull(message = "请填写${fieldComment}")
         </#if>
     </#if>
     <#if (field.columnType!"") == "STRING" && isEnumType == "1">
@@ -151,27 +151,9 @@ public class ${entity} implements Serializable, EchoVO {
     </#if>
     <#if field.keyFlag>
     <#-- 主键 -->
-        <#if field.keyIdentityFlag>
-    @TableId(value = "${field.name}", type = IdType.AUTO)
-        <#elseif idType??>
-    @TableId(value = "${field.name}", type = IdType.${idType})
-        <#elseif field.convert>
-    @TableId("${field.name}")
-        </#if>
-    <#-- 普通字段 -->
-    <#elseif field.fill??>
-    <#-- -----   存在字段填充设置   ----->
-        <#if field.convert>
-    @TableField(value = "${field.name}", fill = FieldFill.${field.fill})
-        <#else>
-    @TableField(fill = FieldFill.${field.fill})
-        </#if>
-    <#elseif field.convert>
-        <#if (field.type?starts_with("varchar") || field.type?starts_with("char")) && myPropertyType == "String">
-    @TableField(value = "${field.name}", condition = LIKE)
-        <#else>
-    @TableField("${field.name}")
-        </#if>
+    @TableId(value = "${field.name}"<#if field.keyIdentityFlag>, type = IdType.AUTO<#elseif idType??>, type = IdType.${idType}</#if>)
+    <#else>
+    @TableField(value = "${field.name}"<#if field.fill??>, fill = FieldFill.${field.fill}</#if><#if myPropertyType == "String">, condition = LIKE<#else></#if>)
     </#if>
     <#-- 乐观锁注解 -->
     <#if (versionFieldName!"") == field.name>

@@ -48,7 +48,6 @@
           if (unref(type) === ActionEnum.EDIT) {
             await update(params);
           } else {
-            params.id = null;
             await save(params);
           }
           createMessage.success(t(`common.tips.${r'${'}type.value}Success`));
@@ -68,18 +67,18 @@
 
         let validateApi = Api.Save;
         const { record = {}, parent } = data;
-        if (unref(type) !== ActionEnum.ADD) {
+        if (unref(type) === ActionEnum.EDIT) {
           validateApi = Api.Update;
+        } else {
+          record.id = undefined;
         }
 
         record['parentName'] = parent?.label;
         record['parentId'] = parent?.id;
-        await setFieldsValue({
-          ...record,
-        });
+        await setFieldsValue({ ...record });
 
         getValidateRules(validateApi, customFormSchemaRules(type)).then(async (rules) => {
-          rules && rules.length > 0 && await updateSchema(rules);
+          rules && rules.length > 0 && (await updateSchema(rules));
         });
       }
 

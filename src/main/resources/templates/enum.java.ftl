@@ -1,6 +1,6 @@
 package ${enumCustom.package.importPackage};
 
-import com.tangyh.basic.base.BaseEnum;
+import ${utilPackage}.base.BaseEnum;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

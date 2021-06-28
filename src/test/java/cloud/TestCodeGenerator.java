@@ -21,6 +21,12 @@ import java.util.Set;
 public class TestCodeGenerator {
     public static void main(String[] args) {
         CodeGeneratorConfig build = buildTestEntity();
+        // 项目、配置文件的前缀
+        build.setProjectPrefix("abcd");
+        // lamp-cloud 或者 lamp-boot 项目的 包
+        build.setGroupId("top.alijiujiu.abcd");
+        // lamp-util 项目的 包
+        build.setUtilPackage("com.tangyh.basic");
 //        CodeGeneratorConfig build = buildManEntity();
 
         //mysql 账号密码
@@ -28,10 +34,10 @@ public class TestCodeGenerator {
         build.setPassword("root");
         build.setIsBoot(false);
 
-        String path = "/Users/tangyh/github/lamp-examples/lamp-seata";
+        String path = "/Users/tangyh/github/lamp-examples/abcd-columnMultiTenantLine";
         System.out.println("输出路径：" + path);
         build.setProjectRootPath(path);
-        build.setProjectPrefix("lamp");
+
         // 指定全部代码的生成策略
         GenerateType generate = GenerateType.OVERRIDE;
 //        generate = null;
@@ -55,7 +61,7 @@ public class TestCodeGenerator {
         ));
         build.setFiledTypes(filedTypes);
 
-        build.setPackageBase("com.tangyh.lamp." + build.getChildModuleName());
+        build.setPackageBase(build.getGroupId() + "." + build.getChildModuleName());
 
         // 运行
         CodeGenerator.run(build);
@@ -64,11 +70,11 @@ public class TestCodeGenerator {
 
     public static CodeGeneratorConfig buildTestEntity() {
         List<String> tables = Arrays.asList(
-                "b_order"
-//                "b_product"
+//                "b_order"
+                "b_product"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("seata", "", "zuihou", "b_", tables);
+                build("columnMultiTenantLine", "", "zuihou", "b_", tables);
         build.setSuperEntity(EntityType.ENTITY);
 //        build.setChildPackageName("slave");
 //        build.setChildPackageName("master");
@@ -81,7 +87,7 @@ public class TestCodeGenerator {
                 "b_order"
         );
         CodeGeneratorConfig build = CodeGeneratorConfig.
-                build("noneMultipleDataSources", "man", "zuihou", "b_", tables);
+                build("columnMultiTenantLine", "man", "zuihou", "b_", tables);
         build.setSuperEntity(EntityType.ENTITY);
         build.setChildPackageName("");
         build.setUrl("jdbc:mysql://127.0.0.1:3306/lamp_extend_0000?serverTimezone=CTT&characterEncoding=utf8&useUnicode=true&useSSL=false&autoReconnect=true&zeroDateTimeBehavior=convertToNull");

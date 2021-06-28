@@ -14,14 +14,14 @@ import java.util.stream.Collectors;
 import ${superControllerClassPackage};
 </#if>
 import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.tangyh.basic.echo.core.EchoService;
-import com.tangyh.basic.base.R;
+import ${cfg.utilPackage}.echo.core.EchoService;
+import ${cfg.utilPackage}.base.R;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
-import com.tangyh.basic.annotation.security.PreAuth;
+import ${cfg.utilPackage}.annotation.security.PreAuth;
 <#if restControllerStyle>
 import org.springframework.web.bind.annotation.RestController;
 <#else>

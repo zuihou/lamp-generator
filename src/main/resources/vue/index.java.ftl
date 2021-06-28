@@ -181,7 +181,7 @@ import Pagination from "@/components/Pagination";
 import elDragDialog from '@/directive/el-drag-dialog'
 import ${entity}Edit from "./edit";
 import ${entity?uncap_first}Api from "@/api/${entity}.js";
-import ${entity}Import from "@/components/lamp/Import"
+import ${entity}Import from "@/components/${cfg.projectPrefix}/Import"
 import {convertEnum} from '@/utils/utils'
 import {downloadFile, loadEnums, initDicts, initQueryParams} from '@/utils/commons'
 

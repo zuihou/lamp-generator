@@ -1,7 +1,7 @@
 package ${packageBaseParent};
 
-import com.tangyh.basic.security.annotation.EnableLoginArgResolver;
-import com.tangyh.basic.validator.annotation.EnableFormValidator;
+import ${utilPackage}.security.annotation.EnableLoginArgResolver;
+import ${utilPackage}.validator.annotation.EnableFormValidator;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -16,7 +16,7 @@ import org.springframework.core.env.Environment;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
-import static com.tangyh.lamp.common.constant.BizConstant.UTIL_PACKAGE;
+import static ${groupId}.common.constant.BizConstant.UTIL_PACKAGE;
 
 /**
  * ${description}启动类

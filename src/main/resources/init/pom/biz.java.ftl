@@ -26,34 +26,34 @@
 <#else>
             <artifactId>${projectPrefix}-${serviceName}-entity</artifactId>
 </#if>
-            <version>${r"${"}lamp-project.version${r"}"}</version>
+            <version>${r"${"}${projectPrefix}-project.version${r"}"}</version>
         </dependency>
         <#if !isBoot>
         <dependency>
             <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}-oauth-api</artifactId>
-            <version>${r"${"}lamp-project.version${r"}"}</version>
+            <version>${r"${"}${projectPrefix}-project.version${r"}"}</version>
         </dependency>
         </#if>
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-databases</artifactId>
+            <groupId>${utilPackage}</groupId>
+            <artifactId>${projectPrefix}-databases</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-dozer-starter</artifactId>
+            <groupId>${utilPackage}</groupId>
+            <artifactId>${projectPrefix}-dozer-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-cache-starter</artifactId>
+            <groupId>${utilPackage}</groupId>
+            <artifactId>${projectPrefix}-cache-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-echo-starter</artifactId>
+            <groupId>${utilPackage}</groupId>
+            <artifactId>${projectPrefix}-echo-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-boot-util</artifactId>
+            <groupId>${utilPackage}</groupId>
+            <artifactId>${projectPrefix}-boot</artifactId>
         </dependency>
 
         <dependency>

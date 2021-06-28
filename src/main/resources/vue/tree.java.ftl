@@ -217,7 +217,7 @@
 <script>
 import ${entity?uncap_first}Api from "@/api/${entity}.js";
 import elDragDialog from '@/directive/el-drag-dialog'
-import ${entity}Import from "@/components/lamp/Import"
+import ${entity}Import from "@/components/${cfg.projectPrefix}/Import"
 import {downloadFile, loadEnums, initDicts, initQueryParams} from '@/utils/commons'
 
 export default {

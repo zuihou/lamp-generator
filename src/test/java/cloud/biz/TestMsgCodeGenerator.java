@@ -24,13 +24,19 @@ public class TestMsgCodeGenerator {
      * @param args
      */
     public static void main(String[] args) {
-        CodeGeneratorConfig build = buildSmsEntity();
-//        CodeGeneratorConfig build = buildMsgEntity();
+//        CodeGeneratorConfig build = buildSmsEntity();
+        CodeGeneratorConfig build = buildMsgEntity();
+        // 项目、配置文件的前缀
+        build.setProjectPrefix("lamp");
+        // lamp-cloud 或者 lamp-boot 项目的 包
+        build.setGroupId("com.tangyh.lamp");
+        // lamp-util 项目的 包
+        build.setUtilPackage("com.tangyh.basic");
 
         build.setUsername("root");
         build.setPassword("root");
 
-        String path = "/Users/tangyh/gitee/lamp-cloud-plus/lamp-msg";
+        String path = "/Users/tangyh/gitlab/lamp-cloud-plus/lamp-msg";
         System.err.println("输出路径：" + path);
         build.setProjectRootPath(path);
 
@@ -53,6 +59,9 @@ public class TestMsgCodeGenerator {
                         .packagePath("com.tangyh.lamp.sms.enumeration.ProviderType").gen(GenerateType.IGNORE).build()
         ));
         build.setFiledTypes(filedTypes);
+
+        build.setPackageBase(build.getGroupId() + "." + build.getChildModuleName());
+
         CodeGenerator.run(build);
     }
 

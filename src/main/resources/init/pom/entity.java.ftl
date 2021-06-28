@@ -20,9 +20,9 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.tangyh.lamp</groupId>
-            <artifactId>lamp-common</artifactId>
-            <version>${r"${"}lamp-project.version${r"}"}</version>
+            <groupId>${groupId}</groupId>
+            <artifactId>${projectPrefix}-common</artifactId>
+            <version>${r"${"}${projectPrefix}-project.version${r"}"}</version>
         </dependency>
         <dependency>
             <groupId>cn.afterturn</groupId>

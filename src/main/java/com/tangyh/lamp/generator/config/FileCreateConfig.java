@@ -40,10 +40,8 @@ public class FileCreateConfig implements IFileCreate {
     private GenerateType generateDto = GenerateType.IGNORE;
     private GenerateType generateQuery = GenerateType.IGNORE;
 
-//    private GenerateType generateApi = GenerateType.IGNORE;
     private GenerateType generatePageIndex = GenerateType.IGNORE;
     private GenerateType generateTreeIndex = GenerateType.IGNORE;
-//    private GenerateType generateEdit = GenerateType.IGNORE;
     private Boolean isVue = false;
     VueVersion vueVersion;
     /**
@@ -87,14 +85,11 @@ public class FileCreateConfig implements IFileCreate {
                 this.generateTreeIndex = GenerateType.IGNORE;
             } else if (GenerateType.OVERRIDE.eq(this.generateTreeIndex)) {
                 this.generatePageIndex = GenerateType.IGNORE;
-//                this.generateEdit = GenerateType.IGNORE;
             }
 
             if (generate != null) {
-//                this.generateApi = generate;
                 this.generatePageIndex = generate;
                 this.generateTreeIndex = GenerateType.IGNORE;
-//                this.generateEdit = generate;
             }
         } else {
             this.generateConstant = GenerateType.IGNORE;
@@ -154,7 +149,7 @@ public class FileCreateConfig implements IFileCreate {
                 return isCreate(generatePageIndex, file);
             }
             //Tree.vue
-            if (filePath.endsWith("tree" + FileOutConfigExt.DOT_VUE)) {
+            if (filePath.endsWith("Tree" + FileOutConfigExt.DOT_VUE)) {
                 return isCreate(generateTreeIndex, file);
             }
 
@@ -230,7 +225,7 @@ public class FileCreateConfig implements IFileCreate {
                 return isCreate(generatePageIndex, file);
             }
             //Tree.vue
-            if (filePath.endsWith("tree" + FileOutConfigExt.DOT_VUE)) {
+            if (filePath.endsWith("Tree" + FileOutConfigExt.DOT_VUE)) {
                 return isCreate(generateTreeIndex, file);
             }
 

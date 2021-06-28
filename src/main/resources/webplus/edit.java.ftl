@@ -45,19 +45,17 @@
         type.value = data?.type;
 
         let validateApi = Api.Save;
-        if (unref(type) !== ActionEnum.ADD) {
-          const record = data.record;
-          await setFieldsValue({
-            ...record,
-          });
+        const record = { ...data?.record };
+        if (unref(type) === ActionEnum.EDIT) {
           validateApi = Api.Update;
-        }
-        if (unref(type) === ActionEnum.COPY) {
-          validateApi = Api.Save;
+        } else {
+          record.id = undefined;
         }
 
+        await setFieldsValue({ ...record });
+
         getValidateRules(validateApi, customFormSchemaRules(type)).then(async (rules) => {
-          rules && rules.length > 0 && await updateSchema(rules);
+          rules && rules.length > 0 && (await updateSchema(rules));
         });
       });
 
@@ -69,7 +67,6 @@
           if (unref(type) === ActionEnum.EDIT) {
             await update(params);
           } else {
-            params.id = null;
             await save(params);
           }
           createMessage.success(t(`common.tips.${r'${'}type.value${r'}'}Success`));

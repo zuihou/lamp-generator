@@ -131,7 +131,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
-                Map<String, Object> map = CodeGenerator.initImportPackageInfo(config.getPackageBase(), config.getChildPackageName());
+                Map<String, Object> map = CodeGenerator.initImportPackageInfo(config);
 
                 Map<String, Object> vueMap = VueGenerator.initImportPackageInfo(config);
                 //这里必须 在entity生成后，赋值
@@ -230,24 +230,24 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
 
                     } else {
-                        importPackages.add("com.tangyh.lamp.common.constant.EchoConstants");
+                        importPackages.add(StrUtil.format("{}.common.constant.EchoConstants", config.getGroupId()));
                     }
                 } else {
-                    importPackages.add(String.format("static com.tangyh.lamp.common.constant.EchoConstants.%s", api));
+                    importPackages.add(StrUtil.format("static {}.common.constant.EchoConstants.{}", config.getGroupId(), api));
                 }
             }
             if (!method.contains("\"")) {
                 if (method.contains(".")) {
-                    importPackages.add("com.tangyh.lamp.common.constant.EchoConstants");
+                    importPackages.add(StrUtil.format("{}.common.constant.EchoConstants", config.getGroupId()));
                 } else {
-                    importPackages.add(String.format("static com.tangyh.lamp.common.constant.EchoConstants.%s", method));
+                    importPackages.add(StrUtil.format("static {}.common.constant.EchoConstants.{}", config.getGroupId(), method));
                 }
             }
             if (typePackage.contains(".")) {
                 importPackages.add(typePackage);
             }
-            importPackages.add("com.tangyh.basic.annotation.echo.Echo");
-            importPackages.add("com.tangyh.basic.model.RemoteData");
+            importPackages.add(StrUtil.format("{}.annotation.echo.Echo", config.getUtilPackage()));
+            importPackages.add(StrUtil.format("{}.model.RemoteData", config.getUtilPackage()));
         }
     }
 
@@ -366,6 +366,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
             basePathSb.append(".new");
         }
 
+        objectMap.put("utilPackage", config.getUtilPackage());
         if (isCreate(FileType.OTHER, basePathSb.toString()) && GenerateType.IGNORE.neq(entityFiledType.getGen())) {
             writer(objectMap, templateFilePath("/templates/enum.java"), basePathSb.toString());
         }

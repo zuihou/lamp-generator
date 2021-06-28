@@ -1,4 +1,4 @@
-lamp:
+${projectPrefix}:
   nacos:
     ip: ${r"${"}NACOS_IP:@nacos.ip@${r"}"}
     port: ${r"${"}NACOS_PORT:@nacos.port@${r"}"}
@@ -16,9 +16,9 @@ spring:
   cloud:
     nacos:
       config:
-        server-addr: ${r"${"}lamp.nacos.ip${r"}"}:${r"${"}lamp.nacos.port${r"}"}
+        server-addr: ${r"${"}${projectPrefix}.nacos.ip${r"}"}:${r"${"}${projectPrefix}.nacos.port${r"}"}
         file-extension: yml
-        namespace: ${r"${"}lamp.nacos.namespace${r"}"}
+        namespace: ${r"${"}${projectPrefix}.nacos.namespace${r"}"}
         shared-configs:
           - dataId: common.yml
             refresh: true
@@ -29,13 +29,13 @@ spring:
           - dataId: rabbitmq.yml
             refresh: false
         enabled: true
-        username: ${r"${"}lamp.nacos.username${r"}"}
-        password: ${r"${"}lamp.nacos.password${r"}"}
+        username: ${r"${"}${projectPrefix}.nacos.username${r"}"}
+        password: ${r"${"}${projectPrefix}.nacos.password${r"}"}
       discovery:
-        username: ${r"${"}lamp.nacos.username${r"}"}
-        password: ${r"${"}lamp.nacos.password${r"}"}
-        server-addr: ${r"${"}lamp.nacos.ip}:${r"${"}lamp.nacos.port${r"}"}
-        namespace: ${r"${"}lamp.nacos.namespace${r"}"}
+        username: ${r"${"}${projectPrefix}.nacos.username${r"}"}
+        password: ${r"${"}${projectPrefix}.nacos.password${r"}"}
+        server-addr: ${r"${"}${projectPrefix}.nacos.ip}:${r"${"}${projectPrefix}.nacos.port${r"}"}
+        namespace: ${r"${"}${projectPrefix}.nacos.namespace${r"}"}
         metadata: # 元数据，用于权限服务实时获取各个服务的所有接口
           management.context-path: ${r"${"}server.servlet.context-path:${r"}"}${r"${"}spring.mvc.servlet.path:${r"}"}${r"${"}management.endpoints.web.base-path:${r"}"}
           grayversion: ${author}

@@ -1,4 +1,4 @@
-lamp:
+${projectPrefix}:
   swagger:
     docket:
       ${serviceName}:

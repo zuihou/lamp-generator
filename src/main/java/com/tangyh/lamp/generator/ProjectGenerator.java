@@ -121,11 +121,11 @@ public class ProjectGenerator {
             String serverResourcePath = Paths.get(servicePath, modularName, SRC_MAIN_RESOURCES).toString();
             this.generatorServerResources(objectMap, serverResourcePath);
         } else {
-            if(config.getIsBoot()) {
+            if (config.getIsBoot()) {
                 //根 pom
                 this.writer(objectMap, String.format(INIT_FTL, "pom"), Paths.get(servicePath, "pom.xml").toString());
 
-                System.err.println("请注意： 请手动 在lamp-boot/pom.xml里面加入<module>, 在server模块依赖新增的Controller模块");
+                System.err.println("请注意： 请手动 在" + config.getProjectPrefix() + "-boot/pom.xml里面加入<module>, 在server模块依赖新增的Controller模块");
                 return;
             }
 
@@ -144,8 +144,8 @@ public class ProjectGenerator {
                     "            <dependency>\n" +
                             "                <groupId>%s</groupId>\n" +
                             "                <artifactId>%s-controller</artifactId>\n" +
-                            "                <version>${lamp-project.version}</version>\n" +
-                            "            </dependency>", config.getGroupId(), modulerName));
+                            "                <version>${%s-project.version}</version>\n" +
+                            "            </dependency>", config.getGroupId(), modulerName, config.getProjectPrefix()));
         }
 
         printCloudInfo(serviceName);
@@ -164,20 +164,14 @@ public class ProjectGenerator {
         System.err.println(String.format("在nacos中新建一个名为: %s 的配置文件，并将： %s/src/main/resources/%s 配置文件的内容移动过去", nacosProject, projectName, nacosProject));
 
         System.err.println("------------------------------------------");
-        System.err.println("将下面的配置手动加入nacos中 lamp-zuul-server.yml");
-        System.err.println(String.format("    %s:\n" +
-                "      path: /%s/**\n" +
-                "      serviceId: %s-server", config.getServiceName(), config.getServiceName(), serviceName));
-
-        System.err.println("------------------------------------------");
-        System.err.println("将下面的配置手动加入nacos中 lamp-gateway-server.yml");
+        System.err.println("将下面的配置手动加入nacos中 " + config.getProjectPrefix() + "-gateway-server.yml");
         System.err.println(String.format("        - id: %s\n" +
                         "          uri: lb://%s-server\n" +
                         "          predicates:\n" +
                         "            - Path=/%s/**\n" +
                         "          filters:\n" +
-                        "            - StripPrefix=1\n"
-                , config.getServiceName(), serviceName, config.getServiceName()));
+                        "            - StripPrefix=1\n",
+                config.getServiceName(), serviceName, config.getServiceName()));
     }
 
     private void generatorApiModular(String serviceName, Map<String, Object> objectMap) {
@@ -194,12 +188,10 @@ public class ProjectGenerator {
     }
 
     private void generatorServerResources(Map<String, Object> objectMap, String serverResourcePath) {
-        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "banner"), Paths.get(serverResourcePath, "banner.txt").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "bootstrap"), Paths.get(serverResourcePath, "bootstrap.yml").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "bootstrap-dev"), Paths.get(serverResourcePath, "bootstrap-dev.yml").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "logback-spring"), Paths.get(serverResourcePath, "logback-spring.xml").toString());
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "logback-spring-dev"), Paths.get(serverResourcePath, "logback-spring-dev.xml").toString());
-        this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "spy"), Paths.get(serverResourcePath, "spy.properties").toString());
         String serviceName = this.config.getProjectPrefix() + "-" + this.config.getServiceName() + "-server.yml";
         this.writer(objectMap, String.format(INIT_RESOURCES_FTL, "application"), Paths.get(serverResourcePath, serviceName).toString());
     }
@@ -253,13 +245,14 @@ public class ProjectGenerator {
         objectMap.put("isBoot", config.getIsBoot());
         objectMap.put("childModuleName", globalConfig.getChildModuleName());
         objectMap.put("packageBase", globalConfig.getPackageBase());
-        objectMap.put("projectPrefix", globalConfig.getProjectPrefix());
         objectMap.put("service", StrUtil.upperFirst(globalConfig.getServiceName()));
         objectMap.put("date", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
         objectMap.put("version", globalConfig.getVersion());
         objectMap.put("packageBaseParent", globalConfig.getPackageBaseParent());
         objectMap.put("serverPort", globalConfig.getServerPort());
+        objectMap.put("projectPrefix", globalConfig.getProjectPrefix());
         objectMap.put("groupId", globalConfig.getGroupId());
+        objectMap.put("utilPackage", globalConfig.getUtilPackage());
         objectMap.put("description", globalConfig.getDescription());
         return objectMap;
     }

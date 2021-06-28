@@ -75,7 +75,7 @@ export interface ${entity} {
             <#assign myPropertyType="Enum"/>
         </#if>
     </#list>
-  ${myPropertyName}: ${cfg.fieldTypeMapping[myPropertyType]};
+  ${myPropertyName}?: ${cfg.fieldTypeMapping[myPropertyType]};
 </#list>
 <#list table.commonFields as field>
     <#assign myPropertyName="${field.propertyName}"/>
@@ -85,7 +85,7 @@ export interface ${entity} {
             <#assign myPropertyType="Enum"/>
         </#if>
     </#list>
-  ${myPropertyName}: ${cfg.fieldTypeMapping[myPropertyType]};
+  ${myPropertyName}?: ${cfg.fieldTypeMapping[myPropertyType]};
 </#list>
-  echoMap: Recordable;
+  echoMap?: Recordable;
 }

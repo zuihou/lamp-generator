@@ -1,6 +1,6 @@
 package ${packageBase}.config;
 
-import com.tangyh.basic.boot.handler.AbstractGlobalExceptionHandler;
+import ${utilPackage}.boot.handler.AbstractGlobalExceptionHandler;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;

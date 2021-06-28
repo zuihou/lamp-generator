@@ -17,13 +17,18 @@
     <dependencies>
         <dependency>
             <groupId>${groupId}</groupId>
+            <artifactId>${projectPrefix}-tenant-datasource-init</artifactId>
+            <version>${r"${"}${projectPrefix}-project.version${r"}"}</version>
+        </dependency>
+        <dependency>
+            <groupId>${groupId}</groupId>
             <artifactId>${projectPrefix}-${serviceName}-controller</artifactId>
-            <version>${r"${"}lamp-project.version${r"}"}</version>
+            <version>${r"${"}${projectPrefix}-project.version${r"}"}</version>
         </dependency>
 
         <dependency>
-            <groupId>com.tangyh.basic</groupId>
-            <artifactId>lamp-all</artifactId>
+            <groupId>${utilPackage}</groupId>
+            <artifactId>${projectPrefix}-all</artifactId>
         </dependency>
 
         <dependency>
@@ -62,7 +67,7 @@
                 <version>${r"${"}dockerfile-maven-plugin.version${r"}"}</version>
                 <configuration>
                     <repository>${r"${"}docker.image.prefix${r"}"}/${r"${"}project.artifactId${r"}"}</repository>
-                    <tag>${r"${"}lamp-project.version${r"}"}</tag>
+                    <tag>${r"${"}${projectPrefix}-project.version${r"}"}</tag>
                     <buildArgs>
                         <JAR_FILE>target/${r"${"}project.build.finalName${r"}"}.jar</JAR_FILE>
                     </buildArgs>

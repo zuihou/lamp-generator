@@ -45,7 +45,6 @@ import java.util.Map;
 public class CodeGenerator {
 
     public static final String QUERY_PATH = "Query";
-    //    public static final String API_PATH = "Api";
     public static final String ENUM_PATH = "Enum";
     public static final String CONSTANT_PATH = "Constant";
     public static final String SAVE_DTO_PATH = "SaveDTO";
@@ -91,19 +90,19 @@ public class CodeGenerator {
         StrategyConfig strategy = strategyConfig(config);
         mpg.setStrategy(strategy);
         mpg.setTemplateEngine(new FreemarkerTemplateEngineExt(config));
-//        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
 
         mpg.execute();
 
         System.err.println("----------------------------------------------------------------");
-        System.err.println("代码已经生成完毕，若您生成的代码不在com.tangyh.lamp包下，请在nacos中的mysql.yml配置文件中调整以下2个参数：");
+        System.err.println(StrUtil.format("代码已经生成完毕，若您生成的代码不在{}包下，请在nacos中的mysql.yml配置文件中调整以下2个参数：", config.getGroupId()));
         System.err.println("mybatis-plus.typeAliasesPackage");
         System.err.println("mybatis-plus.typeEnumsPackage");
-        System.err.println("如：typeAliasesPackage: com.tangyh.basic.database.mybatis.typehandler;com.tangyh.lamp.*.entity;追加你的实体包");
-        System.err.println("如：typeEnumsPackage: com.tangyh.lamp.*.enumeration;追加你的枚举包");
+
+        System.err.println(StrUtil.format("如：typeAliasesPackage:{}.database.mybatis.typehandler;{}.*.entity;追加你的实体包", config.getUtilPackage(), config.getGroupId()));
+        System.err.println(StrUtil.format("如：typeEnumsPackage: {}.*.enumeration;追加你的枚举包", config.getGroupId()));
         System.err.println("----------------------------------------------------------------");
-        System.err.println(StrUtil.format("若新建的服务有枚举类型的字段，请在lamp-oauth-server/pom.xml 中加入{}-{}-entity 模块",
-                config.getProjectPrefix(), config.getServiceName()));
+        System.err.println(StrUtil.format("若新建的服务有枚举类型的字段，请在{}-oauth-server/pom.xml 中加入{}-{}-entity 模块",
+                config.getProjectPrefix(), config.getProjectPrefix(), config.getServiceName()));
         System.err.println("并在 OauthGeneralController 类的'static {  }' 处添加枚举类型");
         System.err.println("如： ENUM_MAP.put(ProductType2Enum.class.getSimpleName(), MapHelper.getMap(ProductType2Enum.values()));");
     }
@@ -172,7 +171,6 @@ public class CodeGenerator {
 
     private static PackageConfig packageConfig(final CodeGeneratorConfig config) {
         PackageConfig pc = new PackageConfig();
-//        pc.setModuleName(config.getChildPackageName());
         pc.setParent(config.getPackageBase());
         pc.setMapper("dao");
         if (StringUtils.isNotBlank(config.getChildPackageName())) {
@@ -182,7 +180,6 @@ public class CodeGenerator {
             pc.setServiceImpl(pc.getService() + StringPool.DOT + "impl");
             pc.setController(pc.getController() + StringPool.DOT + config.getChildPackageName());
         }
-//        pc.setPathInfo(pathInfo(config));
         return pc;
     }
 
@@ -218,7 +215,7 @@ public class CodeGenerator {
         InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
-                Map<String, Object> map = initImportPackageInfo(config.getPackageBase(), config.getChildPackageName());
+                Map<String, Object> map = initImportPackageInfo(config);
                 this.setMap(map);
             }
         };
@@ -232,29 +229,26 @@ public class CodeGenerator {
     /**
      * 配置包信息    配置规则是：   parentPackage + "层" + "模块"
      */
-    public static Map<String, Object> initImportPackageInfo(String parentPackage, String childPackageName) {
+    public static Map<String, Object> initImportPackageInfo(CodeGeneratorConfig config) {
+        String parentPackage = config.getPackageBase();
+        String childPackageName = config.getChildPackageName();
         Map<String, Object> packageMap = new HashMap<>();
         if (childPackageName != null && !"".equals(childPackageName.trim())) {
             childPackageName = "." + childPackageName;
         }
 
-//        packageMap.put(API_PATH, parentPackage + ".api" + childPackageName);
-//        packageMap.put(ConstVal.CONTROLLER, parentPackage + ".controller" + childPackageName);
-
-//        packageMap.put(ConstVal.SERVICE, parentPackage + ".service" + childPackageName);
-//        packageMap.put(ConstVal.SERVICE_IMPL, parentPackage + ".service" + childPackageName + ".impl");
-
-//        packageMap.put(ConstVal.MAPPER, parentPackage + ".dao" + childPackageName);
         packageMap.put(QUERY_PATH, parentPackage + ".query" + childPackageName);
-//        packageMap.put(ConstVal.ENTITY, parentPackage + ".entity" + childPackageName);
 
         packageMap.put(ENUM_PATH, parentPackage + ".entity" + childPackageName);
         packageMap.put(CONSTANT_PATH, parentPackage + ".constant" + childPackageName);
         packageMap.put("constantSuffix", "Constant");
-//        packageMap.put(DTO_PATH, parentPackage + ".dto" + childPackageName);
         packageMap.put(SAVE_DTO_PATH, parentPackage + ".dto" + childPackageName);
         packageMap.put(UPDATE_DTO_PATH, parentPackage + ".dto" + childPackageName);
         packageMap.put(PAGE_DTO_PATH, parentPackage + ".dto" + childPackageName);
+
+        packageMap.put("projectPrefix", config.getProjectPrefix());
+        packageMap.put("groupId", config.getGroupId());
+        packageMap.put("utilPackage", config.getUtilPackage());
 
         return packageMap;
     }
@@ -283,7 +277,6 @@ public class CodeGenerator {
 
         focList.add(new FileOutConfigExt(basePath, QUERY_PATH, config));
         focList.add(new FileOutConfigExt(basePath, CONSTANT_PATH, config));
-//        focList.add(new FileOutConfigExt(basePath, DTO_PATH, config));
         focList.add(new FileOutConfigExt(basePath, SAVE_DTO_PATH, config));
         focList.add(new FileOutConfigExt(basePath, UPDATE_DTO_PATH, config));
         focList.add(new FileOutConfigExt(basePath, PAGE_DTO_PATH, config));

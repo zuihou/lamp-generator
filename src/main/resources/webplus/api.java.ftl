@@ -59,8 +59,7 @@ export const tree = (params?: ${entity}PageQuery) => defHttp.request<${entity}>(
 export const page = (params: PageParams<${entity}PageQuery>) =>
   defHttp.request<PageResult<${entity}>>({ ...Api.Page, params });
 
-export const query = (params: PageParams<${entity}>) =>
-  defHttp.request<PageResult<${entity}>>({ ...Api.Query, params });
+export const query = (params: ${entity}) => defHttp.request<${entity}[]>({ ...Api.Query, params });
 
 export const save = (params: ${entity}SaveDTO) => defHttp.request<${entity}>({ ...Api.Save, params });
 

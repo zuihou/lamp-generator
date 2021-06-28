@@ -105,7 +105,14 @@ public class CodeGeneratorConfig {
      * 端口号
      */
     String serverPort = "8080";
+    /**
+     * lamp-cloud项目的包路径和pom中的groupId
+     */
     String groupId = "com.tangyh.lamp";
+    /**
+     * lamp-util项目的包路径
+     */
+    String utilPackage = "com.tangyh.basic";
     String description = "服务";
 //    private String serverSuffix = "-server";
     /**
@@ -236,7 +243,7 @@ public class CodeGeneratorConfig {
         config.setServiceName(serviceName).setAuthor(author).setTablePrefix(tablePrefix)
                 .setTableInclude(tableInclude.stream().toArray(String[]::new))
                 .setChildModuleName(childModuleName == null ? "" : childModuleName);
-        config.setPackageBase("com.tangyh.lamp." + config.getChildModuleName());
+        config.setPackageBase(config.getGroupId() + "." + config.getChildModuleName());
         return config;
     }
 
@@ -246,7 +253,7 @@ public class CodeGeneratorConfig {
         config.setServiceName(serviceName).setTablePrefix(tablePrefix)
                 .setTableInclude(tableInclude.stream().toArray(String[]::new))
                 .setChildModuleName("");
-        config.setPackageBase("com.tangyh.lamp." + config.getChildModuleName());
+        config.setPackageBase(config.getGroupId() + "." + config.getChildModuleName());
         return config;
     }
 

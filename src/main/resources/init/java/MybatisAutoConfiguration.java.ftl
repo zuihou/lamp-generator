@@ -1,11 +1,11 @@
 package ${packageBase}.config.datasource;
 
 import com.baomidou.mybatisplus.extension.plugins.inner.InnerInterceptor;
-import com.tangyh.lamp.oauth.api.UserApi;
-import com.tangyh.basic.database.datasource.BaseMybatisConfiguration;
-import com.tangyh.basic.database.mybatis.auth.DataScopeInnerInterceptor;
-import com.tangyh.basic.database.properties.DatabaseProperties;
-import com.tangyh.basic.utils.SpringUtils;
+import ${groupId}.oauth.api.UserApi;
+import ${utilPackage}.database.datasource.BaseMybatisConfiguration;
+import ${utilPackage}.database.mybatis.auth.DataScopeInnerInterceptor;
+import ${utilPackage}.database.properties.DatabaseProperties;
+import ${utilPackage}.utils.SpringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
