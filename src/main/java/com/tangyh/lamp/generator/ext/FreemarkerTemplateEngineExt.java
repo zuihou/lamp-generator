@@ -1,6 +1,7 @@
 package com.tangyh.lamp.generator.ext;
 
 import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
@@ -105,7 +106,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
                     customMap = new HashMap<>();
                 }
                 Map<String, GenTableColumn> fieldMap = tableFieldMap.get(t.getName());
-                if (CollUtil.isNotEmpty(fieldMap)) {
+                if (MapUtil.isNotEmpty(fieldMap)) {
                     GenTableColumn genFiled = fieldMap.get(field.getName());
                     if (genFiled != null) {
                         customMap.put("info", genFiled);
