@@ -2,15 +2,15 @@ package cloud.column.impl.system;
 
 import cloud.column.GenTableColumnService;
 import cn.hutool.core.util.StrUtil;
-import com.tangyh.lamp.generator.model.GenTableColumn;
-import com.tangyh.lamp.generator.type.HtmlType;
+import top.tangyh.lamp.generator.model.GenTableColumn;
+import top.tangyh.lamp.generator.type.HtmlType;
 
 import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.tangyh.lamp.generator.model.GenTableColumn.NO;
-import static com.tangyh.lamp.generator.model.GenTableColumn.YES;
+import static top.tangyh.lamp.generator.model.GenTableColumn.NO;
+import static top.tangyh.lamp.generator.model.GenTableColumn.YES;
 
 public class GenApplication implements GenTableColumnService {
     @Override

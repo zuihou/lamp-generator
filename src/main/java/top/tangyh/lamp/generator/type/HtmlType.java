@@ -1,4 +1,4 @@
-package com.tangyh.lamp.generator.type;
+package top.tangyh.lamp.generator.type;
 
 public class HtmlType {
     public static final String INPUT = "input";

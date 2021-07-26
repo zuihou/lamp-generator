@@ -1,4 +1,4 @@
-package com.tangyh.lamp.generator.type;
+package top.tangyh.lamp.generator.type;
 
 /**
  * @author tangyh

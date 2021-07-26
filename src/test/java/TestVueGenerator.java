@@ -1,13 +1,13 @@
 import cn.hutool.core.lang.Console;
-import com.tangyh.lamp.generator.VueGenerator;
-import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
-import com.tangyh.lamp.generator.config.FileCreateConfig;
-import com.tangyh.lamp.generator.model.GenTableColumn;
-import com.tangyh.lamp.generator.type.EntityFiledType;
-import com.tangyh.lamp.generator.type.EntityType;
-import com.tangyh.lamp.generator.type.GenerateType;
-import com.tangyh.lamp.generator.type.HtmlType;
-import com.tangyh.lamp.generator.type.VueVersion;
+import top.tangyh.lamp.generator.VueGenerator;
+import top.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import top.tangyh.lamp.generator.config.FileCreateConfig;
+import top.tangyh.lamp.generator.model.GenTableColumn;
+import top.tangyh.lamp.generator.type.EntityFiledType;
+import top.tangyh.lamp.generator.type.EntityType;
+import top.tangyh.lamp.generator.type.GenerateType;
+import top.tangyh.lamp.generator.type.HtmlType;
+import top.tangyh.lamp.generator.type.VueVersion;
 
 import java.io.File;
 import java.util.Arrays;
@@ -17,8 +17,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import static com.tangyh.lamp.generator.model.GenTableColumn.NO;
-import static com.tangyh.lamp.generator.model.GenTableColumn.YES;
+import static top.tangyh.lamp.generator.model.GenTableColumn.NO;
+import static top.tangyh.lamp.generator.model.GenTableColumn.YES;
 
 /**
  * 生成 lamp-web 的前端代码

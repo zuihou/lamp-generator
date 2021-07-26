@@ -1,7 +1,7 @@
 package boot;
 
-import com.tangyh.lamp.generator.ProjectGenerator;
-import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import top.tangyh.lamp.generator.ProjectGenerator;
+import top.tangyh.lamp.generator.config.CodeGeneratorConfig;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -15,7 +15,8 @@ public class TestInitProject {
 
     public static void main(String[] args) {
         CodeGeneratorConfig config = new CodeGeneratorConfig();
-        String path = "/Users/tangyh/github/lamp-boot";
+        String path = "/Users/tangyh/Downloads/test/lamp-boot";
+//        String path = "/Users/tangyh/github/lamp-boot";
         config
                 // lamp-cloud 项目的 绝对路径！
                 .setProjectRootPath(path)
@@ -42,10 +43,10 @@ public class TestInitProject {
                 // 服务的端口号
                 .setServerPort("12080")
                 // 项目的 groupId
-                .setGroupId("com.tangyh.lamp")
+                .setGroupId("top.tangyh.lamp")
         ;
         // 项目的业务代码 存放的包路径
-        config.setPackageBase("com.tangyh.lamp." + config.getChildModuleName());
+        config.setPackageBase("top.tangyh.lamp." + config.getChildModuleName());
 
         System.out.println("项目初始化根路径：" + config.getProjectRootPath());
         ProjectGenerator pg = new ProjectGenerator(config);

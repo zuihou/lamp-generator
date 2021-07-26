@@ -1,6 +1,6 @@
 package cloud.column;
 
-import com.tangyh.lamp.generator.model.GenTableColumn;
+import top.tangyh.lamp.generator.model.GenTableColumn;
 
 import java.util.Map;
 

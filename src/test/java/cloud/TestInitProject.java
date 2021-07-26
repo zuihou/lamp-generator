@@ -1,7 +1,7 @@
 package cloud;
 
-import com.tangyh.lamp.generator.ProjectGenerator;
-import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import top.tangyh.lamp.generator.ProjectGenerator;
+import top.tangyh.lamp.generator.config.CodeGeneratorConfig;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -45,7 +45,7 @@ public class TestInitProject {
                 .setServerPort("12080")
                 // 项目的 groupId
                 .setGroupId("top.alijiujiu.abcd")
-                .setUtilPackage("com.tangyh.basic")
+                .setUtilPackage("top.tangyh.basic")
         ;
         // 项目的业务代码 存放的包路径
         config.setPackageBase(config.getGroupId() + "." + config.getChildModuleName());

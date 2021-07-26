@@ -1,11 +1,11 @@
 package boot;
 
-import com.tangyh.lamp.generator.CodeGenerator;
-import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
-import com.tangyh.lamp.generator.config.FileCreateConfig;
-import com.tangyh.lamp.generator.type.EntityFiledType;
-import com.tangyh.lamp.generator.type.EntityType;
-import com.tangyh.lamp.generator.type.GenerateType;
+import top.tangyh.lamp.generator.CodeGenerator;
+import top.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import top.tangyh.lamp.generator.config.FileCreateConfig;
+import top.tangyh.lamp.generator.type.EntityFiledType;
+import top.tangyh.lamp.generator.type.EntityType;
+import top.tangyh.lamp.generator.type.GenerateType;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -55,11 +55,11 @@ public class TestCodeGenerator {
         Set<EntityFiledType> filedTypes = new HashSet<>();
         filedTypes.addAll(Arrays.asList(
 //                EntityFiledType.builder().name("httpMethod").table("c_common_opt_log")
-//                        .packagePath("com.tangyh.lamp.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
+//                        .packagePath("top.tangyh.lamp.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
         ));
         build.setFiledTypes(filedTypes);
 
-        build.setPackageBase("com.tangyh.lamp." + build.getChildModuleName());
+        build.setPackageBase("top.tangyh.lamp." + build.getChildModuleName());
 
         // 运行
         CodeGenerator.run(build);

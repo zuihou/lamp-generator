@@ -1,18 +1,19 @@
-package com.tangyh.lamp.generator;
+package top.tangyh.lamp.generator;
 
+import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
+import com.baomidou.mybatisplus.generator.config.ConstVal;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
 import com.baomidou.mybatisplus.generator.config.FileOutConfig;
 import com.baomidou.mybatisplus.generator.config.GlobalConfig;
 import com.baomidou.mybatisplus.generator.config.PackageConfig;
 import com.baomidou.mybatisplus.generator.config.StrategyConfig;
 import com.baomidou.mybatisplus.generator.config.TemplateConfig;
-import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.querys.DB2Query;
 import com.baomidou.mybatisplus.generator.config.querys.DMQuery;
 import com.baomidou.mybatisplus.generator.config.querys.H2Query;
@@ -22,13 +23,12 @@ import com.baomidou.mybatisplus.generator.config.querys.SqlServerQuery;
 import com.baomidou.mybatisplus.generator.config.querys.SqliteQuery;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
-import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
-import com.tangyh.lamp.generator.ext.FileOutConfigExt;
-import com.tangyh.lamp.generator.ext.FreemarkerTemplateEngineExt;
-import com.tangyh.lamp.generator.ext.MySqlQueryExt;
-import com.tangyh.lamp.generator.ext.OracleQueryExt;
-import com.tangyh.lamp.generator.type.GenerateType;
-import com.tangyh.lamp.generator.type.VueVersion;
+import top.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import top.tangyh.lamp.generator.ext.FileOutConfigExt;
+import top.tangyh.lamp.generator.ext.FreemarkerTemplateEngineExt;
+import top.tangyh.lamp.generator.ext.MySqlQueryExt;
+import top.tangyh.lamp.generator.ext.OracleQueryExt;
+import top.tangyh.lamp.generator.type.GenerateType;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,18 +42,17 @@ import java.util.Map;
  * @author zuihou
  * @date 2019/05/25
  */
-public class VueGenerator {
+public class CodeGenerator {
 
-    public static final String API_PATH = "Api";
-    public static final String API_MODEL_PATH = "ApiModel";
-    public static final String PAGE_INDEX_PATH = "PageIndex";
-    public static final String TREE_INDEX_PATH = "TreeIndex";
-    public static final String DATA_PATH = "Data";
-    public static final String EDIT_PATH = "Edit";
-    public static final String LANG_PATH = "Lang";
-    public static final String LANG_EN_PATH = "Lang_en";
+    public static final String QUERY_PATH = "Query";
+    public static final String ENUM_PATH = "Enum";
+    public static final String CONSTANT_PATH = "Constant";
+    public static final String SAVE_DTO_PATH = "SaveDTO";
+    public static final String UPDATE_DTO_PATH = "UpdateDTO";
+    public static final String PAGE_DTO_PATH = "PageQuery";
 
-    public static final String SRC = "src";
+    public static final String SRC_MAIN_JAVA = "src" + File.separator + "main" + File.separator + "java";
+    public static final String SRC_MAIN_RESOURCE = "src" + File.separator + "main" + File.separator + "resources";
 
     public static void run(final CodeGeneratorConfig config) {
         // 代码生成器
@@ -94,13 +93,18 @@ public class VueGenerator {
 
         mpg.execute();
 
-        if (VueVersion.webplus.equals(config.getVue().getVersion())) {
-            System.err.println("前端代码生成完毕， 请在以上日志中查看生成文件的路径");
-            System.err.println("请使用vscode对生成的代码进行格式化！！！否则 ide 可能会报语法警告！！！");
-        } else {
-            System.err.println("前端代码生成完毕， 请在以上日志中查看生成文件的路径");
-            System.err.println("并将src/lang/lang.*.js中的配置按照文件提示，复制到en.js和zh.js, 否则页面无法显示中文标题");
-        }
+        System.err.println("----------------------------------------------------------------");
+        System.err.println(StrUtil.format("代码已经生成完毕，若您生成的代码不在{}包下，请在nacos中的mysql.yml配置文件中调整以下2个参数：", config.getGroupId()));
+        System.err.println("mybatis-plus.typeAliasesPackage");
+        System.err.println("mybatis-plus.typeEnumsPackage");
+
+        System.err.println(StrUtil.format("如：typeAliasesPackage:{}.database.mybatis.typehandler;{}.*.entity;追加你的实体包", config.getUtilPackage(), config.getGroupId()));
+        System.err.println(StrUtil.format("如：typeEnumsPackage: {}.*.enumeration;追加你的枚举包", config.getGroupId()));
+        System.err.println("----------------------------------------------------------------");
+        System.err.println(StrUtil.format("若新建的服务有枚举类型的字段，请在{}-oauth-server/pom.xml 中加入{}-{}-entity 模块",
+                config.getProjectPrefix(), config.getProjectPrefix(), config.getServiceName()));
+        System.err.println("并在 OauthGeneralController 类的'static {  }' 处添加枚举类型");
+        System.err.println("如： ENUM_MAP.put(ProductType2Enum.class.getSimpleName(), MapHelper.getMap(ProductType2Enum.values()));");
     }
 
     /**
@@ -112,7 +116,7 @@ public class VueGenerator {
      */
     private static GlobalConfig globalConfig(final CodeGeneratorConfig config, String projectPath) {
         GlobalConfig gc = new GlobalConfig();
-        gc.setOutputDir(String.format("%s/%s", projectPath, SRC));
+        gc.setOutputDir(String.format("%s/%s", projectPath, SRC_MAIN_JAVA));
         gc.setAuthor(config.getAuthor());
         gc.setOpen(false);
         gc.setServiceName("%sService");
@@ -167,7 +171,6 @@ public class VueGenerator {
 
     private static PackageConfig packageConfig(final CodeGeneratorConfig config) {
         PackageConfig pc = new PackageConfig();
-//        pc.setModuleName(config.getChildPackageName());
         pc.setParent(config.getPackageBase());
         pc.setMapper("dao");
         if (StringUtils.isNotBlank(config.getChildPackageName())) {
@@ -177,7 +180,6 @@ public class VueGenerator {
             pc.setServiceImpl(pc.getService() + StringPool.DOT + "impl");
             pc.setController(pc.getController() + StringPool.DOT + config.getChildPackageName());
         }
-//        pc.setPathInfo(pathInfo(config));
         return pc;
     }
 
@@ -197,6 +199,9 @@ public class VueGenerator {
         strategy.setEntityColumnConstant(GenerateType.IGNORE.neq(pc.getFileCreateConfig().getGenerateConstant()));
         strategy.setRestControllerStyle(true);
         strategy.setSuperEntityClass(pc.getSuperEntity().getVal());
+        strategy.setSuperServiceClass(pc.getSuperServiceClass());
+        strategy.setSuperServiceImplClass(pc.getSuperServiceImplClass());
+        strategy.setSuperMapperClass(pc.getSuperMapperClass());
         strategy.setSuperControllerClass(pc.getSuperControllerClass());
 
         strategy.setSuperEntityColumns(pc.getSuperEntity().getColumns());
@@ -213,11 +218,6 @@ public class VueGenerator {
                 Map<String, Object> map = initImportPackageInfo(config);
                 this.setMap(map);
             }
-
-            @Override
-            public void initTableMap(TableInfo tableInfo) {
-                this.initMap();
-            }
         };
         cfg.setFileCreate(config.getFileCreateConfig());
 
@@ -233,17 +233,23 @@ public class VueGenerator {
         String parentPackage = config.getPackageBase();
         String childPackageName = config.getChildPackageName();
         Map<String, Object> packageMap = new HashMap<>();
-
-        packageMap.put("serviceName", config.getServiceName());
-        packageMap.put("projectPrefix", config.getProjectPrefix());
-        packageMap.put("childPackageName", childPackageName);
-        packageMap.put("fieldTypeMapping", config.getFieldTypeMapping());
-        packageMap.put("tableFieldMap", config.getVue().getTableFieldMap());
-        packageMap.put("isGenerateExportApi", config.getIsGenerateExportApi());
-        packageMap.put("pageMode", "Page");
-        if (!GenerateType.IGNORE.eq(config.getFileCreateConfig().getGenerateTreeIndex())) {
-            packageMap.put("pageMode", "Tree");
+        if (childPackageName != null && !"".equals(childPackageName.trim())) {
+            childPackageName = "." + childPackageName;
         }
+
+        packageMap.put(QUERY_PATH, parentPackage + ".query" + childPackageName);
+
+        packageMap.put(ENUM_PATH, parentPackage + ".entity" + childPackageName);
+        packageMap.put(CONSTANT_PATH, parentPackage + ".constant" + childPackageName);
+        packageMap.put("constantSuffix", "Constant");
+        packageMap.put(SAVE_DTO_PATH, parentPackage + ".dto" + childPackageName);
+        packageMap.put(UPDATE_DTO_PATH, parentPackage + ".dto" + childPackageName);
+        packageMap.put(PAGE_DTO_PATH, parentPackage + ".dto" + childPackageName);
+
+        packageMap.put("projectPrefix", config.getProjectPrefix());
+        packageMap.put("groupId", config.getGroupId());
+        packageMap.put("utilPackage", config.getUtilPackage());
+
         return packageMap;
     }
 
@@ -254,22 +260,26 @@ public class VueGenerator {
         if (!projectRootPath.endsWith(File.separator)) {
             projectRootPath += File.separator;
         }
+        String packageBase = config.getPackageBase().replace(".", File.separator);
 
-        StringBuilder basePathSb = new StringBuilder(projectRootPath).append(SRC);
+        StringBuilder basePathSb = new StringBuilder(projectRootPath).append("%s");
+        basePathSb.append(SRC_MAIN_JAVA).append(File.separator)
+                .append(packageBase)
+                .toString();
 
         final String basePath = basePathSb.toString();
 
-        focList.add(new FileOutConfigExt(basePath, API_PATH, config));
-        focList.add(new FileOutConfigExt(basePath, PAGE_INDEX_PATH, config));
-        focList.add(new FileOutConfigExt(basePath, EDIT_PATH, config));
-        focList.add(new FileOutConfigExt(basePath, LANG_PATH, config));
-        focList.add(new FileOutConfigExt(basePath, TREE_INDEX_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, ConstVal.CONTROLLER, config));
+        focList.add(new FileOutConfigExt(basePath, ConstVal.SERVICE, config));
+        focList.add(new FileOutConfigExt(basePath, ConstVal.SERVICE_IMPL, config));
+        focList.add(new FileOutConfigExt(basePath, ConstVal.MAPPER, config));
+        focList.add(new FileOutConfigExt(basePath, ConstVal.XML, config));
 
-        if (VueVersion.webplus.equals(config.getVue().getVersion())) {
-            focList.add(new FileOutConfigExt(basePath, API_MODEL_PATH, config));
-            focList.add(new FileOutConfigExt(basePath, LANG_EN_PATH, config));
-            focList.add(new FileOutConfigExt(basePath, DATA_PATH, config));
-        }
+        focList.add(new FileOutConfigExt(basePath, QUERY_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, CONSTANT_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, SAVE_DTO_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, UPDATE_DTO_PATH, config));
+        focList.add(new FileOutConfigExt(basePath, PAGE_DTO_PATH, config));
 
         return focList;
     }

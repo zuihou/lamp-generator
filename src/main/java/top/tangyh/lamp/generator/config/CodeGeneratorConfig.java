@@ -1,14 +1,14 @@
-package com.tangyh.lamp.generator.config;
+package top.tangyh.lamp.generator.config;
 
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.config.po.LikeTable;
-import com.tangyh.lamp.generator.model.GenTableColumn;
-import com.tangyh.lamp.generator.type.EntityFiledType;
-import com.tangyh.lamp.generator.type.EntityType;
-import com.tangyh.lamp.generator.type.SuperClass;
-import com.tangyh.lamp.generator.type.VueVersion;
+import top.tangyh.lamp.generator.model.GenTableColumn;
+import top.tangyh.lamp.generator.type.EntityFiledType;
+import top.tangyh.lamp.generator.type.EntityType;
+import top.tangyh.lamp.generator.type.SuperClass;
+import top.tangyh.lamp.generator.type.VueVersion;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -78,7 +78,7 @@ public class CodeGeneratorConfig {
     /**
      * 基础包   所有的代码都放置在这个包之下
      */
-    String packageBase = "com.tangyh.lamp.authority";
+    String packageBase = "top.tangyh.lamp.authority";
     /**
      * 子包名称
      * 会在api、controller、service、serviceImpl、dao、entity等包下面创建子包
@@ -108,11 +108,11 @@ public class CodeGeneratorConfig {
     /**
      * lamp-cloud项目的包路径和pom中的groupId
      */
-    String groupId = "com.tangyh.lamp";
+    String groupId = "top.tangyh.lamp";
     /**
      * lamp-util项目的包路径
      */
-    String utilPackage = "com.tangyh.basic";
+    String utilPackage = "top.tangyh.basic";
     String description = "服务";
 //    private String serverSuffix = "-server";
     /**

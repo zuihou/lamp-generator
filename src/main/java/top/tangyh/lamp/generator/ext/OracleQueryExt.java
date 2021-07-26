@@ -1,4 +1,4 @@
-package com.tangyh.lamp.generator.ext;
+package top.tangyh.lamp.generator.ext;
 
 import com.baomidou.mybatisplus.generator.config.querys.OracleQuery;
 

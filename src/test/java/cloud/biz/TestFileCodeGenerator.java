@@ -1,11 +1,11 @@
 package cloud.biz;
 
-import com.tangyh.lamp.generator.CodeGenerator;
-import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
-import com.tangyh.lamp.generator.config.FileCreateConfig;
-import com.tangyh.lamp.generator.type.EntityFiledType;
-import com.tangyh.lamp.generator.type.EntityType;
-import com.tangyh.lamp.generator.type.GenerateType;
+import top.tangyh.lamp.generator.CodeGenerator;
+import top.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import top.tangyh.lamp.generator.config.FileCreateConfig;
+import top.tangyh.lamp.generator.type.EntityFiledType;
+import top.tangyh.lamp.generator.type.EntityType;
+import top.tangyh.lamp.generator.type.GenerateType;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -24,9 +24,9 @@ public class TestFileCodeGenerator {
         // 项目、配置文件的前缀
         build.setProjectPrefix("lamp");
         // lamp-cloud 或者 lamp-boot 项目的 包
-        build.setGroupId("com.tangyh.lamp");
+        build.setGroupId("top.tangyh.lamp");
         // lamp-util 项目的 包
-        build.setUtilPackage("com.tangyh.basic");
+        build.setUtilPackage("top.tangyh.basic");
 
         //mysql 账号密码
         build.setUsername("root");
@@ -56,7 +56,7 @@ public class TestFileCodeGenerator {
         Set<EntityFiledType> filedTypes = new HashSet<>();
         filedTypes.addAll(Arrays.asList(
 //                EntityFiledType.builder().name("httpMethod").table("c_common_opt_log")
-//                        .packagePath("com.tangyh.lamp.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
+//                        .packagePath("top.tangyh.lamp.common.enums.HttpMethod").gen(GenerateType.IGNORE).build()
         ));
         build.setFiledTypes(filedTypes);
 

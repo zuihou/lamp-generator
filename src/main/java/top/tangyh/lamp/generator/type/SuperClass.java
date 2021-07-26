@@ -1,4 +1,4 @@
-package com.tangyh.lamp.generator.type;
+package top.tangyh.lamp.generator.type;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,10 +9,10 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public enum SuperClass {
 
-    SUPER_CLASS("com.tangyh.basic.base.controller.SuperController", "com.tangyh.basic.base.service.SuperService",
-            "com.tangyh.basic.base.service.SuperServiceImpl", "com.tangyh.basic.base.mapper.SuperMapper"),
-    SUPER_CACHE_CLASS("com.tangyh.basic.base.controller.SuperCacheController", "com.tangyh.basic.base.service.SuperCacheService",
-            "com.tangyh.basic.base.service.SuperCacheServiceImpl", "com.tangyh.basic.base.mapper.SuperMapper"),
+    SUPER_CLASS("top.tangyh.basic.base.controller.SuperController", "top.tangyh.basic.base.service.SuperService",
+            "top.tangyh.basic.base.service.SuperServiceImpl", "top.tangyh.basic.base.mapper.SuperMapper"),
+    SUPER_CACHE_CLASS("top.tangyh.basic.base.controller.SuperCacheController", "top.tangyh.basic.base.service.SuperCacheService",
+            "top.tangyh.basic.base.service.SuperCacheServiceImpl", "top.tangyh.basic.base.mapper.SuperMapper"),
     NONE("", "", "", "");
 
     private String controller;

@@ -1,4 +1,4 @@
-package com.tangyh.lamp.generator.ext;
+package top.tangyh.lamp.generator.ext;
 
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
@@ -6,12 +6,12 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.generator.config.ConstVal;
 import com.baomidou.mybatisplus.generator.config.FileOutConfig;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
-import com.tangyh.lamp.generator.CodeGenerator;
-import com.tangyh.lamp.generator.VueGenerator;
-import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
-import com.tangyh.lamp.generator.config.FileCreateConfig;
-import com.tangyh.lamp.generator.type.GenerateType;
-import com.tangyh.lamp.generator.type.VueVersion;
+import top.tangyh.lamp.generator.CodeGenerator;
+import top.tangyh.lamp.generator.VueGenerator;
+import top.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import top.tangyh.lamp.generator.config.FileCreateConfig;
+import top.tangyh.lamp.generator.type.GenerateType;
+import top.tangyh.lamp.generator.type.VueVersion;
 
 import java.io.File;
 import java.nio.file.Paths;

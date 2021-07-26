@@ -1,14 +1,14 @@
 package cloud.column.impl.system;
 
 import cloud.column.GenTableColumnService;
-import com.tangyh.lamp.generator.model.GenTableColumn;
-import com.tangyh.lamp.generator.type.HtmlType;
+import top.tangyh.lamp.generator.model.GenTableColumn;
+import top.tangyh.lamp.generator.type.HtmlType;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.tangyh.lamp.generator.model.GenTableColumn.NO;
-import static com.tangyh.lamp.generator.model.GenTableColumn.YES;
+import static top.tangyh.lamp.generator.model.GenTableColumn.NO;
+import static top.tangyh.lamp.generator.model.GenTableColumn.YES;
 
 public class GenRole implements GenTableColumnService {
     @Override

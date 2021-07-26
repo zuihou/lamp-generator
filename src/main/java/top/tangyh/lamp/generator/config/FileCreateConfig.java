@@ -1,11 +1,11 @@
-package com.tangyh.lamp.generator.config;
+package top.tangyh.lamp.generator.config;
 
 import com.baomidou.mybatisplus.generator.config.IFileCreate;
 import com.baomidou.mybatisplus.generator.config.builder.ConfigBuilder;
 import com.baomidou.mybatisplus.generator.config.rules.FileType;
-import com.tangyh.lamp.generator.ext.FileOutConfigExt;
-import com.tangyh.lamp.generator.type.GenerateType;
-import com.tangyh.lamp.generator.type.VueVersion;
+import top.tangyh.lamp.generator.ext.FileOutConfigExt;
+import top.tangyh.lamp.generator.type.GenerateType;
+import top.tangyh.lamp.generator.type.VueVersion;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

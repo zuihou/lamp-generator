@@ -1,4 +1,4 @@
-package com.tangyh.lamp.generator.model;
+package top.tangyh.lamp.generator.model;
 
 
 import lombok.AllArgsConstructor;

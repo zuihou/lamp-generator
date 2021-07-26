@@ -1,12 +1,12 @@
 package cloud.biz;
 
-import com.tangyh.lamp.generator.CodeGenerator;
-import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
-import com.tangyh.lamp.generator.config.FileCreateConfig;
-import com.tangyh.lamp.generator.type.EntityFiledType;
-import com.tangyh.lamp.generator.type.EntityType;
-import com.tangyh.lamp.generator.type.GenerateType;
-import com.tangyh.lamp.generator.type.SuperClass;
+import top.tangyh.lamp.generator.CodeGenerator;
+import top.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import top.tangyh.lamp.generator.config.FileCreateConfig;
+import top.tangyh.lamp.generator.type.EntityFiledType;
+import top.tangyh.lamp.generator.type.EntityType;
+import top.tangyh.lamp.generator.type.GenerateType;
+import top.tangyh.lamp.generator.type.SuperClass;
 
 import java.util.Arrays;
 import java.util.HashSet;
@@ -58,7 +58,7 @@ public class TestTenantCodeGenerator {
         ));
         build.setFiledTypes(filedTypes);
 
-        build.setPackageBase("com.tangyh.lamp." + build.getChildModuleName());
+        build.setPackageBase("top.tangyh.lamp." + build.getChildModuleName());
 
         // 运行
         CodeGenerator.run(build);

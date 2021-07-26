@@ -1,4 +1,4 @@
-package com.tangyh.lamp.generator.ext;
+package top.tangyh.lamp.generator.ext;
 
 import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.map.MapUtil;
@@ -14,13 +14,13 @@ import com.baomidou.mybatisplus.generator.config.rules.FileType;
 import com.baomidou.mybatisplus.generator.engine.AbstractTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.BeetlTemplateEngine;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
-import com.tangyh.lamp.generator.CodeGenerator;
-import com.tangyh.lamp.generator.VueGenerator;
-import com.tangyh.lamp.generator.config.CodeGeneratorConfig;
-import com.tangyh.lamp.generator.config.FileCreateConfig;
-import com.tangyh.lamp.generator.model.GenTableColumn;
-import com.tangyh.lamp.generator.type.EntityFiledType;
-import com.tangyh.lamp.generator.type.GenerateType;
+import top.tangyh.lamp.generator.CodeGenerator;
+import top.tangyh.lamp.generator.VueGenerator;
+import top.tangyh.lamp.generator.config.CodeGeneratorConfig;
+import top.tangyh.lamp.generator.config.FileCreateConfig;
+import top.tangyh.lamp.generator.model.GenTableColumn;
+import top.tangyh.lamp.generator.type.EntityFiledType;
+import top.tangyh.lamp.generator.type.GenerateType;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
