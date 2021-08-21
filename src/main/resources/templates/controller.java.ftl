@@ -68,8 +68,7 @@ public class ${table.controllerName} {
 
     @Override
     public void handlerResult(IPage<${entity}> page) {
-        // 想让返回值实现自动回显，请将此行代码打开
-        // echoService.action(page);
+        echoService.action(page);
     }
 <#if superControllerClass??>
     /**

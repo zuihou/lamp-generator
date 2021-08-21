@@ -36,12 +36,14 @@
         </dependency>
         </#if>
         <dependency>
-            <groupId>${utilPackage}</groupId>
-            <artifactId>${projectPrefix}-databases</artifactId>
+            <groupId>${groupId}</groupId>
+            <artifactId>${projectPrefix}-file-sdk</artifactId>
+            <version>${r"${"}${projectPrefix}-project.version${r"}"}</version>
         </dependency>
+
         <dependency>
             <groupId>${utilPackage}</groupId>
-            <artifactId>${projectPrefix}-dozer-starter</artifactId>
+            <artifactId>${projectPrefix}-databases</artifactId>
         </dependency>
         <dependency>
             <groupId>${utilPackage}</groupId>
@@ -53,7 +55,7 @@
         </dependency>
         <dependency>
             <groupId>${utilPackage}</groupId>
-            <artifactId>${projectPrefix}-boot</artifactId>
+            <artifactId>${projectPrefix}-boot-util</artifactId>
         </dependency>
 
         <dependency>

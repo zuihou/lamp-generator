@@ -5,6 +5,8 @@ ${projectPrefix}:
     namespace: ${r"${"}NACOS_NAMESPACE:@nacos.namespace@${r"}"}
     username: ${r"${"}NACOS_ID:@nacos.username@${r"}"}
     password: ${r"${"}NACOS_ID:@nacos.password@${r"}"}
+  sentinel:
+    dashboard: ${SENTINEL_DASHBOARD:@sentinel.dashboard@}
 
 spring:
   main:
@@ -14,6 +16,13 @@ spring:
   profiles:
     active: @profile.active@
   cloud:
+    sentinel:
+      enabled: true
+      filter:
+        enabled: true
+      eager: true  # 取消Sentinel控制台懒加载
+      transport:
+        dashboard: ${lamp.sentinel.dashboard}
     nacos:
       config:
         server-addr: ${r"${"}${projectPrefix}.nacos.ip${r"}"}:${r"${"}${projectPrefix}.nacos.port${r"}"}
@@ -38,7 +47,7 @@ spring:
         namespace: ${r"${"}${projectPrefix}.nacos.namespace${r"}"}
         metadata: # 元数据，用于权限服务实时获取各个服务的所有接口
           management.context-path: ${r"${"}server.servlet.context-path:${r"}"}${r"${"}spring.mvc.servlet.path:${r"}"}${r"${"}management.endpoints.web.base-path:${r"}"}
-          grayversion: ${author}
+          gray_version: ${author}
 
 logging:
   file:
