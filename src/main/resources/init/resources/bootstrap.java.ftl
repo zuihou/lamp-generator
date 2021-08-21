@@ -6,7 +6,7 @@ ${projectPrefix}:
     username: ${r"${"}NACOS_ID:@nacos.username@${r"}"}
     password: ${r"${"}NACOS_ID:@nacos.password@${r"}"}
   sentinel:
-    dashboard: ${SENTINEL_DASHBOARD:@sentinel.dashboard@}
+    dashboard: ${r"${SENTINEL_DASHBOARD:@sentinel.dashboard@}"}
 
 spring:
   main:
@@ -22,7 +22,7 @@ spring:
         enabled: true
       eager: true  # 取消Sentinel控制台懒加载
       transport:
-        dashboard: ${lamp.sentinel.dashboard}
+        dashboard: ${r"${"}${projectPrefix}.sentinel.dashboard${r"}"}
     nacos:
       config:
         server-addr: ${r"${"}${projectPrefix}.nacos.ip${r"}"}:${r"${"}${projectPrefix}.nacos.port${r"}"}
