@@ -45,7 +45,7 @@ import static ${groupId}.common.constant.BizConstant.UTIL_PACKAGE;
         basePackages = { "${packageBaseParent}", UTIL_PACKAGE }, annotationClass = Repository.class,
         sqlSessionFactoryRef = ${service}DatabaseAutoConfiguration.DATABASE_PREFIX + "SqlSessionFactory")
 @EnableConfigurationProperties({MybatisPlusProperties.class})
-@ConditionalOnExpression("!'DATASOURCE'.equals('${r"${"}${projectPrefix}.database.multiTenantType}')")
+@ConditionalOnExpression("!'DATASOURCE'.equals('${r"${"}${projectPrefix}.database.multiTenantType}') && !'DATASOURCE_COLUMN'.equals('${r"${"}${projectPrefix}.database.multiTenantType}')")
 public class ${service}DatabaseAutoConfiguration extends BaseMasterDatabaseConfiguration {
     /**
      * 每个数据源配置不同即可
