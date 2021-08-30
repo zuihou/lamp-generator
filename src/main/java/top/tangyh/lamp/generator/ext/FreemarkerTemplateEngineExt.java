@@ -1,7 +1,6 @@
 package top.tangyh.lamp.generator.ext;
 
 import cn.hutool.core.collection.CollUtil;
-import cn.hutool.core.map.MapUtil;
 import cn.hutool.core.util.StrUtil;
 import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
@@ -51,8 +50,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
      * 匹配： @Echo(api="orgApi", method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
      * 匹配： @Echo(feign=OrgApi.class, method="findXx" beanClass=Org.class) RemoteData<Long, com.xx.xx.Org>
      */
-    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]Echo[(](api|feign)? *= *([a-zA-Z0-9\"._]+), method *= *([a-zA-Z0-9\"._]+)(, *beanClass *= *[a-zA-Z0-9._]+)?(, *dictType *= *[a-zA-Z0-9._]+)?[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
-
+    private final static Pattern INJECTION_FIELD_PATTERN = Pattern.compile("([@]Echo[(](api|feign)? *= *([a-zA-Z0-9\"._]+)(, *method *= *([a-zA-Z0-9\"._]+))?(, *beanClass *= *[a-zA-Z0-9._]+)?(, *dictType *= *[a-zA-Z0-9._]+)?[)]){1}( *RemoteData(<[a-zA-Z0-9.]+,( *[a-zA-Z0-9.]+)>)?)*");
     /**
      * 枚举类 正则
      * 匹配： #{xxxx} 形式的注释
@@ -106,7 +104,7 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
                     customMap = new HashMap<>();
                 }
                 Map<String, GenTableColumn> fieldMap = tableFieldMap.get(t.getName());
-                if (MapUtil.isNotEmpty(fieldMap)) {
+                if (CollUtil.isNotEmpty(fieldMap)) {
                     GenTableColumn genFiled = fieldMap.get(field.getName());
                     if (genFiled != null) {
                         customMap.put("info", genFiled);
@@ -174,16 +172,19 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
 
     public static void main(String[] args) {
 //        String comment = "@Echo(api=\"xxxx\", method=\"bbbbb\", beanClass=1) RemoteData<Long, Org>";
+//        String comment = "@Echo(api = \"userApi\",   method = USER_ID_NAME_METHOD) ";
+//        String comment = "@Echo(api = DICTIONARY_ITEM_FEIGN_CLASS, dictType = DictionaryType.EDUCATION)";
+//        String comment = "@Echo(api=\"xxxx\")";
         String comment = "@Echo(api=\"xxxx\", method=\"bbbbb\", beanClass=1, dictType = DictionaryType.NATION) RemoteData<Long, Org>";
 //        String comment = "@Echo(feign=FreemarkerTemplateEngineExt.class, method=\"bbbbb\"   beanClass=  Xxx.class) RemoteData<Long, Org>";
         Matcher matcher = INJECTION_FIELD_PATTERN.matcher(comment);
         if (matcher.find()) {
             String annotation = trim(matcher.group(1)); //@Echo(api="xxxx", method="bbbbb")
             String api = trim(matcher.group(3)); //xxxx
-            String method = trim(matcher.group(4));  //bbbbb
-            String type = trim(matcher.group(7)); //RemoteData<Long, Org>
+            String method = trim(matcher.group(5));  //bbbbb
+            String type = trim(matcher.group(8)); //RemoteData<Long, Org>
             // 5 <Long, Org>
-            String typePackage = trim(matcher.group(9)); //Org
+            String typePackage = trim(matcher.group(10)); //Org
             System.out.println(111);
         }
     }
@@ -206,9 +207,9 @@ public class FreemarkerTemplateEngineExt extends FreemarkerTemplateEngine {
         if (matcher.find()) {
             String annotation = trim(matcher.group(1));
             String api = trim(matcher.group(3));
-            String method = trim(matcher.group(4));
-            String type = trim(matcher.group(7));
-            String typePackage = trim(matcher.group(9));
+            String method = trim(matcher.group(5));
+            String type = trim(matcher.group(8));
+            String typePackage = trim(matcher.group(10));
 
             if (StrUtil.isNotEmpty(type) && StrUtil.contains(typePackage, ".")) {
                 String data = StrUtil.subAfter(typePackage, ".", true);

@@ -281,7 +281,7 @@ public class FileOutConfigExt extends FileOutConfig {
             } else if (VueGenerator.TREE_INDEX_PATH.equalsIgnoreCase(modularSuffix)) {
                 fileName = "Tree" + DOT_VUE;
             } else if (VueGenerator.LANG_PATH.equalsIgnoreCase(modularSuffix)) {
-                innerModularSuffix = Paths.get("locales", "lang", "zh_CN", projectPrefix, config.getChildPackageName()).toString();
+                innerModularSuffix = Paths.get("locales", "lang", "zh-CN", projectPrefix, config.getChildPackageName()).toString();
                 fileName = StrUtil.lowerFirst(tableInfo.getEntityName()) + DOT_TS;
             } else if (VueGenerator.LANG_EN_PATH.equalsIgnoreCase(modularSuffix)) {
                 innerModularSuffix = Paths.get("locales", "lang", "en", projectPrefix, config.getChildPackageName()).toString();
