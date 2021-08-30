@@ -5,13 +5,13 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.5.3</version>
+        <version>2.5.4</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>top.tangyh.lamp</groupId>
     <artifactId>lamp-generator</artifactId>
-    <version>3.5.0</version>
+    <version>3.5.1</version>
 
     <url>https://github.com/zuihou/lamp-cloud</url>
     <name>${project.artifactId}</name>
@@ -24,11 +24,11 @@
         </repository>
     </repositories>
     <properties>
-        <lamp-util.version>3.5.0</lamp-util.version>
+        <lamp-util.version>3.5.1</lamp-util.version>
         <mybatisplus.version>3.4.1</mybatisplus.version>
         <lombok.version>1.18.20</lombok.version>
         <commons.lang3.version>3.10</commons.lang3.version>
-        <hutool.version>5.7.8</hutool.version>
+        <hutool.version>5.7.10</hutool.version>
         <mysql.version>8.0.22</mysql.version>
     </properties>
     <dependencies>
